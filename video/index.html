@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>DIBURAMA — LA GOTA</title>
+<style>
+@font-face{font-family:"Space Grotesk";font-weight:400;src:url(assets/fonts/space-grotesk-latin-400-normal.woff2)}
+@font-face{font-family:"Space Grotesk";font-weight:500;src:url(assets/fonts/space-grotesk-latin-500-normal.woff2)}
+@font-face{font-family:"Space Grotesk";font-weight:700;src:url(assets/fonts/space-grotesk-latin-700-normal.woff2)}
+@font-face{font-family:"Space Grotesk";font-weight:700;src:url(assets/fonts/space-grotesk-latin-ext-700-normal.woff2);unicode-range:U+0100-024F}
+@font-face{font-family:"Space Mono";font-weight:400;src:url(assets/fonts/space-mono-latin-400-normal.woff2)}
+@font-face{font-family:"Space Mono";font-weight:700;src:url(assets/fonts/space-mono-latin-700-normal.woff2)}
+@font-face{font-family:"Space Mono";font-weight:400;src:url(assets/fonts/space-mono-latin-ext-400-normal.woff2);unicode-range:U+0100-024F}
+@font-face{font-family:"Space Mono";font-weight:700;src:url(assets/fonts/space-mono-latin-ext-700-normal.woff2);unicode-range:U+0100-024F}
+html,body{margin:0;background:#000;overflow:hidden}
+canvas#out{display:block;width:1080px;height:1920px}
+body.preview canvas#out{width:auto;height:calc(100vh - 70px);margin:0 auto}
+#ui{display:none;position:fixed;left:0;right:0;bottom:0;height:70px;background:#111;color:#ddd;font:13px monospace;align-items:center;gap:12px;padding:0 16px}
+body.preview #ui{display:flex}
+#ui input{flex:1}
+</style></head>
+<body>
+<canvas id="out" width="1080" height="1920"></canvas>
+<div id="ui"><button id="play">▶</button><input id="scrub" type="range" min="0" max="809" value="0"><span id="tc">0.00s</span></div>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+<script type="module" src="src/main.js"></script>
+</body></html>
