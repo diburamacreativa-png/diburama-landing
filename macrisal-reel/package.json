@@ -2,12 +2,13 @@
   "name": "diburama-macrisal-reel",
   "version": "1.0.0",
   "private": true,
-  "description": "Reel Instagram Diburama: Macrisal (isométrico) vs Winduu (ilustrado). Remotion.",
+  "description": "Reel Instagram Diburama: Macrisal (isom\u00e9trico) vs Winduu (ilustrado). Remotion.",
   "scripts": {
     "studio": "remotion studio",
     "preview": "remotion render Reel out/preview.mp4 --scale=0.5 --crf=28",
     "stills": "node scripts/stills.mjs",
-    "render": "remotion render Reel out/Diburama_Macrisal_Reel.mp4"
+    "render": "npm run audio && remotion render Reel out/Diburama_Macrisal_Reel.mp4",
+    "audio": "tsx scripts/export-events.ts && python3 audio/soundtrack.py"
   },
   "dependencies": {
     "@remotion/cli": "4.0.534",
@@ -22,6 +23,7 @@
     "@remotion/renderer": "4.0.534",
     "@types/react": "19.1.8",
     "geist": "1.7.0",
+    "tsx": "4.19.2",
     "typescript": "5.8.3"
   }
 }

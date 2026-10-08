@@ -9,6 +9,8 @@ Config.setCrf(16);
 Config.setVideoImageFormat('png');
 Config.setColorSpace('bt709');
 Config.setOverwriteOutput(true);
+Config.setAudioCodec('aac');
+Config.setAudioBitrate('320k');
 
 // En este entorno Chromium ya está instalado; si no existe, Remotion descarga el suyo.
 const localChrome = '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell';

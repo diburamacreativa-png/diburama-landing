@@ -75,7 +75,8 @@ export const Card: React.FC<{spec: CardSpec}> = ({spec}) => {
         <div
           style={{
             position: 'absolute',
-            left: labelSize * 0.8,
+            // Si la ventana sangra por la izquierda, la etiqueta se mantiene dentro del cuadro.
+            left: Math.max(labelSize * 0.8, -x + 36),
             top: labelSize * 0.8,
             padding: `${labelSize * 0.3}px ${labelSize * 0.55}px`,
             borderRadius: labelSize * 0.3,

@@ -66,18 +66,40 @@ export type Segment = {
 // Guion: el título cambia cuando cambia el texto; si dos segmentos
 // consecutivos tienen el mismo título, se mantiene en pantalla.
 export const SEGMENTS: Segment[] = [
-  {id: 's01', from: 0, to: 2, title: ['Una marca.'], kicker: 'Diburama / Macrisal', theme: 'light'},
-  {id: 's02', from: 2, to: 4, title: ['Dos estilos.'], kicker: '01 Isométrico / 02 Ilustrado', theme: 'light'},
-  {id: 's03', from: 4, to: 6, title: ['En detalle.'], kicker: '01 / Isométrico', theme: 'light'},
-  {id: 's04', from: 6, to: 8, title: ['En detalle.'], kicker: '01 / Isométrico', theme: 'light'},
-  {id: 's05', from: 8, to: 10, title: ['Con carácter.'], kicker: '02 / Ilustrado', theme: 'dark'},
-  {id: 's06', from: 10, to: 12, title: ['Con carácter.'], kicker: '02 / Ilustrado', theme: 'dark'},
-  {id: 's07', from: 12, to: 16, title: ['Mismo espacio.'], kicker: 'Salón / 01 + 02', theme: 'light'},
-  {id: 's08', from: 16, to: 20, title: ['Otra mirada.'], kicker: 'Showroom / 01 + 02', theme: 'light'},
-  {id: 's09', from: 20, to: 22, title: ['Dos formas', 'de contarlo.'], kicker: '4 planos', theme: 'light'},
+  {id: 's01', from: 0, to: 2, title: ['Una', 'marca.'], kicker: 'Diburama / Macrisal', theme: 'light'},
+  {id: 's02', from: 2, to: 4, title: ['Dos', 'estilos.'], kicker: '01 Isométrico / 02 Ilustrado', theme: 'light'},
+  {id: 's03', from: 4, to: 6, title: ['En', 'detalle.'], kicker: '01 / Isométrico', theme: 'light'},
+  {id: 's04', from: 6, to: 8, title: ['En', 'detalle.'], kicker: '01 / Isométrico', theme: 'light'},
+  {id: 's05', from: 8, to: 10, title: ['Con', 'carácter.'], kicker: '02 / Ilustrado', theme: 'dark'},
+  {id: 's06', from: 10, to: 12, title: ['Con', 'carácter.'], kicker: '02 / Ilustrado', theme: 'dark'},
+  {id: 's07', from: 12, to: 16, title: ['Mismo', 'espacio.'], kicker: 'Salón / 01 + 02', theme: 'light'},
+  {id: 's08', from: 16, to: 20, title: ['Otra', 'mirada.'], kicker: 'Showroom / 01 + 02', theme: 'light'},
+  {id: 's09', from: 20, to: 22, title: ['Dos formas', 'de contarlo.'], kicker: '4 planos / 01 + 02', theme: 'light'},
   {id: 's10', from: 22, to: 24, title: ['¿Con cuál', 'te quedas?'], kicker: '01 / 02', theme: 'light'},
   {id: 's11', from: 24, to: 26, title: [], kicker: '', theme: 'dark'},
 ];
+
+// Tipografía (px sobre 1080 × 1920).
+export const TYPE = {
+  kickerTop: 196,
+  kickerSize: 26,
+  titleTop: 244,
+  titleSize: 150,
+  titleLineHeight: 0.96,
+  closingBrandSize: 220,
+  closingTaglineSize: 80,
+};
+
+// Música: 120 BPM → 1 compás = 2 s = 50 fotogramas. Cada tramo empieza en un primer tiempo.
+export const BPM = 120;
+export const beat = (n: number) => (n * 60) / BPM; // segundos del tiempo n
+
+// Banda sonora (música + efectos sincronizados), generada con `npm run audio`.
+// Pon null para exportar sin sonido.
+export const AUDIO = {
+  soundtrack: 'audio/soundtrack.wav' as string | null,
+  volume: 1,
+};
 
 // Cierre gráfico.
 export const CLOSING = {

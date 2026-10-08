@@ -1,8 +1,8 @@
 import React from 'react';
-import {AbsoluteFill, Img, staticFile, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Audio, Img, staticFile, useCurrentFrame} from 'remotion';
 import {loadFont} from '@remotion/fonts';
-import {CLOSING, COLORS, FONTS, TIMING, sec} from './config';
-import {CARDS, DARK_RANGES, NUMBERS} from './choreography';
+import {AUDIO, CLOSING, COLORS, FONTS, TIMING, TYPE, sec} from './config';
+import {CARDS, DARK_RANGES, NUMBERS, RULES} from './choreography';
 import {Card} from './components/Card';
 import {Kickers, MaskLine, Rule, Titles} from './components/Type';
 import {ease} from './lib/motion';
@@ -34,9 +34,9 @@ const BigNumber: React.FC<(typeof NUMBERS)[number]> = ({text, from, to, x, y, al
       ...(align === 'left' ? {left: x} : {right: 1080 - x}),
       fontFamily: FONTS.display,
       fontWeight: 600,
-      fontSize: 200,
+      fontSize: 260,
       lineHeight: 1,
-      letterSpacing: '-0.06em',
+      letterSpacing: '-0.065em',
       color: COLORS.accent,
     }}
   >
@@ -47,9 +47,9 @@ const BigNumber: React.FC<(typeof NUMBERS)[number]> = ({text, from, to, x, y, al
 );
 
 const Closing: React.FC = () => {
-  const start = sec(24) + 2;
+  const start = sec(24) + 2; // entra en cuanto despejan las ventanas
   return (
-    <div style={{position: 'absolute', left: 80, top: 720, width: 920, color: COLORS.light}}>
+    <div style={{position: 'absolute', left: 76, top: 760, width: 960, color: COLORS.light}}>
       {CLOSING.logo ? (
         <MaskLine inAt={start} outAt={null} inDur={14}>
           <Img src={staticFile(CLOSING.logo)} style={{height: 150, display: 'block'}} />
@@ -60,21 +60,21 @@ const Closing: React.FC = () => {
             style={{
               fontFamily: FONTS.display,
               fontWeight: 600,
-              fontSize: 196,
+              fontSize: TYPE.closingBrandSize,
               lineHeight: 1,
-              letterSpacing: '-0.055em',
+              letterSpacing: '-0.06em',
             }}
           >
             {CLOSING.brand}
           </div>
         </MaskLine>
       )}
-      <div style={{height: 64}} />
+      <div style={{height: 44}} />
       <div
         style={{
           fontFamily: FONTS.display,
           fontWeight: 500,
-          fontSize: 76,
+          fontSize: TYPE.closingTaglineSize,
           lineHeight: 1.04,
           letterSpacing: '-0.035em',
         }}
@@ -111,6 +111,9 @@ export const Reel: React.FC = () => {
       {DARK_RANGES.map(([a, b]) => (
         <DarkPanel key={a} from={a} to={b} />
       ))}
+      {RULES.map((r, i) => (
+        <Rule key={i} x={r.x} y={r.y} w={r.w} h={r.h} inAt={sec(r.from)} outAt={r.to === null ? null : sec(r.to)} />
+      ))}
       {NUMBERS.map((n) => (
         <BigNumber key={n.text} {...n} />
       ))}
@@ -119,9 +122,8 @@ export const Reel: React.FC = () => {
       ))}
       <Kickers />
       <Titles />
-      <Rule x={80} y={440} w={140} inAt={8} outAt={sec(2)} />
-      <Rule x={80} y={944} w={140} inAt={sec(24) + 8} outAt={null} />
       <Closing />
+      {AUDIO.soundtrack ? <Audio src={staticFile(AUDIO.soundtrack)} volume={AUDIO.volume} /> : null}
     </AbsoluteFill>
   );
 };

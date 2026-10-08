@@ -4,8 +4,9 @@
 // (x, y, ancho). La altura siempre es ancho × 9/16, así que la
 // proporción 16:9 nunca se deforma.
 // `content` indica qué fragmento reproduce y desde qué segundo del reel.
+// Los tiempos siguen la rejilla musical (120 BPM): beat(1) = 0,5 s.
 // ─────────────────────────────────────────────────────────────
-import {ClipId, TIMING} from './config';
+import {ClipId, TIMING, beat} from './config';
 
 export type Rect = {x: number; y: number; w: number};
 export type Move = Partial<Rect> & {at: number; dur?: number};
@@ -20,42 +21,39 @@ export type CardSpec = {
   z?: number;
 };
 
-// Retículas (px sobre 1080 × 1920).
-const L = 80; // margen izquierdo, alineado con el título
-const OFF_R = 1180; // fuera de cuadro por la derecha
-const OFF_L = -1000; // fuera de cuadro por la izquierda
+const OFF_R = 1200; // fuera de cuadro por la derecha
+const OFF_L = -1100; // fuera de cuadro por la izquierda
+const E = beat(0.5); // corchea (0,25 s)
+const S = beat(0.25); // semicorchea
 
+// Retículas (px sobre 1080 × 1920), inspiradas en el storyboard:
+// ventanas grandes, secundarias que sangran por los bordes.
 export const LAYOUT = {
-  intro: {x: L, y: 560, w: 920},
-  pairTop: {x: L, y: 480, w: 760},
-  pairBottom: {x: 240, y: 935, w: 760},
-  hero: {x: L, y: 480, w: 920},
-  heroBig: {x: 20, y: 446, w: 1040}, // mismo centro que hero, más grande
-  secondaryR: {x: 600, y: 1070, w: 400},
-  secondaryL: {x: L, y: 1070, w: 400},
-  stackTop: {x: L, y: 450, w: 900},
-  stackBottom: {x: L, y: 980, w: 900},
+  intro: {x: 120, y: 740, w: 1000}, // sangra 40 px por la derecha
+  pairTop: {x: -40, y: 626, w: 880}, // sangra por la izquierda
+  pairBottom: {x: 240, y: 1150, w: 880}, // sangra por la derecha; sale de detrás de A
+  hero: {x: 60, y: 620, w: 960},
+  heroBig: {x: 0, y: 586, w: 1080}, // mismo centro que hero, a sangre
+  secondaryR: {x: 600, y: 1250, w: 600}, // sangra por la derecha
+  secondaryL: {x: -120, y: 1250, w: 600}, // sangra por la izquierda
+  stackTop: {x: 70, y: 584, w: 940},
+  stackBottom: {x: 70, y: 1136, w: 940},
   grid: [
-    {x: L, y: 590, w: 448},
-    {x: 552, y: 590, w: 448},
-    {x: L, y: 866, w: 448},
-    {x: 552, y: 866, w: 448},
+    {x: 30, y: 660, w: 500},
+    {x: 550, y: 660, w: 500},
+    {x: 30, y: 961, w: 500},
+    {x: 550, y: 961, w: 500},
   ],
-  finalTop: {x: L, y: 585, w: 760},
-  finalBottom: {x: 240, y: 1040, w: 760},
 };
 
-const T = TIMING.card;
-const F = 1 / 25; // un fotograma en segundos
-
 export const CARDS: CardSpec[] = [
-  // 0–4 s · ventana A: entra por la derecha y después se convierte en la mitad superior.
+  // 0–6 s · ventana A: entra por la derecha, se divide en dos y crece como protagonista.
   {
     id: 'A1',
     life: [0, 6.5],
     start: {...LAYOUT.intro, x: 860}, // asoma ya en el primer fotograma
     moves: [
-      {at: 0, x: L, dur: 14},
+      {at: 0, x: LAYOUT.intro.x, dur: 14},
       {at: 2, ...LAYOUT.pairTop},
       {at: 4, ...LAYOUT.hero},
       {at: 6, x: OFF_L},
@@ -68,26 +66,27 @@ export const CARDS: CardSpec[] = [
     label: true,
     z: 3,
   },
-  // 2–4 s · ventana B: se separa de A ("se divide en dos").
+  // 2–4 s · ventana B: estaba debajo de A y se separa ("se divide en dos").
   {
     id: 'B1',
     life: [2, 4.5],
     start: LAYOUT.intro,
     moves: [
-      {at: 2 + 2 * F, ...LAYOUT.pairBottom},
+      {at: 2 + S, ...LAYOUT.pairBottom},
       {at: 4, x: OFF_R, dur: TIMING.cardFast},
     ],
     content: [{at: 2, clip: 'B_dos'}],
     label: true,
     z: 2,
   },
-  // 4–8 s · ventana secundaria con el fragmento de la intro (A).
+  // 4–8 s · ventana secundaria (fragmento de la intro A), sangra a la derecha.
   {
     id: 'S1',
     life: [4, 8.5],
     start: {...LAYOUT.secondaryR, x: OFF_R},
     moves: [
-      {at: 4 + 8 * F, x: LAYOUT.secondaryR.x},
+      {at: 4 + E, x: LAYOUT.secondaryR.x},
+      {at: 6 + E, x: LAYOUT.secondaryR.x - 60, y: LAYOUT.secondaryR.y + 40}, // el conjunto se desplaza
       {at: 8, x: OFF_R, dur: TIMING.cardFast},
     ],
     content: [{at: 4, clip: 'A_intro', loop: true}],
@@ -99,7 +98,7 @@ export const CARDS: CardSpec[] = [
     life: [6, 8.5],
     start: {...LAYOUT.hero, x: OFF_R},
     moves: [
-      {at: 6, x: L},
+      {at: 6, x: LAYOUT.hero.x},
       {at: 8, x: OFF_L},
     ],
     content: [{at: 6, clip: 'A_ventana'}],
@@ -113,10 +112,10 @@ export const CARDS: CardSpec[] = [
     life: [8, 16.5],
     start: {...LAYOUT.hero, x: OFF_R},
     moves: [
-      {at: 8, x: L},
+      {at: 8, x: LAYOUT.hero.x},
       {at: 11.28, ...LAYOUT.heroBig, dur: 16}, // gesto de la mano (B 51,5–52,1 s)
       {at: 12, ...LAYOUT.stackBottom},
-      {at: 16 + 3 * F, x: OFF_L},
+      {at: 16 + S, x: OFF_L},
     ],
     content: [
       {at: 8, clip: 'B_personaje'},
@@ -126,13 +125,13 @@ export const CARDS: CardSpec[] = [
     label: true,
     z: 3,
   },
-  // 8–12 s · ventana secundaria con el fragmento de la intro (B).
+  // 8–12 s · ventana secundaria (fragmento de la intro B), sangra a la izquierda.
   {
     id: 'S2',
     life: [8, 12.5],
     start: {...LAYOUT.secondaryL, x: OFF_L},
     moves: [
-      {at: 8 + 8 * F, x: L},
+      {at: 8 + E, x: LAYOUT.secondaryL.x},
       {at: 12, x: OFF_L, dur: TIMING.cardFast},
     ],
     content: [{at: 8, clip: 'B_dos', loop: true}],
@@ -144,7 +143,7 @@ export const CARDS: CardSpec[] = [
     life: [12, 16.5],
     start: {...LAYOUT.stackTop, x: OFF_L},
     moves: [
-      {at: 12 + 2 * F, x: L},
+      {at: 12 + S, x: LAYOUT.stackTop.x},
       {at: 16, x: OFF_L},
     ],
     content: [{at: 12, clip: 'A_salon'}],
@@ -157,9 +156,9 @@ export const CARDS: CardSpec[] = [
     life: [16, 25],
     start: {...LAYOUT.stackTop, x: OFF_R},
     moves: [
-      {at: 16, x: L},
+      {at: 16, x: LAYOUT.stackTop.x},
       {at: 20, ...LAYOUT.grid[0]},
-      {at: 22, ...LAYOUT.finalTop},
+      {at: 22, ...LAYOUT.stackTop},
       {at: 24, x: OFF_L, dur: TIMING.cardFast},
     ],
     content: [
@@ -176,9 +175,9 @@ export const CARDS: CardSpec[] = [
     life: [16, 25],
     start: {...LAYOUT.stackBottom, x: OFF_R},
     moves: [
-      {at: 16 + 3 * F, x: L},
+      {at: 16 + S, x: LAYOUT.stackBottom.x},
       {at: 20, ...LAYOUT.grid[2]},
-      {at: 22, ...LAYOUT.finalBottom},
+      {at: 22, ...LAYOUT.stackBottom},
       {at: 24, x: OFF_R, dur: TIMING.cardFast},
     ],
     content: [
@@ -189,13 +188,13 @@ export const CARDS: CardSpec[] = [
     label: true,
     z: 3,
   },
-  // 20–22 s · columna derecha de la cuadrícula.
+  // 20–22 s · columna derecha de la cuadrícula (entran a semicorcheas).
   {
     id: 'A5',
     life: [20, 22.6],
     start: {...LAYOUT.grid[1], x: OFF_R},
     moves: [
-      {at: 20 + 3 * F, x: LAYOUT.grid[1].x},
+      {at: 20 + S, x: LAYOUT.grid[1].x},
       {at: 22, x: OFF_R, dur: TIMING.cardFast},
     ],
     content: [{at: 20, clip: 'A_ventana'}],
@@ -207,7 +206,7 @@ export const CARDS: CardSpec[] = [
     life: [20, 22.6],
     start: {...LAYOUT.grid[3], x: OFF_R},
     moves: [
-      {at: 20 + 6 * F, x: LAYOUT.grid[3].x},
+      {at: 20 + E, x: LAYOUT.grid[3].x},
       {at: 22, x: OFF_R, dur: TIMING.cardFast},
     ],
     content: [{at: 20, clip: 'B_mano'}],
@@ -216,10 +215,17 @@ export const CARDS: CardSpec[] = [
   },
 ];
 
-// Números grandes en rojo (segmentos individuales).
+// Números grandes en rojo (segmentos individuales). Entran en el 2.º tiempo.
 export const NUMBERS = [
-  {text: '01', from: 4 + 4 * F, to: 8, x: L, y: 1066, align: 'left' as const},
-  {text: '02', from: 8 + 4 * F, to: 12, x: 1000, y: 1066, align: 'right' as const},
+  {text: '01', from: 4 + beat(1), to: 8, x: 64, y: 1236, align: 'left' as const},
+  {text: '02', from: 8 + beat(1), to: 12, x: 1020, y: 1236, align: 'right' as const},
+];
+
+// Líneas rojas de acento: se dibujan de izquierda a derecha.
+export const RULES: {x: number; y: number; w: number; h: number; from: number; to: number | null}[] = [
+  {x: 80, y: 618, w: 1000, h: 5, from: beat(1), to: 2}, // intro, bajo el título (sangra a la derecha)
+  {x: 70, y: 1121, w: 940, h: 3, from: 14, to: 20}, // costura entre las dos ventanas comparadas
+  {x: 80, y: 1262, w: 920, h: 5, from: 24 + beat(1.5), to: null}, // cierre
 ];
 
 // Periodos con fondo oscuro (barrido de abajo arriba).
@@ -233,3 +239,8 @@ export const LABEL_RANGES: [number, number][] = [
   [2, 4],
   [12, 24],
 ];
+
+// Momentos clave del vídeo original que la música subraya.
+export const ACCENTS = {
+  gesture: 11.8, // la mano llega a cámara (B 52,0 s)
+};

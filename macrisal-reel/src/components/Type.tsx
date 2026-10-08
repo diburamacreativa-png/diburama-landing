@@ -1,6 +1,6 @@
 import React from 'react';
 import {useCurrentFrame} from 'remotion';
-import {COLORS, FONTS, SEGMENTS, Theme, TIMING, sec} from '../config';
+import {COLORS, FONTS, SEGMENTS, Theme, TIMING, TYPE, sec} from '../config';
 import {ease, maskShift} from '../lib/motion';
 
 // Línea con máscara: entra desde abajo y sale hacia arriba.
@@ -61,14 +61,14 @@ export const Titles: React.FC = () => {
             key={bi}
             style={{
               position: 'absolute',
-              left: 80,
-              top: 262,
-              width: 940,
+              left: 76,
+              top: TYPE.titleTop,
+              width: 980,
               fontFamily: FONTS.display,
               fontWeight: 600,
-              fontSize: 132,
-              lineHeight: 1.0,
-              letterSpacing: '-0.045em',
+              fontSize: TYPE.titleSize,
+              lineHeight: TYPE.titleLineHeight,
+              letterSpacing: '-0.05em',
               color: b.theme === 'dark' ? COLORS.light : COLORS.dark,
             }}
           >
@@ -103,10 +103,10 @@ export const Kickers: React.FC = () => {
             style={{
               position: 'absolute',
               left: 82,
-              top: 212,
+              top: TYPE.kickerTop,
               fontFamily: FONTS.mono,
               fontWeight: 500,
-              fontSize: 26,
+              fontSize: TYPE.kickerSize,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
               color: b.theme === 'dark' ? COLORS.mutedOnDark : COLORS.mutedOnLight,
@@ -123,15 +123,16 @@ export const Kickers: React.FC = () => {
 };
 
 // Regla roja: se dibuja de izquierda a derecha y se recoge hacia la derecha.
-export const Rule: React.FC<{x: number; y: number; w: number; inAt: number; outAt: number | null}> = ({
+export const Rule: React.FC<{x: number; y: number; w: number; h?: number; inAt: number; outAt: number | null}> = ({
   x,
   y,
   w,
+  h = 5,
   inAt,
   outAt,
 }) => {
   const frame = useCurrentFrame();
-  const pin = ease(frame, inAt, 12);
+  const pin = ease(frame, inAt, 14);
   const pout = outAt === null ? 0 : ease(frame, outAt, 8);
   if (pin <= 0 || pout >= 1) return null;
   return (
@@ -141,7 +142,7 @@ export const Rule: React.FC<{x: number; y: number; w: number; inAt: number; outA
         left: x + w * pout,
         top: y,
         width: w * (pin - pout),
-        height: 6,
+        height: h,
         background: COLORS.accent,
       }}
     />
