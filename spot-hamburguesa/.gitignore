@@ -1,2 +1,8 @@
 renders/work/
 __pycache__/
+# third-party sound effects (Pixabay licence: no standalone redistribution; repo is public)
+audio/foley/originales/
+audio/v2/*/tracks/
+audio/v2/*/stems/FOLEY.wav
+audio/v2/*/stems/SFX.wav
+audio/v2/*/stems/AMBIENTES.wav

@@ -1,0 +1,11 @@
+DIBURAMA - FOLEY PARA CLAUDE CODE
+
+Los 16 archivos de audio se han copiado SIN recomprimir, manteniendo intactos los MP3 originales.
+Ruta en el proyecto: audio/foley/
+En MAPEO_ORIGINALES.csv figuran el nombre original y el SHA-256 de cada archivo.
+
+El fichero original "dragon-studio-ancient-mechanical-gears-487670 (1).mp3" no se incluye porque es identico byte a byte al de engranajes incluido.
+
+Aviso sobre licencias: el cambio de nombre no modifica los derechos de uso. Conserva la procedencia original; revisa los terminos de cada descarga antes de publicar y guarda un comprobante de licencia si procede.
+
+Aviso creativo: los sonidos de queso son aproximaciones de foley con otras texturas; Claude debe elegir los momentos adecuados. Este ZIP no incluye musica; la musica debe producirse/licenciarse por separado.
