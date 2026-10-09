@@ -12,9 +12,7 @@
   "transform": "[master_t, scale, anchor_x, anchor_y, (dest_x, dest_y)] keyframes: digital scale about an anchor (normalised output coords of the fitted frame); optional destination moves the anchor (default: stays in place). Scale 1 = full-bleed fit.",
   "shake": "[master_t, amplitude_px, decay_s]: decaying camera shake impulse.",
   "transition": "Window [t0, t1] where both segments are rendered and combined. Types: cut, dissolve (match dissolve), luma (incoming revealed through the outgoing shot's highlights), wipe_diag (organic noise-edged diagonal wipe).",
-  "interp": "flow = DIS optical-flow interpolation for fractional source positions; nearest = no synthesis.",
-  "cam": "V2: named virtual camera from project/tools/v2.py (scale, anisotropy, roll, anchor, destination), sampled by the shutter like any move.",
-  "custom": "V2: transition rendered by a dedicated compositor in project/tools/v2.py (T1–T4)."
+  "interp": "flow = DIS optical-flow interpolation for fractional source positions; nearest = no synthesis."
  },
  "segments": [
   {
@@ -91,7 +89,7 @@
    "clip": "plano 2A",
    "role": "Hamburguesa hero",
    "in": 2.0,
-   "out": 3.55,
+   "out": 3.583,
    "speed": [
     [
      2.0,
@@ -102,38 +100,59 @@
      2.95
     ]
    ],
-   "notes": "V2 · T1: travelling único. Zoom en espacio logarítmico con aceleración progresiva hacia el punto de la corteza (0.778, 0.252) que corresponde al macro de 3A (×6.5).",
+   "transform": [
+    [
+     2.0,
+     1.0,
+     0.5,
+     0.19,
+     0.5,
+     0.19
+    ],
+    [
+     3.2,
+     1.04,
+     0.5,
+     0.19,
+     0.5,
+     0.19
+    ],
+    [
+     3.583,
+     2.0,
+     0.5,
+     0.19,
+     0.5,
+     0.36
+    ]
+   ],
+   "notes": "Cadencia original 20 fps (1 duplicado cada 6) → reconstruida. Travelling digital final hacia el pan superior con motion blur de obturador.",
    "grade": {
     "ev": -0.02,
     "sat": 0.92
-   },
-   "cam": "t1_2A"
+   }
   },
   {
    "id": "S04",
    "clip": "plano 3A",
    "role": "Macro pan → túnel",
-   "in": 3.15,
+   "in": 3.417,
    "out": 6.083,
    "speed": [
     [
-     3.3,
+     3.417,
      0.0
     ],
     [
-     3.55,
-     0.12
+     4.2,
+     1.15
     ],
     [
-     3.86,
-     1.25
+     4.55,
+     1.9
     ],
     [
-     4.06,
-     1.83
-    ],
-    [
-     5.14,
+     5.45,
      4.0
     ],
     [
@@ -141,19 +160,38 @@
      4.96
     ]
    ],
-   "notes": "V2 · T1: 3A entra a escala coincidente dentro del pan, enfoca, y su propio avance recoge la velocidad del travelling.",
+   "transform": [
+    [
+     3.417,
+     1.0,
+     0.5,
+     0.5
+    ],
+    [
+     5.7,
+     1.0,
+     0.62,
+     0.38
+    ],
+    [
+     6.083,
+     1.28,
+     0.62,
+     0.38
+    ]
+   ],
+   "notes": "Rampa: 1.5x en la corteza, 2.2x atravesando la grieta, 2.4x por el túnel, 1.4x en la revelación del rodaje. Empuje final sobre la boca del túnel para casar con 4A.",
    "grade": {
     "ev": -0.22,
     "sat": 0.88
-   },
-   "cam": "t1_3A"
+   }
   },
   {
    "id": "S05",
    "clip": "plano 4A",
    "role": "Mundo cinematográfico",
    "in": 5.917,
-   "out": 7.56,
+   "out": 7.625,
    "speed": [
     [
      5.917,
@@ -164,27 +202,48 @@
      2.8
     ]
    ],
-   "notes": "V2 · T2: empuje hacia el foco de rodaje de la izquierda (seguido automáticamente); el foco pasa junto al objetivo.",
+   "transform": [
+    [
+     5.917,
+     1.06,
+     0.58,
+     0.36
+    ],
+    [
+     6.4,
+     1.0,
+     0.58,
+     0.36
+    ],
+    [
+     7.1,
+     1.0,
+     0.56,
+     0.27
+    ],
+    [
+     7.625,
+     1.3,
+     0.56,
+     0.27
+    ]
+   ],
+   "notes": "Cadencia original ≈18 fps → reconstruida. Empuje hacia el haz de luz para la transición luminosa al queso.",
    "grade": {
     "ev": -0.2,
     "sat": 0.9
-   },
-   "cam": "t2_4A"
+   }
   },
   {
    "id": "S06",
    "clip": "plano 5A",
    "role": "Queso fundido",
-   "in": 7.45,
+   "in": 7.375,
    "out": 9.333,
    "speed": [
     [
-     7.45,
+     7.375,
      0.15
-    ],
-    [
-     7.75,
-     0.8
     ],
     [
      9.333,
@@ -202,42 +261,32 @@
    "clip": "plano 6A",
    "role": "Queso → cintas motion",
    "in": 9.167,
-   "out": 10.95,
+   "out": 10.875,
    "speed": [
     [
      9.167,
      0.35
     ],
     [
-     10.2,
-     3.05
-    ],
-    [
-     10.95,
-     3.75
+     10.875,
+     4.08
     ]
    ],
    "grade": {
     "ev": -0.18,
     "sat": 0.9
-   },
-   "cam": "t3_6A",
-   "notes": "V2 · T3: un aro de queso (seguido por LK) gira hacia cámara mientras la cámara rota; queso → translúcido → cromo."
+   }
   },
   {
    "id": "S08",
    "clip": "plano 6B",
    "role": "Piezas mecánicas 3D",
-   "in": 10.6,
+   "in": 10.625,
    "out": 12.313,
    "speed": [
     [
-     10.6,
+     10.625,
      0.0
-    ],
-    [
-     10.95,
-     1.05
     ],
     [
      12.313,
@@ -248,41 +297,54 @@
     "ev": 0.02,
     "sat": 0.92
    },
-   "notes": "V2 · T3: el engranaje continúa el giro; el mecanismo se ensambla (rampa 3x), impacto + microshake de 3 frames.",
-   "cam": "t3_6B"
+   "transform": [
+    [
+     10.625,
+     1.0,
+     0.5,
+     0.5
+    ],
+    [
+     11.85,
+     1.0,
+     0.5,
+     0.5
+    ],
+    [
+     12.313,
+     1.3,
+     0.42,
+     0.45
+    ]
+   ],
+   "notes": "Empuje final 1.0→1.3 para igualar la escala de los rodamientos con el arranque de 7A."
   },
   {
    "id": "S09",
    "clip": "plano 7A",
    "role": "Viaje mecánico → orgánico",
    "in": 12.188,
-   "out": 13.92,
+   "out": 13.958,
    "speed": [
     [
      12.188,
      0.0
     ],
     [
-     13.2,
-     1.5
-    ],
-    [
-     13.8,
-     1.85
+     13.958,
+     3.7
     ]
    ],
    "grade": {
     "ev": -0.1,
     "sat": 0.9
-   },
-   "cam": "t4_7A",
-   "notes": "V2 · T4: inmersión acelerada por el hueco del rodamiento (seguido por LK)."
+   }
   },
   {
    "id": "S10",
    "clip": "plano 8A",
    "role": "Mundo ilustrado → hamburguesa",
-   "in": 13.25,
+   "in": 13.583,
    "out": 15.833,
    "speed": [
     [
@@ -294,12 +356,24 @@
      3.83
     ]
    ],
+   "transform": [
+    [
+     13.583,
+     1.08,
+     0.5,
+     0.5
+    ],
+    [
+     14.1,
+     1.0,
+     0.5,
+     0.5
+    ]
+   ],
    "grade": {
     "ev": -0.2,
     "sat": 0.86
-   },
-   "cam": "t4_8A",
-   "notes": "V2 · T4: el mundo ilustrado se ve a través del aro; misma rampa de velocidad que V1 (imagen ≥15 s bloqueada)."
+   }
   },
   {
    "id": "S11",
@@ -445,10 +519,9 @@
   {
    "from": "S03",
    "to": "S04",
-   "type": "custom",
-   "name": "T1",
-   "t0": 3.15,
-   "t1": 3.95
+   "type": "dissolve",
+   "t0": 3.417,
+   "t1": 3.583
   },
   {
    "from": "S04",
@@ -460,10 +533,9 @@
   {
    "from": "S05",
    "to": "S06",
-   "type": "custom",
-   "name": "T2",
-   "t0": 7.0,
-   "t1": 7.9
+   "type": "luma",
+   "t0": 7.375,
+   "t1": 7.625
   },
   {
    "from": "S06",
@@ -475,10 +547,9 @@
   {
    "from": "S07",
    "to": "S08",
-   "type": "custom",
-   "name": "T3",
-   "t0": 10.2,
-   "t1": 11.05
+   "type": "luma",
+   "t0": 10.625,
+   "t1": 10.875
   },
   {
    "from": "S08",
@@ -490,10 +561,13 @@
   {
    "from": "S09",
    "to": "S10",
-   "type": "custom",
-   "name": "T4",
-   "t0": 13.25,
-   "t1": 14.35
+   "type": "wipe_diag",
+   "t0": 13.583,
+   "t1": 13.958,
+   "dir": [
+    1,
+    -1
+   ]
   },
   {
    "from": "S10",
@@ -535,9 +609,5 @@
   "orange_restraint": 0.14,
   "magenta_accent": 1.06,
   "sharpen": 0.22
- },
- "lock": {
-  "from": 15.0,
-  "source": "V1 master frames (renders/work/V1_LOCK_pic_30.mkv, 30 fps): image from 15.0 s to the end is approved and spliced untouched"
  }
 }

@@ -19,7 +19,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, HERE)
 import graphics  # noqa: E402
-import v2  # noqa: E402
 
 W, H = 1080, 1920
 EDL = json.load(open(os.path.join(ROOT, "project", "edit_decisions.json")))
@@ -131,64 +130,37 @@ class Segment:
                 dy += e * math.sin((t - t0) * 2 * math.pi * 17 + 0.4)
         return dx, dy
 
-    def params(self, t):
-        """camera for this shot: dict(s, sx, rot[deg], ax, ay, bx, by, dx, dy)"""
-        if "cam" in self.d:
-            c = dict(sx=1.0, rot=0.0, dx=0.0, dy=0.0); c.update(v2.cam(self.d["cam"], t))
-        else:
-            s_, ax, ay, bx, by = self.xform(t)
-            c = dict(s=s_, sx=1.0, rot=0.0, ax=ax, ay=ay, bx=bx, by=by, dx=0.0, dy=0.0)
-        dx, dy = self.shake(t); c["dx"] += dx; c["dy"] += dy
-        return c
-
-    def matrix(self, src, t, cam=None):
-        c = dict(sx=1.0, rot=0.0, dx=0.0, dy=0.0)
-        c.update(cam(t) if cam else self.params(t))
+    def matrix(self, src, t):
         base = max(W / src.w, H / src.h)
+        s, ax, ay, bx, by = self.xform(t)
+        dx, dy = self.shake(t)
+        AX, AY, BX, BY = ax * W, ay * H, bx * W, by * H
+        # base fit centred, then scale s about anchor
         cx0, cy0 = (W - src.w * base) / 2, (H - src.h * base) / 2
-        th = math.radians(c["rot"]); R = np.array([[math.cos(th), -math.sin(th)], [math.sin(th), math.cos(th)]])
-        L = R @ np.diag([c["s"] * c["sx"], c["s"]])
-        A = np.array([c["ax"] * W, c["ay"] * H]); B = np.array([c["bx"] * W + c["dx"], c["by"] * H + c["dy"]])
-        Mlin = L * base
-        tr = B + L @ (np.array([cx0, cy0]) - A)
-        return np.float32([[Mlin[0, 0], Mlin[0, 1], tr[0]], [Mlin[1, 0], Mlin[1, 1], tr[1]]])
+        a = base * s
+        tx = BX + s * (cx0 - AX) + dx
+        ty = BY + s * (cy0 - AY) + dy
+        return np.float32([[a, 0, tx], [0, a, ty]])
 
-    def render(self, t, fps, cam=None, alpha=False, feather=0.0, max_n=16):
-        """motion-blurred, graded shot at master time t. cam: optional camera override (t → dict).
-        alpha=True also returns the layer's coverage (edges feathered by `feather` × short side)."""
+    def render(self, t, fps):
         src = source(self.clip)
         e = SHUTTER / fps
         p0, p1 = src.pos(float(self.remap(t - e / 2))), src.pos(float(self.remap(t + e / 2)))
-        m0, m1 = self.matrix(src, t - e / 2, cam), self.matrix(src, t + e / 2, cam)
+        m0, m1 = self.matrix(src, t - e / 2), self.matrix(src, t + e / 2)
+        # pixel travel of the frame corners due to digital moves
         corners = np.float32([[0, 0, 1], [src.w, 0, 1], [0, src.h, 1], [src.w, src.h, 1]]).T
         xf_px = float(np.abs(m1 @ corners - m0 @ corners).max())
-        n = int(np.clip(max(round(abs(p1 - p0) * 2) + 1, round(xf_px / 3) + 1), 1, max_n))
-        acc = np.zeros((H, W, 3), np.float32); acc_a = np.zeros((H, W), np.float32) if alpha else None
-        if alpha:
-            m = np.ones((src.h, src.w), np.float32)
-            if feather > 0:
-                f = feather * min(src.w, src.h)
-                yy, xx = np.mgrid[0:src.h, 0:src.w].astype(np.float32)
-                dd = np.minimum(np.minimum(xx, src.w - 1 - xx), np.minimum(yy, src.h - 1 - yy))
-                m = np.clip(dd / f, 0, 1); m = m * m * (3 - 2 * m)
+        n = int(np.clip(max(round(abs(p1 - p0) * 2) + 1, round(xf_px / 3) + 1), 1, 16))
+        acc = np.zeros((H, W, 3), np.float32)
         for k in range(n):
             tk = t if n == 1 else t - e / 2 + e * (k + 0.5) / n
             img = src.sample(src.pos(float(self.remap(tk))), self.interp)
-            M = self.matrix(src, tk, cam)
-            if alpha:
-                acc += cv2.warpAffine(img, M, (W, H), flags=cv2.INTER_LANCZOS4, borderMode=cv2.BORDER_CONSTANT)
-                acc_a += cv2.warpAffine(m, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
-            else:
-                acc += cv2.warpAffine(img, M, (W, H), flags=cv2.INTER_LANCZOS4, borderMode=cv2.BORDER_REFLECT)
+            acc += cv2.warpAffine(img, self.matrix(src, tk), (W, H), flags=cv2.INTER_LANCZOS4, borderMode=cv2.BORDER_REFLECT)
         img = acc / (n * 255.0)
         img = shot_grade(img, self.grade)
         if "fade_out" in self.d:
             a, b = self.d["fade_out"]
             if t > a: img *= max(0.0, 1 - (t - a) / (b - a)) ** 1.5
-        if alpha:
-            a_ = np.clip(acc_a / n, 0, 1)
-            img = np.where(a_[..., None] > 1e-3, img / np.maximum(a_[..., None], 1e-3), 0)  # un-premultiply edges
-            return img, a_
         return img
 
 
@@ -308,16 +280,12 @@ def combine(tr, a, b, t):
         return a + (b - a) * al
     raise ValueError(tr["type"])
 
-v2.CTX.update(source=source, SEG=SEG, shot_grade=shot_grade, W=W, H=H, LUMA=LUMA, kf_interp=kf_interp)
-
 def frame_at(t, fps, n):
     if t >= G0:
         return grain(graphics.render(t, EDL["graphics"]), n, fps)
     active = [s for s in SEGS if s.t_in - 1e-6 <= t < s.t_out - 1e-6]
     tr = next((x for x in TRANS if x["t0"] <= t < x["t1"]), None)
-    if tr is not None and tr["type"] == "custom":
-        img = v2.window(tr["name"], t, fps)
-    elif tr is not None:
+    if tr is not None:
         a = SEG[tr["from"]].render(t, fps); b = SEG[tr["to"]].render(t, fps)
         img = combine(tr, a, b, t)
     else:
