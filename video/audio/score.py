@@ -1,7 +1,10 @@
 # DIBURAMA — LA GOTA · Música y diseño sonoro sintetizados (120 BPM, Re menor → Re mayor).
-# Uso: python3 audio/score.py  → audio/score_raw.wav (48 kHz estéreo, 27 s exactos)
+# Uso: python3 audio/score.py  → audio/score_raw.wav (48 kHz estéreo float32, 27 s exactos, -14 LUFS / ≤ -1,5 dBTP)
+# Dependencias: pip install -r requirements-audio.txt
 import numpy as np
-from scipy.signal import fftconvolve, butter, sosfilt
+from scipy.signal import fftconvolve, butter, sosfilt, resample_poly
+from scipy.io import wavfile
+from pedalboard import Pedalboard, HighpassFilter, LowShelfFilter, PeakFilter, Compressor, Limiter
 SR = 48000; DUR = 27.0; N = int(SR * DUR)
 rng = np.random.default_rng(7)
 L = np.zeros(N); R = np.zeros(N); REV = np.zeros(N)  # bus de reverb (mono)
@@ -184,8 +187,37 @@ L += L2; R += R2
 # microfundidos en los extremos para el loop (sin clic)
 k = int(0.004 * SR); ramp = np.linspace(0, 1, k)
 L[:k] *= ramp; R[:k] *= ramp; L[-k:] *= ramp[::-1]; R[-k:] *= ramp[::-1]
-# limitador suave
-st = np.stack([L, R], 1); st = np.tanh(st * 1.1) * 0.9
-from scipy.io import wavfile
-wavfile.write('audio/score_raw.wav', SR, (st * 32767 / max(1e-9, np.abs(st).max()) * 0.9).astype(np.int16))
-print('ok', st.shape, np.abs(st[int(18.05*SR):int(18.55*SR)]).max())
+
+# ---------- máster (pedalboard) ----------
+# Objetivo: entregar a build.sh algo que loudnorm (-14 LUFS / -1 dBTP) solo tenga que mover con ganancia lineal.
+# El tanh + normalización de pico anterior dejaba +0,9 dBTP y forzaba loudnorm a modo dinámico (ganancia variable).
+LUFS, CEIL_TP = -14.0, -1.5
+def lufs(x):  # ITU-R BS.1770-4 integrada (ponderación K + gating absoluto/relativo), coeficientes a 48 kHz
+    k = np.array([[1.53512485958697, -2.69169618940638, 1.19839281085285, 1, -1.69065929318241, 0.73248077421585],
+                  [1.0, -2.0, 1.0, 1, -1.99004745483398, 0.99007225036621]])
+    y = sosfilt(k, x, axis=1); blk, hop = int(0.4 * SR), int(0.1 * SR)
+    z = np.array([np.mean(y[:, i:i + blk] ** 2, axis=1).sum() for i in range(0, y.shape[1] - blk + 1, hop)])
+    lk = lambda v: -0.691 + 10 * np.log10(v + 1e-20)
+    z = z[lk(z) > -70]; z = z[lk(z) > lk(z.mean()) - 10]; return lk(z.mean())
+def true_peak(x): return 20 * np.log10(np.abs(resample_poly(x, 4, 1, axis=1)).max())  # sobremuestreo x4
+st = np.stack([L, R]).astype(np.float32); st *= 0.5 / np.abs(st).max()  # -6 dBFS de pico a la entrada del bus
+bus = Pedalboard([
+    HighpassFilter(28),                       # offset DC + subgraves inaudibles que solo consumen headroom
+    LowShelfFilter(70, -2.0, 0.7),            # 25–150 Hz dominaban ~7 dB sobre los medios
+    PeakFilter(3500, 1.5, 0.8),               # presencia: el destino es el altavoz del móvil (Reels)
+    Compressor(threshold_db=-20, ratio=2, attack_ms=20, release_ms=150),  # pegamento suave; el ataque deja pasar el golpe del kick
+])
+st = bus(st, SR)
+drive = 0.0  # entrada al Limiter de JUCE (lleva compensación propia: no es reducción de ganancia); solo sube si hace falta para llegar a LUFS con el pico en CEIL_TP
+for _ in range(8):
+    out = Limiter(threshold_db=-drive, release_ms=80)(st, SR) if drive > 0 else st.copy()
+    out *= 10 ** ((CEIL_TP - true_peak(out)) / 20); d = LUFS - lufs(out)
+    if d <= 0: out *= 10 ** (d / 20); break  # sobra loudness: basta con bajar ganancia
+    if d < 0.05: break
+    drive += d
+# silencio total 18,0–18,6 y microfundidos del loop, de nuevo (los filtros IIR dejan colas)
+out[:, int(18.0 * SR):int(18.6 * SR)] = 0
+k = int(0.004 * SR); ramp = np.linspace(0, 1, k, dtype=np.float32); out[:, :k] *= ramp; out[:, -k:] *= ramp[::-1]
+wavfile.write('audio/score_raw.wav', SR, out.T.astype(np.float32))
+print(f'ok {out.T.shape}  {lufs(out):.2f} LUFS  {true_peak(out):.2f} dBTP  drive {drive:.2f} dB  '
+      f'silencio 18,0–18,6: {np.abs(out[:, int(18.0 * SR):int(18.6 * SR)]).max()}')

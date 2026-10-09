@@ -4,8 +4,8 @@
 
 ```
 npm install
-pip install numpy scipy pillow imageio-ffmpeg
-python3 audio/score.py                                     # music + sound design → audio/score_raw.wav
+pip install -r requirements-audio.txt pillow             # Python ≥ 3.12
+python3 audio/score.py                                     # music + sound design + pedalboard master → audio/score_raw.wav (-14 LUFS, ≤ -1.5 dBTP)
 node tools/render.mjs --out frames --workers 4             # PNG frames (headless Chromium + WebGL)
 tools/build.sh                                             # MASTER.mp4 + ANIMATIC.mp4 in out/
 tools/qa.sh                                                # duration, black frames, silence, LUFS, loop
