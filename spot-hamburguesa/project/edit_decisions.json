@@ -1,0 +1,613 @@
+{
+ "project": "DIBURAMA — EL VÍDEO QUE TE COMES ENTERO (spot hamburguesa)",
+ "format": {
+  "width": 1080,
+  "height": 1920,
+  "duration": 25.0,
+  "bpm": 120,
+  "note": "Master timeline in seconds. Rendered at 24 fps (native) and 30 fps (same timeline, re-sampled with motion-compensated interpolation + 180° shutter)."
+ },
+ "conventions": {
+  "speed": "[master_t, src_t] keyframes, monotone-cubic interpolated. src_t in seconds on the clip's de-duplicated timeline (duplicate frames removed, unique frames spread uniformly over the original duration).",
+  "transform": "[master_t, scale, anchor_x, anchor_y, (dest_x, dest_y)] keyframes: digital scale about an anchor (normalised output coords of the fitted frame); optional destination moves the anchor (default: stays in place). Scale 1 = full-bleed fit.",
+  "shake": "[master_t, amplitude_px, decay_s]: decaying camera shake impulse.",
+  "transition": "Window [t0, t1] where both segments are rendered and combined. Types: cut, dissolve (match dissolve), luma (incoming revealed through the outgoing shot's highlights), wipe_diag (organic noise-edged diagonal wipe).",
+  "interp": "flow = DIS optical-flow interpolation for fractional source positions; nearest = no synthesis."
+ },
+ "segments": [
+  {
+   "id": "S01",
+   "clip": "Plano 1A",
+   "role": "Caída de la carne",
+   "in": 0.0,
+   "out": 1.0,
+   "speed": [
+    [
+     0.0,
+     0.5
+    ],
+    [
+     0.6,
+     1.1
+    ],
+    [
+     1.0,
+     1.625
+    ]
+   ],
+   "notes": "Arranca en el frame 12: la carne ya ocupa el cuadro. Rampa 1.0x→1.3x para acelerar la caída hacia el impacto.",
+   "grade": {
+    "ev": 0.05,
+    "sat": 0.94
+   }
+  },
+  {
+   "id": "S02",
+   "clip": "Plano 1B",
+   "role": "Impacto en la parrilla",
+   "in": 1.0,
+   "out": 2.0,
+   "speed": [
+    [
+     1.0,
+     0.0
+    ],
+    [
+     2.0,
+     1.05
+    ]
+   ],
+   "transform": [
+    [
+     1.0,
+     1.035,
+     0.5,
+     0.45
+    ],
+    [
+     1.15,
+     1.0,
+     0.5,
+     0.45
+    ]
+   ],
+   "shake": [
+    [
+     1.0,
+     12,
+     0.18
+    ]
+   ],
+   "notes": "Corte en acción sobre el estallido de llama del frame 0. Micro-punch + sacudida de 4 frames: el golpe sonoro cierra la unión.",
+   "grade": {
+    "ev": 0.08,
+    "sat": 0.94
+   }
+  },
+  {
+   "id": "S03",
+   "clip": "plano 2A",
+   "role": "Hamburguesa hero",
+   "in": 2.0,
+   "out": 3.583,
+   "speed": [
+    [
+     2.0,
+     0.55
+    ],
+    [
+     3.583,
+     2.95
+    ]
+   ],
+   "transform": [
+    [
+     2.0,
+     1.0,
+     0.5,
+     0.19,
+     0.5,
+     0.19
+    ],
+    [
+     3.2,
+     1.04,
+     0.5,
+     0.19,
+     0.5,
+     0.19
+    ],
+    [
+     3.583,
+     2.0,
+     0.5,
+     0.19,
+     0.5,
+     0.36
+    ]
+   ],
+   "notes": "Cadencia original 20 fps (1 duplicado cada 6) → reconstruida. Travelling digital final hacia el pan superior con motion blur de obturador.",
+   "grade": {
+    "ev": -0.02,
+    "sat": 0.92
+   }
+  },
+  {
+   "id": "S04",
+   "clip": "plano 3A",
+   "role": "Macro pan → túnel",
+   "in": 3.417,
+   "out": 6.083,
+   "speed": [
+    [
+     3.417,
+     0.0
+    ],
+    [
+     4.2,
+     1.15
+    ],
+    [
+     4.55,
+     1.9
+    ],
+    [
+     5.45,
+     4.0
+    ],
+    [
+     6.083,
+     4.96
+    ]
+   ],
+   "transform": [
+    [
+     3.417,
+     1.0,
+     0.5,
+     0.5
+    ],
+    [
+     5.7,
+     1.0,
+     0.62,
+     0.38
+    ],
+    [
+     6.083,
+     1.28,
+     0.62,
+     0.38
+    ]
+   ],
+   "notes": "Rampa: 1.5x en la corteza, 2.2x atravesando la grieta, 2.4x por el túnel, 1.4x en la revelación del rodaje. Empuje final sobre la boca del túnel para casar con 4A.",
+   "grade": {
+    "ev": -0.22,
+    "sat": 0.88
+   }
+  },
+  {
+   "id": "S05",
+   "clip": "plano 4A",
+   "role": "Mundo cinematográfico",
+   "in": 5.917,
+   "out": 7.625,
+   "speed": [
+    [
+     5.917,
+     0.0
+    ],
+    [
+     7.625,
+     2.8
+    ]
+   ],
+   "transform": [
+    [
+     5.917,
+     1.06,
+     0.58,
+     0.36
+    ],
+    [
+     6.4,
+     1.0,
+     0.58,
+     0.36
+    ],
+    [
+     7.1,
+     1.0,
+     0.56,
+     0.27
+    ],
+    [
+     7.625,
+     1.3,
+     0.56,
+     0.27
+    ]
+   ],
+   "notes": "Cadencia original ≈18 fps → reconstruida. Empuje hacia el haz de luz para la transición luminosa al queso.",
+   "grade": {
+    "ev": -0.2,
+    "sat": 0.9
+   }
+  },
+  {
+   "id": "S06",
+   "clip": "plano 5A",
+   "role": "Queso fundido",
+   "in": 7.375,
+   "out": 9.333,
+   "speed": [
+    [
+     7.375,
+     0.15
+    ],
+    [
+     9.333,
+     4.08
+    ]
+   ],
+   "notes": "Cadencia original ≈18 fps → reconstruida.",
+   "grade": {
+    "ev": -0.22,
+    "sat": 0.86
+   }
+  },
+  {
+   "id": "S07",
+   "clip": "plano 6A",
+   "role": "Queso → cintas motion",
+   "in": 9.167,
+   "out": 10.875,
+   "speed": [
+    [
+     9.167,
+     0.35
+    ],
+    [
+     10.875,
+     4.08
+    ]
+   ],
+   "grade": {
+    "ev": -0.18,
+    "sat": 0.9
+   }
+  },
+  {
+   "id": "S08",
+   "clip": "plano 6B",
+   "role": "Piezas mecánicas 3D",
+   "in": 10.625,
+   "out": 12.313,
+   "speed": [
+    [
+     10.625,
+     0.0
+    ],
+    [
+     12.313,
+     3.46
+    ]
+   ],
+   "grade": {
+    "ev": 0.02,
+    "sat": 0.92
+   },
+   "transform": [
+    [
+     10.625,
+     1.0,
+     0.5,
+     0.5
+    ],
+    [
+     11.85,
+     1.0,
+     0.5,
+     0.5
+    ],
+    [
+     12.313,
+     1.3,
+     0.42,
+     0.45
+    ]
+   ],
+   "notes": "Empuje final 1.0→1.3 para igualar la escala de los rodamientos con el arranque de 7A."
+  },
+  {
+   "id": "S09",
+   "clip": "plano 7A",
+   "role": "Viaje mecánico → orgánico",
+   "in": 12.188,
+   "out": 13.958,
+   "speed": [
+    [
+     12.188,
+     0.0
+    ],
+    [
+     13.958,
+     3.7
+    ]
+   ],
+   "grade": {
+    "ev": -0.1,
+    "sat": 0.9
+   }
+  },
+  {
+   "id": "S10",
+   "clip": "plano 8A",
+   "role": "Mundo ilustrado → hamburguesa",
+   "in": 13.583,
+   "out": 15.833,
+   "speed": [
+    [
+     13.583,
+     0.0
+    ],
+    [
+     15.875,
+     3.83
+    ]
+   ],
+   "transform": [
+    [
+     13.583,
+     1.08,
+     0.5,
+     0.5
+    ],
+    [
+     14.1,
+     1.0,
+     0.5,
+     0.5
+    ]
+   ],
+   "grade": {
+    "ev": -0.2,
+    "sat": 0.86
+   }
+  },
+  {
+   "id": "S11",
+   "clip": "plano 9A",
+   "role": "Hamburguesa completa (resolución)",
+   "in": 15.667,
+   "out": 17.0,
+   "speed": [
+    [
+     15.667,
+     0.0
+    ],
+    [
+     17.0,
+     1.55
+    ]
+   ],
+   "transform": [
+    [
+     15.667,
+     1.045,
+     0.55,
+     0.2
+    ],
+    [
+     16.4,
+     1.0,
+     0.55,
+     0.2
+    ]
+   ],
+   "notes": "Cadencia original ≈19 fps → reconstruida. Ligero pull-back: la hamburguesa se 'recompone' y se revela completa.",
+   "grade": {
+    "ev": 0.0,
+    "sat": 0.92
+   }
+  },
+  {
+   "id": "S12",
+   "clip": "plano 9B",
+   "role": "Mordisco",
+   "in": 17.0,
+   "out": 18.5,
+   "speed": [
+    [
+     17.0,
+     0.0
+    ],
+    [
+     17.167,
+     0.5
+    ],
+    [
+     18.5,
+     2.0
+    ]
+   ],
+   "transform": [
+    [
+     17.0,
+     1.0,
+     0.55,
+     0.3
+    ],
+    [
+     17.125,
+     1.0,
+     0.55,
+     0.3
+    ],
+    [
+     17.208,
+     1.05,
+     0.55,
+     0.3
+    ],
+    [
+     17.8,
+     1.02,
+     0.55,
+     0.3
+    ],
+    [
+     18.5,
+     1.03,
+     0.55,
+     0.3
+    ]
+   ],
+   "shake": [
+    [
+     17.125,
+     5,
+     0.12
+    ]
+   ],
+   "notes": "El clip no contiene el instante de cierre de la boca: se construye con una rampa 3x (la hamburguesa sube contra los labios) + punch-in de 2 frames sincronizado con el CRUNCH.",
+   "grade": {
+    "ev": 0.0,
+    "sat": 0.92
+   }
+  },
+  {
+   "id": "S13",
+   "clip": "plano 9C",
+   "role": "Plato vacío",
+   "in": 18.5,
+   "out": 19.792,
+   "speed": [
+    [
+     18.5,
+     0.0
+    ],
+    [
+     19.792,
+     1.29
+    ]
+   ],
+   "fade_out": [
+    19.542,
+    19.792
+   ],
+   "notes": "Archivo truncado en la entrega (ZIP sin la parte final): solo 31 frames decodificables (1,29 s). Se usan todos. La miga que cae (frame ~24) se sincroniza con un tic.",
+   "grade": {
+    "ev": -0.2,
+    "sat": 0.9
+   }
+  }
+ ],
+ "transitions": [
+  {
+   "from": "S01",
+   "to": "S02",
+   "type": "cut",
+   "t": 1.0
+  },
+  {
+   "from": "S02",
+   "to": "S03",
+   "type": "cut",
+   "t": 2.0
+  },
+  {
+   "from": "S03",
+   "to": "S04",
+   "type": "dissolve",
+   "t0": 3.417,
+   "t1": 3.583
+  },
+  {
+   "from": "S04",
+   "to": "S05",
+   "type": "dissolve",
+   "t0": 5.917,
+   "t1": 6.083
+  },
+  {
+   "from": "S05",
+   "to": "S06",
+   "type": "luma",
+   "t0": 7.375,
+   "t1": 7.625
+  },
+  {
+   "from": "S06",
+   "to": "S07",
+   "type": "dissolve",
+   "t0": 9.167,
+   "t1": 9.333
+  },
+  {
+   "from": "S07",
+   "to": "S08",
+   "type": "luma",
+   "t0": 10.625,
+   "t1": 10.875
+  },
+  {
+   "from": "S08",
+   "to": "S09",
+   "type": "dissolve",
+   "t0": 12.188,
+   "t1": 12.313
+  },
+  {
+   "from": "S09",
+   "to": "S10",
+   "type": "wipe_diag",
+   "t0": 13.583,
+   "t1": 13.958,
+   "dir": [
+    1,
+    -1
+   ]
+  },
+  {
+   "from": "S10",
+   "to": "S11",
+   "type": "dissolve",
+   "t0": 15.667,
+   "t1": 15.833
+  },
+  {
+   "from": "S11",
+   "to": "S12",
+   "type": "cut",
+   "t": 17.0
+  },
+  {
+   "from": "S12",
+   "to": "S13",
+   "type": "cut",
+   "t": 18.5
+  }
+ ],
+ "graphics": {
+  "start": 19.792,
+  "end": 25.0,
+  "beats": {
+   "line1": 19.95,
+   "line2": 20.9,
+   "copy_out": 22.0,
+   "logo": 22.4,
+   "drop_land": 22.85,
+   "cta": 23.15,
+   "url": 23.4
+  }
+ },
+ "look": {
+  "grain": 0.016,
+  "vignette": 0.16,
+  "glow": 0.05,
+  "orange_restraint": 0.14,
+  "magenta_accent": 1.06,
+  "sharpen": 0.22
+ }
+}
