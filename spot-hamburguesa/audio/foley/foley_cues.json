@@ -1,0 +1,48 @@
+{
+ "about": "Foley cues for the V2 edit (30 fps). Each cue: search queries (Freesound, CC0 only), duration filter, and its placements on the master timeline. align='onset' places the detected transient of the file exactly on t; align='start' places the file start on t. length (s) trims the clip; loop=true repeats it with crossfades to fill length. choice=<freesound id> forces a specific candidate after listening.",
+ "cues": [
+  {"id": "sizzle_bed", "stem": "FOLEY", "queries": ["burger sizzle grill close", "meat sizzling pan close mic", "sizzle frying"],
+   "dur": [6, 120], "placements": [
+     {"t": 0.0, "length": 3.7, "gain_db": -6, "fade_in": 0.02, "fade_out": 0.5, "loop": true, "align": "start"},
+     {"t": 15.7, "length": 1.5, "gain_db": -9, "fade_in": 0.15, "fade_out": 0.3, "loop": true, "align": "start"},
+     {"t": 24.05, "length": 0.95, "gain_db": -6, "fade_in": 0.6, "fade_out": 0.0, "loop": true, "align": "start", "note": "loop: joins the start of the Reel"}]},
+  {"id": "fire_bed", "stem": "AMBIENTE", "queries": ["fire crackling close", "bbq grill flames", "gas flame burning"],
+   "dur": [5, 120], "placements": [
+     {"t": 0.0, "length": 3.6, "gain_db": -16, "fade_in": 0.05, "fade_out": 0.6, "loop": true, "align": "start"},
+     {"t": 15.6, "length": 1.4, "gain_db": -20, "fade_in": 0.2, "fade_out": 0.3, "loop": true, "align": "start"}]},
+  {"id": "meat_drop_air", "stem": "FOLEY", "queries": ["meat drop whoosh", "object fall whoosh short"],
+   "dur": [0.3, 3], "placements": [{"t": 0.45, "length": 0.55, "gain_db": -18, "fade_out": 0.08, "align": "start"}]},
+  {"id": "meat_impact", "stem": "FOLEY", "queries": ["meat slap", "steak drop on grill", "raw meat hit board", "meat impact"],
+   "dur": [0.2, 4], "placements": [{"t": 1.0, "length": 1.2, "gain_db": -2, "fade_out": 0.3, "align": "onset"}]},
+  {"id": "oil_pops", "stem": "FOLEY", "queries": ["oil splatter frying pops", "grease pop sizzle", "frying oil crackle"],
+   "dur": [1, 30], "placements": [{"t": 1.02, "length": 1.6, "gain_db": -8, "fade_out": 0.5, "align": "start"}]},
+  {"id": "flame_burst", "stem": "FOLEY", "queries": ["flame burst whoosh", "fire whoosh ignite", "grill flare up"],
+   "dur": [0.4, 4], "placements": [{"t": 0.98, "length": 1.1, "gain_db": -11, "fade_out": 0.4, "align": "onset"}]},
+  {"id": "steam", "stem": "FOLEY", "queries": ["steam hiss soft", "steam release short", "kettle steam hiss"],
+   "dur": [1, 20], "placements": [
+     {"t": 1.85, "length": 1.6, "gain_db": -15, "fade_in": 0.3, "fade_out": 0.5, "align": "start"},
+     {"t": 15.9, "length": 1.0, "gain_db": -20, "fade_in": 0.2, "fade_out": 0.4, "align": "start"}]},
+  {"id": "bread_squeeze", "stem": "FOLEY", "queries": ["bread squeeze", "bread tear soft", "bun squish"],
+   "dur": [0.3, 5], "placements": [{"t": 3.43, "length": 0.8, "gain_db": -9, "fade_out": 0.25, "align": "onset", "note": "T1: entering the crust"}]},
+  {"id": "cheese_stretch", "stem": "FOLEY", "queries": ["cheese stretch pull", "sticky pull gooey", "slime stretch"],
+   "dur": [0.5, 8], "placements": [
+     {"t": 7.55, "length": 1.4, "gain_db": -13, "fade_in": 0.05, "fade_out": 0.4, "align": "start", "note": "T2 → cheese world"},
+     {"t": 9.2, "length": 1.0, "gain_db": -16, "fade_out": 0.3, "align": "start"}]},
+  {"id": "metal_impact", "stem": "SFX", "queries": ["metal clank heavy short", "gear lock metal impact", "steel hit"],
+   "dur": [0.2, 4], "placements": [{"t": 10.74, "length": 1.2, "gain_db": -6, "fade_out": 0.5, "align": "onset", "note": "T3: gear locks"}]},
+  {"id": "ratchet", "stem": "SFX", "queries": ["ratchet mechanism", "gear clicks mechanical", "clockwork ticking fast"],
+   "dur": [0.4, 10], "placements": [{"t": 11.4, "length": 0.9, "gain_db": -16, "fade_in": 0.05, "fade_out": 0.3, "align": "start"}]},
+  {"id": "leaves", "stem": "FOLEY", "queries": ["leaves rustle close", "lettuce rustle", "foliage movement close"],
+   "dur": [0.5, 20], "placements": [{"t": 13.5, "length": 1.2, "gain_db": -12, "fade_in": 0.1, "fade_out": 0.4, "align": "start", "note": "T4: into the lettuce"}]},
+  {"id": "pencil", "stem": "FOLEY", "queries": ["pencil drawing on paper close", "pencil sketch paper", "pencil scribble"],
+   "dur": [1, 30], "placements": [{"t": 13.9, "length": 1.7, "gain_db": -17, "fade_in": 0.1, "fade_out": 0.4, "align": "start"}]},
+  {"id": "bite_crunch", "stem": "FOLEY", "queries": ["bread crunch bite", "toast bite crunch close", "crispy bite crunch", "biting crusty bread"],
+   "dur": [0.2, 6], "placements": [{"t": 17.115, "length": 0.9, "gain_db": 0, "fade_out": 0.25, "align": "onset", "note": "THE BITE — no chewing after it"}]},
+  {"id": "crumbs_plate", "stem": "FOLEY", "queries": ["crumbs falling plate", "small crumbs ceramic", "sugar grains falling plate"],
+   "dur": [0.1, 6], "placements": [
+     {"t": 18.69, "length": 0.5, "gain_db": -20, "fade_out": 0.2, "align": "onset"},
+     {"t": 19.51, "length": 0.5, "gain_db": -16, "fade_out": 0.2, "align": "onset", "note": "the crumb that falls in frame"}]},
+  {"id": "room_tone", "stem": "AMBIENTE", "queries": ["room tone quiet kitchen", "quiet room tone", "silent room ambience"],
+   "dur": [3, 120], "placements": [{"t": 18.5, "length": 1.35, "gain_db": -26, "fade_in": 0.05, "fade_out": 0.3, "loop": true, "align": "start"}]}
+ ]
+}
