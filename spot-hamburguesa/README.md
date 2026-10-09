@@ -33,3 +33,16 @@ Editar el montaje = editar `project/edit_decisions.json` (tiempos, velocidades, 
 Fotogramas sueltos para revisar un cambio: `python3 project/tools/engine.py --fps 30 --stills 3.5,6.0`.
 
 Informe de calidad y limitaciones: [`qa/INFORME_QA.md`](qa/INFORME_QA.md).
+
+## Sonido vigente: V4 (música externa seleccionada por el cliente)
+
+| Ruta | Contenido |
+|---|---|
+| `audio/v4/mix_v4.py` | Edición de «Luxury in Motion» a la imagen V2, foley, automatizaciones, firma y máster |
+| `audio/v4/foley_v4.py` | Foley original del cliente, una pista por efecto |
+| `audio/v4/EDL_MUSICA_V4.md` | Cortes de la música: fuente in/out → máster in/out |
+| `audio/v4/LICENCIA_MUSICA.md` | Procedencia (Suno) y comprobaciones de licencia pendientes |
+| `renders/V4_preview/` | Preview de validación 720×1280 |
+| `audio/_rechazado/` | Código de la música generada por código (V1, V2 A/B, V3 C), rechazada |
+
+La música original y las pistas aisladas no están en el repositorio público (licencias de terceros pendientes).
