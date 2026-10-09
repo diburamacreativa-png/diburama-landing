@@ -130,66 +130,12 @@ def chroma_aberration(img, k):
     return out
 
 
-def zoom_blur(img, cx, cy, amount, n=None):
-    """radial (zoom) motion blur about (cx, cy) px: average of scalings 1 … 1+amount, computed at half res;
-    the centre stays sharp, as with a real push-in"""
-    if amount < 0.01: return img
-    W, H = CTX["W"], CTX["H"]; h2, w2 = H // 2, W // 2
-    small = cv2.resize(img, (w2, h2), interpolation=cv2.INTER_AREA)
-    n = n or int(np.clip(amount * 70, 3, 18)); acc = np.zeros_like(small)
-    for k in range(n):
-        f = 1 + amount * k / (n - 1)
-        M = np.float32([[f, 0, (1 - f) * cx / 2], [0, f, (1 - f) * cy / 2]])
-        acc += cv2.warpAffine(small, M, (w2, h2), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
-    bl = cv2.resize(acc / n, (W, H), interpolation=cv2.INTER_LINEAR)
-    d = radial(cx, cy, 0.5 * math.hypot(W, H))[..., None]
-    w = np.clip(d * 2.2, 0, 1)
-    return img * (1 - w) + bl * w
-
-def bulge(img, cx, cy, k):
-    """lens deformation about (cx, cy): k > 0 magnifies the centre and compresses the edges (rush-in warp)"""
-    if abs(k) < 1e-3: return img
-    W, H = CTX["W"], CTX["H"]; xx, yy = _grid()
-    R = 0.5 * math.hypot(W, H); dx, dy = (xx - cx) / R, (yy - cy) / R
-    r2 = dx * dx + dy * dy
-    f = 1 - k * np.exp(-r2 / 0.35)
-    return cv2.remap(img, (cx + dx * f * R).astype(np.float32), (cy + dy * f * R).astype(np.float32),
-                     cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
-
-def twirl(img, cx, cy, ang, radius, blur_ang=0.0, n=1):
-    """vortex: rotation that falls off with radius; optional angular motion blur (n samples over blur_ang)"""
-    xx, yy = _grid()
-    dx, dy = xx - cx, yy - cy; d = np.sqrt(dx * dx + dy * dy)
-    fall = np.clip(1 - d / radius, 0, 1) ** 2
-    acc = np.zeros_like(img)
-    for k in range(n):
-        a = (ang + (blur_ang * (k / (n - 1) - 0.5) if n > 1 else 0.0)) * fall
-        c, s_ = np.cos(a), np.sin(a)
-        mx = (cx + dx * c - dy * s_).astype(np.float32); my = (cy + dx * s_ + dy * c).astype(np.float32)
-        acc += cv2.remap(img, mx, my, cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
-    return acc / n
-
-def own_light(img, thr=0.55, sigma=(6, 22, 60)):
-    """bloom built from the frame's own highlights: the light carries the colours of the scene"""
-    W, H = CTX["W"], CTX["H"]
-    hi = np.clip(img - thr, 0, None)
-    small = cv2.resize(hi, (W // 4, H // 4), interpolation=cv2.INTER_AREA)
-    b = sum(cv2.GaussianBlur(small, (0, 0), s_) * w for s_, w in zip(sigma, (0.5, 0.35, 0.3)))
-    return cv2.resize(b, (W, H), interpolation=cv2.INTER_LINEAR)
-
-
 # ------------------------------------------------------------------ cameras
-# ---- T1  (r2: faster accelerating push, swap at peak velocity under zoom blur + lens warp)
-T1 = dict(T0=2.9, TH=3.45, S3=6.5, C=(0.778, 0.252), SW=(3.40, 3.48), WIN=(3.0, 3.85), P=2.6)
+# ---- T1
+T1 = dict(T0=2.45, TH=3.55, S3=6.5, C=(0.778, 0.252), WIN=(3.15, 3.95))
 def L1(t):
     x = (t - T1["T0"]) / (T1["TH"] - T1["T0"])
-    return math.log(T1["S3"]) * min(max(x, 0.0), 1.0) ** T1["P"]
-def vel1(t):
-    """log-zoom velocity (1/s) of the travelling, continued after the swap with an exponential decay"""
-    D = T1["TH"] - T1["T0"]; vh = T1["P"] * math.log(T1["S3"]) / D
-    if t <= T1["TH"]:
-        x = min(max((t - T1["T0"]) / D, 0.0), 1.0); return vh * x ** (T1["P"] - 1)
-    return vh * math.exp(-(t - T1["TH"]) / 0.07)
+    return math.log(T1["S3"]) * min(max(x, 0.0), 1.0) ** 2
 def cam_2A(t):
     L = L1(t); s = math.exp(L); u = L / math.log(T1["S3"])
     ax, ay = T1["C"]
@@ -200,12 +146,12 @@ def cam_3A(t):
     if t <= TH:
         c2 = cam_2A(t)
         return dict(s=math.exp(L1(t)) / S3, ax=0.5, ay=0.5, bx=c2["bx"], by=c2["by"])
-    vh = vel1(TH); tau = 0.07
-    extra = min(vh * tau, math.log(1.45)) * (1 - math.exp(-(t - TH) / tau))
-    extra *= 1 - smooth((t - 4.1) / 1.6)                      # slow hand-over to 3A's own push
+    vh = 2 * math.log(S3) / (TH - T1["T0"]); tau = 0.09
+    extra = vh * tau * (1 - math.exp(-(t - TH) / tau))
+    extra *= 1 - smooth((t - 4.3) / 1.2)                      # hand the velocity over to 3A's own push
     sd = math.exp(extra)
     sp, apx, apy = CTX["kf_interp"]([[3.417, 1.0, 0.5, 0.5], [5.7, 1.0, 0.62, 0.38], [6.083, 1.28, 0.62, 0.38]], t, (1, 2, 3))
-    bx, by = apx + sp * (0.5 - apx), apy + sp * (0.5 - apy)
+    bx, by = apx + sp * (0.5 - apx), apy + sp * (0.5 - apy)   # compose centred digital push with V1's end push
     return dict(s=sd * sp, ax=0.5, ay=0.5, bx=bx, by=by)
 
 # ---- T2
@@ -229,48 +175,45 @@ def flare_state(t):
     c = cam_4A(T2["SW1"]); k = smooth((t - T2["PEAK"]) / (T2["END"] - T2["PEAK"]))
     return I, (lerp(c["bx"], T2["LIGHT5A"][0], k), lerp(c["by"], T2["LIGHT5A"][1], k))
 
-# ---- T3  (r2: vortex + light built from the scene's own colours; swap at peak spin)
-T3 = dict(A0=10.38, SW=10.66, B1=10.95, G=(0.51, 0.43), PEAK=math.radians(230), IMPACT=10.74, WIN=(10.38, 10.95))
+# ---- T3
+T3 = dict(A0=10.2, A1=10.98, G=(0.51, 0.43), B0=10.6, B1=11.05, BL0=10.62, BL1=10.95, IMPACT=10.84, WIN=(10.2, 11.05))
+def loop_at(t):
+    return tracked("plano 6A", "S07", t, 76, (0.49, 0.35), 60, 98)
 def cam_6A(t):
-    s = 1 + 0.22 * ease_in((t - T3["A0"]) / (T3["SW"] - T3["A0"]), 2.0)
-    gx, gy = T3["G"]
-    return dict(s=s, ax=gx, ay=gy, bx=gx, by=gy)
+    p = (t - T3["A0"]) / (T3["A1"] - T3["A0"])
+    cx, cy = loop_at(t); e = ease_in(p, 2.0)
+    bx, by = lerp(cx, T3["G"][0], smooth(p)), lerp(cy, T3["G"][1], smooth(p))
+    return dict(s=1 + 0.3 * e, sx=1 + 0.35 * e, rot=40 * ease_in(p, 1.6), ax=cx, ay=cy, bx=bx, by=by)
 def cam_6B(t):
-    s_, ax, ay, bx, by = CTX["kf_interp"]([[10.625, 1.0, 0.5, 0.5, 0.5, 0.5], [11.85, 1.0, 0.5, 0.5, 0.5, 0.5], [12.313, 1.3, 0.42, 0.45, 0.42, 0.45]], t, (1, 2, 3, 4, 5))
-    dx = dy = 0.0
+    if t >= T3["B1"]:
+        s_, ax, ay, bx, by = CTX["kf_interp"]([[10.625, 1.0, 0.5, 0.5, 0.5, 0.5], [11.85, 1.0, 0.5, 0.5, 0.5, 0.5], [12.313, 1.3, 0.42, 0.45, 0.42, 0.45]], t, (1, 2, 3, 4, 5))
+        return dict(s=s_, ax=ax, ay=ay, bx=bx, by=by)
+    q = ease_out((t - T3["B0"]) / (T3["B1"] - T3["B0"]), 2.0)
+    gx, gy = T3["G"]
+    sh = 0.0
     if t >= T3["IMPACT"]:
-        u = t - T3["IMPACT"]; e = 9 * math.exp(-u / 0.045)
-        dx, dy = e * math.sin(u * 2 * math.pi * 29), e * math.sin(u * 2 * math.pi * 21 + 1.1)
-    return dict(s=s_, ax=ax, ay=ay, bx=bx, by=by, dx=dx, dy=dy)
-def spin(t):
-    """vortex angle (rad, same sense throughout): winds up on 6A, unwinds on 6B"""
-    if t < T3["SW"]:
-        return T3["PEAK"] * ease_in((t - T3["A0"]) / (T3["SW"] - T3["A0"]), 2.6)
-    return -T3["PEAK"] * (1 - ease_out((t - T3["SW"]) / (T3["B1"] - T3["SW"]), 2.2))
-def spin_vel(t, h=1 / 120):
-    if abs(t - T3["SW"]) > 2 * h:
-        return (spin(t + h) - spin(t - h)) / (2 * h)
-    return (spin(T3["SW"] - h) - spin(T3["SW"] - 2 * h)) / h
+        u = t - T3["IMPACT"]; sh = 7 * math.exp(-u / 0.05)
+    return dict(s=lerp(1.18, 1.0, q), sx=lerp(1.15, 1.0, q), rot=lerp(-24, 0, q), ax=gx, ay=gy, bx=gx, by=gy,
+                dx=sh * math.sin(u * 2 * math.pi * 31) if sh else 0.0, dy=sh * math.sin(u * 2 * math.pi * 23 + 1) if sh else 0.0)
 
-# ---- T4  (r2: push into the lettuce visible at the back of 7A; swap inside it at peak speed)
-T4 = dict(D0=13.12, SW=13.62, SMAX=3.6, P=2.4, WIN=(13.2, 14.05))
-def lettuce_at(t):
-    return tracked("plano 7A", "S09", t, 44, (0.66, 0.42), 20, 70)
+# ---- T4
+# bearing of 7A (unique frames 37–44): centre ≈ (0.065, 0.789) of the source, inner race radius ≈ 0.13 × width
+T4 = dict(D0=13.15, D1=13.92, SMAX=4.2, C=(0.065, 0.789), R=0.13, O0=13.42, WIN=(13.25, 14.35))
 def L4(t):
-    x = (t - T4["D0"]) / (T4["SW"] - T4["D0"])
-    return math.log(T4["SMAX"]) * min(max(x, 0.0), 1.0) ** T4["P"]
-def vel4(t):
-    D = T4["SW"] - T4["D0"]; vh = T4["P"] * math.log(T4["SMAX"]) / D
-    if t <= T4["SW"]:
-        x = min(max((t - T4["D0"]) / D, 0.0), 1.0); return vh * x ** (T4["P"] - 1)
-    return vh * math.exp(-(t - T4["SW"]) / 0.09)
+    x = (t - T4["D0"]) / (T4["D1"] - T4["D0"])
+    return math.log(T4["SMAX"]) * min(max(x, 0.0), 1.0) ** 2.0
 def cam_7A(t):
     L = L4(t); s = math.exp(L); u = L / math.log(T4["SMAX"])
-    ax, ay = lettuce_at(t)
-    bx, by = clamp_dest(s, ax, ay, lerp(ax, 0.5, smooth(min(u * 1.2, 1))), lerp(ay, 0.5, smooth(min(u * 1.2, 1))))
+    ax, ay = T4["C"]
+    bx, by = clamp_dest(s, ax, ay, lerp(ax, 0.5, u), lerp(ay, 0.52, u))
     return dict(s=s, ax=ax, ay=ay, bx=bx, by=by)
+def hole(t):
+    """hole centre (px), physical inner-race radius (px) and organic opening factor"""
+    c = cam_7A(min(t, T4["D1"])); W = CTX["W"]
+    o = ease_in((t - T4["O0"]) / (T4["D1"] - T4["O0"]), 2.2)
+    return c["bx"] * W, c["by"] * CTX["H"], T4["R"] * c["s"] * W, o
 def cam_8A(t):
-    # full frame; forward energy is carried by blur + warp, then by 8A's own drift
+    # full frame from the start of the opening (no mirrored borders); 8A's own forward drift gives depth
     return dict(s=1.0, ax=0.5, ay=0.5, bx=0.5, by=0.5)
 
 CAMS = dict(t1_2A=cam_2A, t1_3A=cam_3A, t2_4A=cam_4A, t3_6A=cam_6A, t3_6B=cam_6B, t4_7A=cam_7A, t4_8A=cam_8A)
@@ -356,25 +299,25 @@ def window(name, t, fps):
     return np.asarray(dict(T1=win_T1, T2=win_T2, T3=win_T3, T4=win_T4)[name](t, fps), dtype=np.float32)
 
 def win_T1(t, fps):
-    """single accelerating push into the crust; the cut happens inside 2 frames at peak velocity,
-    hidden by zoom blur and a lens rush-warp that both peak on the swap"""
-    SEG = CTX["SEG"]; W, H = CTX["W"], CTX["H"]
+    SEG = CTX["SEG"]; TH, S3 = T1["TH"], T1["S3"]
     g3 = color_gain_3A()
-    k = vel1(t) / vel1(T1["TH"])
-    a = smooth((t - T1["SW"][0]) / (T1["SW"][1] - T1["SW"][0]))
-    out = 0; cx = cy = None
-    if a < 1:
-        c = cam_2A(t); out = SEG["S03"].render(t, fps, max_n=24) * (1 - a)
-        cx, cy = c["bx"] * W, c["by"] * H
-    if a > 0:
-        c3 = cam_3A(t); img3 = SEG["S04"].render(t, fps, max_n=24)
-        gk = smooth((t - T1["TH"]) / 0.4)
-        out = out + img3 * (g3 * (1 - gk) + gk) * a
-        x3, y3 = c3["bx"] * W, c3["by"] * H
-        cx, cy = (x3, y3) if cx is None else (lerp(cx, x3, a), lerp(cy, y3, a))
-    out = zoom_blur(out, cx, cy, 0.22 * k ** 1.5)
-    out = bulge(out, cx, cy, 0.22 * k ** 2)
-    return out * (1 + 0.12 * k ** 3)
+    if t >= TH:
+        img3 = SEG["S04"].render(t, fps, max_n=24)
+        k = smooth((t - TH) / 0.4)
+        return img3 * (g3 * (1 - k) + k)
+    L = L1(t)
+    img2 = SEG["S03"].render(t, fps, max_n=24)
+    defocus = 7.0 * smooth((L - math.log(2.2)) / (math.log(S3) - math.log(2.2)))
+    img2 = blur(img2, defocus)
+    img3 = SEG["S04"].render(t, fps, max_n=24)            # reflect-padded; the mask below hides the padding
+    img3 = blur(img3, 4.5 * (1 - smooth((L - math.log(3.0)) / (math.log(S3) - math.log(3.0))))) * g3
+    W, H = CTX["W"], CTX["H"]; c3 = cam_3A(t); k = c3["s"]
+    xx, yy = _grid()
+    r = np.sqrt(((xx - c3["bx"] * W) / (0.5 * k * W)) ** 2 + ((yy - c3["by"] * H) / (0.5 * k * H)) ** 2)
+    m = 1 - np.clip((r - 0.35) / 0.6, 0, 1); m = m * m * (3 - 2 * m)
+    m = np.maximum(m, smooth((L - math.log(4.6)) / (math.log(S3) - math.log(4.6))))
+    m = (m * smooth((L - math.log(2.0)) / (math.log(3.4) - math.log(2.0))))[..., None]
+    return img2 * (1 - m) + img3 * m
 
 def _grid():
     if ("grid",) not in _CACHE:
@@ -396,29 +339,40 @@ def win_T2(t, fps):
     return flare(out, I, fx, fy)
 
 def win_T3(t, fps):
-    """cheese ribbons wind into a vortex that drags their own amber/magenta light into spiral streaks;
-    at peak spin the material changes; the gear world unwinds out of the same vortex and locks with an impact"""
     SEG = CTX["SEG"]; W, H = CTX["W"], CTX["H"]
-    gx, gy = T3["G"][0] * W, T3["G"][1] * H
-    ang = spin(t); w = abs(spin_vel(t)) / fps * 0.5
-    e = min(1.0, abs(ang) / T3["PEAK"])
-    a = smooth((t - (T3["SW"] - 0.035)) / 0.07)
-    radius = 0.95 * H; nb = int(np.clip(w * 30, 1, 12))
-    out = 0
-    if a < 1:
-        out = twirl(SEG["S07"].render(t, fps, max_n=16), gx, gy, ang, radius, w, nb) * (1 - a)
-    if a > 0:
-        out = out + twirl(SEG["S08"].render(t, fps, max_n=16), gx, gy, ang, radius, w, nb) * a
-    L = own_light(out, 0.5)
-    L = twirl(L, gx, gy, 0.0, radius, 0.9 * e + 0.1, n=10)
-    out = out + L * (2.0 * e ** 1.6)
-    core = np.exp(-(radial(gx, gy, 0.16 * W + 0.25 * W * e) ** 2))[..., None]
-    out = out + core * np.float32([1.0, 0.62, 0.30]) * 0.55 * e ** 2
-    out = chroma_aberration(out, 0.004 * e)
-    if T3["IMPACT"] - 0.01 <= t < T3["IMPACT"] + 0.18:
-        u = (t - T3["IMPACT"] + 0.01) / 0.19
-        g = np.exp(-(radial(gx + (u - 0.5) * 0.35 * W, gy - 0.1 * W, 0.045 * W) ** 2))
-        out = out + g[..., None] * np.float32([1.0, 0.95, 0.88]) * 0.7 * math.sin(math.pi * min(u, 1))
+    p = (t - T3["A0"]) / (T3["A1"] - T3["A0"])
+    pb = (t - T3["BL0"]) / (T3["BL1"] - T3["BL0"])
+    out = None
+    if t < T3["A1"]:
+        img6 = SEG["S07"].render(t, fps, max_n=24)
+        c = cam_6A(t); cx, cy = c["bx"] * W, c["by"] * H
+        spread = np.clip(1.25 - radial(cx, cy, 0.18 * W + 0.75 * W * smooth(p / 0.85)), 0, 1)[..., None]
+        kg = smooth(p / 0.38) * (1 - smooth((p - 0.45) / 0.3))
+        km = smooth((p - 0.3) / 0.35)
+        sw_pos = (t - 10.62) / 0.26
+        xx, yy = _grid()
+        diag = (xx / W * 0.8 + yy / H * 0.45) - (-0.2 + 1.6 * sw_pos)
+        sweep = np.exp(-(diag / 0.06) ** 2) * (0 < sw_pos < 1.2)
+        m = glassy(img6, kg)
+        m = chrome(m, km, sweep.astype(np.float32))
+        out = img6 * (1 - spread) + m * spread
+    if t >= T3["B0"]:
+        img6b = SEG["S08"].render(t, fps, max_n=24)
+        if out is None or pb >= 1:
+            out = img6b
+        else:
+            y = cv2.GaussianBlur(cv2.resize(img6b @ CTX["LUMA"], (W // 4, H // 4)), (0, 0), 2)
+            y = cv2.resize((y - y.min()) / (np.ptp(y) + 1e-6), (W, H))
+            thr = 1.1 - 1.45 * smooth(pb)
+            a = np.clip((y - thr) / 0.45, 0, 1)
+            a = np.maximum(a, smooth((pb - 0.55) / 0.45))[..., None]
+            out = out * (1 - a) + img6b * a
+        # specular glint on the gear as it locks in
+        if T3["IMPACT"] - 0.02 <= t < T3["IMPACT"] + 0.2:
+            u = (t - T3["IMPACT"] + 0.02) / 0.22
+            c = cam_6B(t)
+            g = np.exp(-(radial(c["bx"] * W + (u - 0.5) * 0.4 * W, c["by"] * H - 0.12 * W, 0.05 * W) ** 2))
+            out = out + g[..., None] * np.float32([1.0, 0.97, 0.92]) * 0.8 * math.sin(math.pi * min(u, 1))
     return out
 
 def veins(cx, cy, r0, grow, seed=5):
@@ -436,21 +390,34 @@ def veins(cx, cy, r0, grow, seed=5):
     return np.clip(prim + sec * (1 - prim), 0, 1) * front * fade
 
 def win_T4(t, fps):
-    """accelerating push into the lettuce at the back of 7A; organic melt + rush-warp grow with speed;
-    at peak the illustration takes over inside the same green, then the blur releases"""
     SEG = CTX["SEG"]; W, H = CTX["W"], CTX["H"]
-    k = vel4(t) / vel4(T4["SW"])
-    a = smooth((t - (T4["SW"] - 0.05)) / 0.09)
-    cx, cy = W * 0.5, H * 0.5
-    out = 0
-    if a < 1:
-        c = cam_7A(t); cx, cy = c["bx"] * W, c["by"] * H
-        img = displace(SEG["S09"].render(t, fps, max_n=24), noise_field(31, 3), 22 * k ** 2)
-        out = img * (1 - a)
-    if a > 0:
-        img8 = displace(SEG["S10"].render(t, fps, max_n=24), noise_field(31, 3), 22 * k ** 2)
-        out = out + img8 * a
-        cx, cy = lerp(cx, 0.5 * W, a), lerp(cy, 0.5 * H, a)
-    out = zoom_blur(out, cx, cy, 0.22 * k ** 1.4)
-    out = bulge(out, cx, cy, 0.26 * k ** 2)
-    return out + own_light(out, 0.6) * (0.6 * k ** 2)
+    hx, hy, r, o = hole(t)
+    img8 = SEG["S10"].render(t, fps, max_n=24)
+    q8 = smooth((t - T4["O0"]) / 0.35)
+    img8 = blur(img8, 6.0 * (1 - q8))                                        # world beyond: defocused, then sharp
+    if t >= T4["D1"]:
+        k = smooth((t - T4["D1"]) / (T4["WIN"][1] - T4["D1"]))
+        e8 = edges(img8, 1.2)
+        return img8 + e8[..., None] * np.float32([0.62, 0.95, 0.35]) * 0.55 * (1 - k) ** 1.6
+    img7 = SEG["S09"].render(t, fps, max_n=24)
+    p = smooth((t - 13.3) / (T4["D1"] - 13.3))
+    xx, yy = _grid(); d = np.sqrt((xx - hx) ** 2 + (yy - hy) ** 2)
+    th = np.arctan2(yy - hy, xx - hx)
+    # organic opening: the inner race softens and dilates with an irregular, living edge
+    edge_r = r * (0.92 + 2.4 * o) * (1 + 0.07 * o * np.sin(5 * th + 7 * t) + 0.05 * o * noise_field(21, 4)[..., 0])
+    zone = np.clip(1 - (d - edge_r) / (1.3 * r + 0.25 * W), 0, 1)               # metal near the opening
+    img7 = displace(img7, noise_field(11, 3), 10 * p) * zone[..., None] + img7 * (1 - zone[..., None])
+    # metal → organic: around the opening the bronze takes chlorophyll, its machined lines glow as veins
+    y = img7 @ CTX["LUMA"]
+    leaf = leaf_colorize(cv2.GaussianBlur(y, (0, 0), 1.5) * 1.05)
+    km = (zone * smooth((p - 0.15) / 0.6))[..., None] * 0.85
+    base = img7 * (1 - km) + leaf * km
+    e7 = edges(img7, 1.4)
+    v = veins(hx, hy, edge_r.mean(), (0.15 + 1.1 * smooth((p - 0.2) / 0.7)) * W)
+    lines = np.maximum(0.25 * e7 * zone * smooth((p - 0.1) / 0.4), 0.9 * v * smooth((p - 0.25) / 0.5))
+    base = base * (1 - 0.35 * lines[..., None]) + lines[..., None] * np.float32([0.66, 0.95, 0.32]) * 0.9
+    # backlit membrane rim + the illustrated world seen through the opening
+    a = np.clip((edge_r - d) / (0.05 * r + 3), 0, 1)
+    rim = np.exp(-((d - edge_r) / (0.03 * r + 4)) ** 2) * smooth(o / 0.3)
+    comp = base * (1 - a[..., None]) + img8 * a[..., None]
+    return comp + rim[..., None] * np.float32([0.85, 1.0, 0.45]) * 0.6

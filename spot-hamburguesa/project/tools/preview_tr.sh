@@ -4,9 +4,9 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 W=renders/work; OUT=renders/V2_FASE_A; mkdir -p $W $OUT
 FONT=/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf
-declare -A WIN=( [T1]="2.2 4.6" [T2]="6.6 8.4" [T3]="9.8 11.6" [T4]="12.9 14.8" )
+declare -A WIN=( [T1]="2.3 4.5" [T2]="6.6 8.4" [T3]="9.9 11.5" [T4]="12.7 14.6" )
 declare -A NAME=( [T1]="T1_HAMBURGUESA_A_CORTEZA" [T2]="T2_RODAJE_A_QUESO" [T3]="T3_QUESO_A_MECANISMO" [T4]="T4_METAL_A_ILUSTRACION" )
-for T in T1 T2 T3 T4; do
+for T in ${ONLY:-T1 T2 T3 T4}; do
   read A B <<< "${WIN[$T]}"
   python3 project/tools/engine.py --fps 30 --start $A --end $B --workers 4 --out $W/prev_$T.mkv
   LBL="drawtext=fontfile=$FONT:fontsize=26:fontcolor=white@0.9:box=1:boxcolor=black@0.5:boxborderw=8:x=24:y=24"

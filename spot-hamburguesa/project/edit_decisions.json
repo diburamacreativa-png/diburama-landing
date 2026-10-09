@@ -91,7 +91,7 @@
    "clip": "plano 2A",
    "role": "Hamburguesa hero",
    "in": 2.0,
-   "out": 3.55,
+   "out": 3.48,
    "speed": [
     [
      2.0,
@@ -102,7 +102,7 @@
      2.95
     ]
    ],
-   "notes": "V2 · T1: travelling único. Zoom en espacio logarítmico con aceleración progresiva hacia el punto de la corteza (0.778, 0.252) que corresponde al macro de 3A (×6.5).",
+   "notes": "V2 r2 · T1: travelling único acelerado (0,55 s, potencia 2,6) hacia el punto de la corteza que corresponde al macro de 3A; corte en 2 frames en el pico de velocidad.",
    "grade": {
     "ev": -0.02,
     "sat": 0.92
@@ -113,19 +113,19 @@
    "id": "S04",
    "clip": "plano 3A",
    "role": "Macro pan → túnel",
-   "in": 3.15,
+   "in": 3.4,
    "out": 6.083,
    "speed": [
     [
-     3.3,
+     3.4,
      0.0
     ],
     [
-     3.55,
-     0.12
+     3.6,
+     0.15
     ],
     [
-     3.86,
+     3.9,
      1.25
     ],
     [
@@ -141,7 +141,7 @@
      4.96
     ]
    ],
-   "notes": "V2 · T1: 3A entra a escala coincidente dentro del pan, enfoca, y su propio avance recoge la velocidad del travelling.",
+   "notes": "V2 r2 · T1: 3A entra a escala coincidente con la velocidad heredada; desenfoque radial y warp de lente se liberan.",
    "grade": {
     "ev": -0.22,
     "sat": 0.88
@@ -202,7 +202,7 @@
    "clip": "plano 6A",
    "role": "Queso → cintas motion",
    "in": 9.167,
-   "out": 10.95,
+   "out": 10.7,
    "speed": [
     [
      9.167,
@@ -213,8 +213,8 @@
      3.05
     ],
     [
-     10.95,
-     3.75
+     10.7,
+     3.6
     ]
    ],
    "grade": {
@@ -222,22 +222,22 @@
     "sat": 0.9
    },
    "cam": "t3_6A",
-   "notes": "V2 · T3: un aro de queso (seguido por LK) gira hacia cámara mientras la cámara rota; queso → translúcido → cromo."
+   "notes": "V2 r2 · T3: vórtice que arrastra la propia luz de la escena (ámbar del queso, magenta de las cintas)."
   },
   {
    "id": "S08",
    "clip": "plano 6B",
    "role": "Piezas mecánicas 3D",
-   "in": 10.6,
+   "in": 10.62,
    "out": 12.313,
    "speed": [
     [
-     10.6,
+     10.62,
      0.0
     ],
     [
      10.95,
-     1.05
+     1.0
     ],
     [
      12.313,
@@ -248,7 +248,7 @@
     "ev": 0.02,
     "sat": 0.92
    },
-   "notes": "V2 · T3: el engranaje continúa el giro; el mecanismo se ensambla (rampa 3x), impacto + microshake de 3 frames.",
+   "notes": "V2 r2 · T3: el mecanismo sale del mismo vórtice girando en el mismo sentido y se bloquea con impacto + microshake.",
    "cam": "t3_6B"
   },
   {
@@ -256,7 +256,7 @@
    "clip": "plano 7A",
    "role": "Viaje mecánico → orgánico",
    "in": 12.188,
-   "out": 13.92,
+   "out": 13.7,
    "speed": [
     [
      12.188,
@@ -267,8 +267,8 @@
      1.5
     ],
     [
-     13.8,
-     1.85
+     13.7,
+     1.95
     ]
    ],
    "grade": {
@@ -276,13 +276,13 @@
     "sat": 0.9
    },
    "cam": "t4_7A",
-   "notes": "V2 · T4: inmersión acelerada por el hueco del rodamiento (seguido por LK)."
+   "notes": "V2 r2 · T4: empuje acelerado hacia la lechuga del fondo de 7A (seguida por LK); el metal se funde con la velocidad."
   },
   {
    "id": "S10",
    "clip": "plano 8A",
    "role": "Mundo ilustrado → hamburguesa",
-   "in": 13.25,
+   "in": 13.55,
    "out": 15.833,
    "speed": [
     [
@@ -299,7 +299,7 @@
     "sat": 0.86
    },
    "cam": "t4_8A",
-   "notes": "V2 · T4: el mundo ilustrado se ve a través del aro; misma rampa de velocidad que V1 (imagen ≥15 s bloqueada)."
+   "notes": "V2 r2 · T4: la ilustración aparece dentro del mismo verde en el pico de velocidad; blur y warp se liberan."
   },
   {
    "id": "S11",
@@ -447,8 +447,8 @@
    "to": "S04",
    "type": "custom",
    "name": "T1",
-   "t0": 3.15,
-   "t1": 3.95
+   "t0": 3.0,
+   "t1": 3.85
   },
   {
    "from": "S04",
@@ -477,8 +477,8 @@
    "to": "S08",
    "type": "custom",
    "name": "T3",
-   "t0": 10.2,
-   "t1": 11.05
+   "t0": 10.38,
+   "t1": 10.95
   },
   {
    "from": "S08",
@@ -492,8 +492,8 @@
    "to": "S10",
    "type": "custom",
    "name": "T4",
-   "t0": 13.25,
-   "t1": 14.35
+   "t0": 13.2,
+   "t1": 14.05
   },
   {
    "from": "S10",
