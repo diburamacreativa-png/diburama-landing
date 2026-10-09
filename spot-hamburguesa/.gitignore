@@ -17,3 +17,5 @@ audio/v4/out/stems/FOLEY.wav
 audio/v4/out/stems/SFX.wav
 audio/v4/out/stems/AMBIENTES.wav
 audio/v4/out/stems/MUSICA.wav
+audio/v5/out_*/tracks/
+audio/v5/out_*/stems/
