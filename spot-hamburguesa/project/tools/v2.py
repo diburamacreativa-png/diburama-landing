@@ -543,3 +543,81 @@ def window(name, t, fps):
     if name in _WINDOWS_EXTRA:
         return np.asarray(_WINDOWS_EXTRA[name](t, fps), dtype=np.float32)
     return _window_orig(name, t, fps)
+
+
+# ------------------------------------------------------------------ T1.5 r3  (subject-locked: the central walker is the anchor)
+# The walker is tracked in both clips (project/walker_track.json: head, torso centre, feet per unique frame).
+# Each clip's camera is anchored on ITS walker's torso and scaled by ITS walker's height, so on screen there is one
+# walker whose position P(t) and height Hs(t) are continuous. P/Hs go from the 3A walker as framed by the approved
+# camera (identity at P0) to the 4A walker as framed by the approved camera (identity at P1), following the same
+# speed curve F(t). Walk phase: 3A frames 114-119 (legs together) meet 4A frames 0-4 (closest phase in 4A).
+import json as _json
+_WT = None
+def _walker():
+    global _WT
+    if _WT is None:
+        import os
+        d = _json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "walker_track.json")))
+        def fit(tr, lo, hi, deg):
+            ks = sorted(int(k) for k in tr if lo <= int(k) <= hi)
+            u = np.array(ks, float)
+            return {q: np.polyfit(u, [tr[str(k)][q] for k in ks], deg) for q in ("x", "torso_y", "height")}
+        _WT = {"3A": fit(d["3A"], 103, 119, 1), "4A": fit(d["4A"], 0, 26, 2)}
+    return _WT
+def walker_at(clip, seg_id, t):
+    src = CTX["source"]({"3A": "plano 3A", "4A": "plano 4A"}[clip]); seg = CTX["SEG"][seg_id]
+    u = src.pos(float(seg.remap(t)))
+    f = _walker()[clip]
+    return float(np.polyval(f["x"], u)), float(np.polyval(f["torso_y"], u)), float(np.polyval(f["height"], u))
+
+def screen_walker(t):
+    """on-screen torso position and height of THE walker (continuous across the cut)"""
+    F = F15(t)
+    x0, y0, h0 = walker_at("3A", "S04", T15["P0"])          # identity framing at P0
+    x1, y1, h1 = walker_at("4A", "S05", T15["P1"])          # identity framing at P1
+    return lerp(x0, x1, F), lerp(y0, y1, F), h0 * (h1 / h0) ** F
+
+def cam_3A_r3(t):
+    if t <= T15["P0"]:
+        return cam_3A(t)
+    px, py, hs = screen_walker(t); wx, wy, wh = walker_at("3A", "S04", t)
+    return dict(s=hs / wh, ax=wx, ay=wy, bx=px, by=py)
+def cam_4A_r3(t):
+    if t >= T15["P1"]:
+        return cam_4A(t)
+    px, py, hs = screen_walker(t); wx, wy, wh = walker_at("4A", "S05", t)
+    return dict(s=hs / wh, ax=wx, ay=wy, bx=px, by=py)
+CAMS["t15_3A"] = cam_3A_r3
+CAMS["t15_4A"] = cam_4A_r3
+
+R3 = dict(BLUR=True, M0=5.84, M1=5.97, F0=6.08, F1=6.20)
+def mouth_screen(t):
+    """3A tunnel-mouth ellipse on screen (centre, radii) under the r3 3A camera"""
+    c = cam_3A_r3(t); W, H = CTX["W"], CTX["H"]
+    # window = tunnel mouth + the floor the walker stands on (3A source coords: centre (0.60, 0.45), radii 0.30 W × 0.20 H)
+    mx = c["bx"] + c["s"] * (0.60 - c["ax"]); my = c["by"] + c["s"] * (0.45 - c["ay"])
+    return mx * W, my * H, 0.30 * c["s"] * W, 0.20 * c["s"] * H
+
+def win_T15_r3(t, fps):
+    SEG = CTX["SEG"]; W, H = CTX["W"], CTX["H"]
+    a_in = smooth((t - R3["M0"]) / (R3["M1"] - R3["M0"]))
+    a_full = smooth((t - R3["F0"]) / (R3["F1"] - R3["F0"]))
+    img3 = SEG["S04"].render(t, fps, max_n=24) if a_full < 1 else None
+    img4 = SEG["S05"].render(t, fps, max_n=24) if a_in > 0 else None
+    if img4 is None: out = img3
+    elif img3 is None: out = img4
+    else:
+        cx, cy, rx, ry = mouth_screen(t); xx, yy = _grid()
+        e = np.sqrt(((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2)
+        mouth = 1 - np.clip((e - 0.55) / 0.6, 0, 1); mouth = mouth * mouth * (3 - 2 * mouth)
+        m = np.maximum(mouth * a_in, a_full)[..., None]
+        out = img3 * (1 - m) + img4 * m
+    if R3["BLUR"]:
+        px, py, _ = screen_walker(t)
+        out = radial_streak(out, px * W, py * H, 0.42 * blur15(t))
+        v = max(0.0, vel15(t)); L = own_light(out, 0.6)
+        cx, cy, rx, ry = mouth_screen(t)
+        wloc = np.exp(-(radial(cx, cy - 0.5 * ry, 1.1 * rx) ** 2))[..., None]
+        out = out + L * wloc * (1.3 * v ** 3)
+    return out
+_WINDOWS_EXTRA["T15"] = win_T15_r3
