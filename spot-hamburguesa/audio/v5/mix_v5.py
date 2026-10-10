@@ -57,7 +57,7 @@ def music(b, test):
     c = c * M.autom(c.shape[1], [(0, -5), (CLOSE_SRC[1] - CLOSE_SRC[0], -5), (CLOSE_SRC[1] - CLOSE_SRC[0] + 0.6, -60)])
     b.put("MUSICA", "cierre_final_cancion", c, CLOSE_AT); EDIT.append(("cierre_final_cancion", *CLOSE_SRC, CLOSE_AT))
 
-T15_CUT = 6.0
+T15_CUT = 6.033                               # peak camera speed of T1.5 r2
 def t15_sfx(b):
     """V6 · tunnel → film set: a progressive rush built from the client's recordings, peaking on the cut.
     build = 11_transicion reversed (its swell rises into its own attack) + a sweep that opens as speed grows;

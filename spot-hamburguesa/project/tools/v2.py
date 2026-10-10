@@ -456,47 +456,87 @@ def win_T4(t, fps):
     return out + own_light(out, 0.6) * (0.6 * k ** 2)
 
 
-# ------------------------------------------------------------------ T1.5  (3A tunnel → 4A film set, revised after client review)
-# Speed-ramp into the mouth of the tunnel: the 3A clip's own forward travel accelerates (≈0.8x cruise → ≈2.5x)
-# while the camera pushes physically into the mouth (1.0 → 1.55x, ease-in), so that at the cut the mouth is
-# exactly the size and position of 4A's arch. The cut happens in 2 frames at peak speed, under the shutter's
-# directional (radial) blur and a brief bloom built from the set's own lights. Then the camera decelerates.
-T15 = dict(P0=5.50, TS=6.0, S_END=1.55, A=(0.63, 0.37), DEST=(0.55, 0.40), POW=2.6, WIN=(5.45, 6.35), XF=0.035)
-def u15(t):
-    return min(max((t - T15["P0"]) / (T15["TS"] - T15["P0"]), 0.0), 1.0) ** T15["POW"]
-def vel15(t):
-    """normalised forward speed: rises to 1 at the cut, then decays (deceleration inside the set)"""
-    if t <= T15["TS"]:
-        x = min(max((t - T15["P0"]) / (T15["TS"] - T15["P0"]), 0.0), 1.0); return x ** (T15["POW"] - 1)
-    return math.exp(-(t - T15["TS"]) / 0.09)
+# ------------------------------------------------------------------ T1.5 r2  (3A tunnel → 4A film set)
+# Geometry: the tunnel mouth in 3A IS the arch in 4A (mouth ≈ 0.54 W wide at (0.63, 0.37); arch ≈ 0.83 W at
+# (0.55, 0.40) → ratio 1.55). Camera = one push F(t) (beta-shaped velocity, peak inside the max-speed zone).
+# 4A is locked to the same camera: s4 = s3 / 1.55, its arch centre on the mouth's current position, so both
+# layers share scale AND vanishing point at every frame. 4A first appears INSIDE the mouth (the bread walls of 3A
+# occlude its borders and fly out of frame), then takes the whole frame when s4 ≈ 1. Radial streaks converge on
+# the vanishing point, peak while both layers are visible and fade out slowly with the deceleration.
+from scipy.special import betainc
+T15 = dict(P0=5.68, P1=6.24, A=(0.63, 0.37), DEST=(0.55, 0.40), RATIO=1.55, BA=3.0, BB=2.3,
+           M0=5.86, M1=5.95, F0=6.04, F1=6.12, WIN=(5.55, 6.47))
+def F15(t):
+    x = min(max((t - T15["P0"]) / (T15["P1"] - T15["P0"]), 0.0), 1.0); return float(betainc(T15["BA"], T15["BB"], x))
+def vel15(t, h=1 / 240):
+    """normalised push speed (1 = peak)"""
+    if not hasattr(vel15, "pk"):
+        vel15.pk = max((F15(x + h) - F15(x - h)) for x in np.linspace(T15["P0"], T15["P1"], 400))
+    return (F15(t + h) - F15(t - h)) / vel15.pk
+def s3_15(t): return T15["RATIO"] ** F15(t)
+def mouth_pos(t):
+    u = F15(t); return lerp(T15["A"][0], T15["DEST"][0], u), lerp(T15["A"][1], T15["DEST"][1], u)
 def cam_3A_15(t):
     if t <= T15["P0"]:
         return cam_3A(t)
-    c0 = cam_3A(T15["P0"]); u = u15(t)
-    ax, ay = T15["A"]
-    # continuous with the approved camera at P0 (≈ identity), then push about the mouth of the tunnel
-    s = c0["s"] * (T15["S_END"] / c0["s"]) ** u
-    bx, by = lerp(ax, T15["DEST"][0], u), lerp(ay, T15["DEST"][1], u)
-    bx, by = clamp_dest(s, ax, ay, bx, by)
-    return dict(s=s, ax=ax, ay=ay, bx=bx, by=by)
+    bx, by = mouth_pos(t)
+    return dict(s=s3_15(t), ax=T15["A"][0], ay=T15["A"][1], bx=bx, by=by)
+def cam_4A_15(t):
+    if t >= T15["P1"]:
+        return cam_4A(t)
+    bx, by = mouth_pos(t)
+    return dict(s=s3_15(t) / T15["RATIO"], ax=T15["DEST"][0], ay=T15["DEST"][1], bx=bx, by=by)
 CAMS["t15_3A"] = cam_3A_15
+CAMS["t15_4A"] = cam_4A_15
+
+def blur15(t):
+    """streak amount: rises with the push, plateau in the max-speed zone, slow release (gradual detail)"""
+    up = smooth((t - 5.74) / (5.92 - 5.74))
+    down = math.exp(-max(t - 6.04, 0.0) / 0.095)                  # deceleration: detail comes back gradually
+    return up * down
+
+def radial_streak(img, cx, cy, amount, center_keep=0.22):
+    """camera-advance blur: samples along rays from the vanishing point (outward), stronger towards the edges"""
+    if amount < 0.005: return img
+    W, H = CTX["W"], CTX["H"]; h2, w2 = H // 2, W // 2
+    small = cv2.resize(img, (w2, h2), interpolation=cv2.INTER_AREA)
+    n = int(np.clip(amount * 90, 4, 28)); acc = np.zeros_like(small)
+    for k in range(n):
+        f = math.exp(amount * (k / (n - 1) - 0.5))       # symmetric in log-scale: streaks without shifting geometry
+        M = np.float32([[1 / f, 0, (1 - 1 / f) * cx / 2], [0, 1 / f, (1 - 1 / f) * cy / 2]])
+        acc += cv2.warpAffine(small, M, (w2, h2), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    bl = cv2.resize(acc / n, (W, H), interpolation=cv2.INTER_LINEAR)
+    d = radial(cx, cy, 0.5 * math.hypot(W, H))
+    w = np.clip(center_keep + (1 - center_keep) * np.clip(d * 2.4, 0, 1), 0, 1)[..., None]
+    return img * (1 - w) + bl * w
 
 def win_T15(t, fps):
     SEG = CTX["SEG"]; W, H = CTX["W"], CTX["H"]
-    k = vel15(t)
-    a = smooth((t - (T15["TS"] - T15["XF"])) / (2 * T15["XF"]))
-    out = 0
-    if a < 1:
-        out = SEG["S04"].render(t, fps, max_n=24) * (1 - a)
-    if a > 0:
-        out = out + SEG["S05"].render(t, fps, max_n=24) * a
-    cx, cy = T15["DEST"][0] * W, T15["DEST"][1] * H
-    out = zoom_blur(out, cx, cy, 0.14 * k ** 1.6)                     # extra radial streak only near peak speed
-    # brief bloom from the set's own lights (the beams over the arch): local, warm, no white frame
-    L = own_light(out, 0.62)
-    wloc = np.exp(-(radial(cx, cy - 0.07 * H, 0.42 * W) ** 2))[..., None]
-    out = out + L * wloc * (1.6 * k ** 3)
-    return out * (1 + 0.06 * k ** 3)
+    mx, my = mouth_pos(t); cx, cy = mx * W, my * H; s3 = s3_15(t)
+    # 4A visibility: first through the mouth (occluded by the 3A bread walls), then full frame
+    a_in = smooth((t - T15["M0"]) / (T15["M1"] - T15["M0"]))
+    a_full = smooth((t - T15["F0"]) / (T15["F1"] - T15["F0"]))
+    img3 = SEG["S04"].render(t, fps, max_n=24) if a_full < 1 else None
+    img4 = SEG["S05"].render(t, fps, max_n=24) if a_in > 0 else None
+    if img4 is None:
+        out = img3
+    elif img3 is None:
+        out = img4
+    else:
+        xx, yy = _grid()
+        rx, ry = 0.27 * s3 * W, 0.14 * s3 * H
+        e = np.sqrt(((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2)
+        mouth = 1 - np.clip((e - 0.55) / 0.6, 0, 1); mouth = mouth * mouth * (3 - 2 * mouth)
+        m = np.maximum(mouth * a_in, a_full)[..., None]
+        out = img3 * (1 - m) + img4 * m
+    k = blur15(t)
+    out = radial_streak(out, cx, cy, 0.42 * k)
+    # the set's real light beam blooms through the mouth for a few frames (warm, local, never a white frame)
+    v = max(0.0, vel15(t))
+    L = own_light(out, 0.6)
+    wloc = np.exp(-(radial(cx, cy - 0.06 * H, 0.30 * W * s3) ** 2))[..., None]
+    out = out + L * wloc * (1.3 * v ** 3)
+    return out
 _WINDOWS_EXTRA = dict(T15=win_T15)
 _window_orig = window
 def window(name, t, fps):
