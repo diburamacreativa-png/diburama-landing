@@ -57,6 +57,22 @@ def music(b, test):
     c = c * M.autom(c.shape[1], [(0, -5), (CLOSE_SRC[1] - CLOSE_SRC[0], -5), (CLOSE_SRC[1] - CLOSE_SRC[0] + 0.6, -60)])
     b.put("MUSICA", "cierre_final_cancion", c, CLOSE_AT); EDIT.append(("cierre_final_cancion", *CLOSE_SRC, CLOSE_AT))
 
+T15_CUT = 6.0
+def t15_sfx(b):
+    """V6 · tunnel → film set: a progressive rush built from the client's recordings, peaking on the cut.
+    build = 11_transicion reversed (its swell rises into its own attack) + a sweep that opens as speed grows;
+    arrival = the decaying air of 10_whoosh after its peak, low-passed for depth, panned slightly wide."""
+    from foley_v4 import frag, lp, hp, norm
+    widen = M.widen
+    build = frag("11_transicion.mp3", 0.62, 1.55)[:, ::-1]                   # 0.93 s, ends on the attack at 0.795
+    build = V4.sweep(build, "lowpass", 900, 14000, T15_CUT - 0.93, T15_CUT, T15_CUT - 0.93)
+    build = norm(fades(hp(build, 90), 0.25, 0.006))
+    build = build * M.autom(build.shape[1], [(0, -18), (0.45, -9), (0.80, -2), (0.93, 0)])
+    b.put("SFX", "t15_rush_subida", build, T15_CUT - build.shape[1] / SR, -9)
+    air = frag("10_whoosh.mp3", 0.50, 1.45)
+    air = norm(fades(lp(air, 3800), 0.004, 0.45))
+    b.put("SFX", "t15_llegada_aire", widen(air, 1.3), T15_CUT - 0.006, -13)
+
 def light_duck(music_bus, key, max_db=2.0, thr_db=-24):
     return V4.__dict__["_duck_orig"](music_bus, key, max_db, thr_db)
 
@@ -68,9 +84,10 @@ if __name__ == "__main__":
     b = Bus()
     FV.foley_c(b)
     V4.signature_foley(b)
+    if os.environ.get("T15") == "1": t15_sfx(b)
     music(b, test)
     mix, buses, gain, info = V4.master(b)
-    out = os.path.join(HERE, f"out_{test}"); os.makedirs(os.path.join(out, "tracks"), exist_ok=True)
+    out = os.path.join(HERE, f"out_{test}" + ("_T15" if os.environ.get("T15") == "1" else "")); os.makedirs(os.path.join(out, "tracks"), exist_ok=True)
     os.makedirs(os.path.join(out, "stems"), exist_ok=True)
     for (bus, name), buf in sorted(b.tr.items()):
         sf.write(os.path.join(out, "tracks", f"{bus}__{name}.flac"), (buf * gain).T.astype(np.float32), SR, subtype="PCM_24")

@@ -114,7 +114,7 @@
    "clip": "plano 3A",
    "role": "Macro pan → túnel",
    "in": 3.4,
-   "out": 6.083,
+   "out": 6.035,
    "speed": [
     [
      3.4,
@@ -133,43 +133,74 @@
      1.83
     ],
     [
-     5.14,
+     4.9,
+     3.52
+    ],
+    [
+     5.5,
      4.0
     ],
     [
-     6.083,
+     5.8,
+     4.45
+    ],
+    [
+     6.035,
      4.96
     ]
    ],
-   "notes": "V2 r2 · T1: 3A entra a escala coincidente con la velocidad heredada; desenfoque radial y warp de lente se liberan.",
+   "notes": "V6 · T1.5: túnel con crucero breve (≈0,8x) y rampa de velocidad propia del clip (≈2,5x) + empuje físico 1,0→1,55x hacia la boca del túnel, que en el corte coincide en tamaño y posición con el arco de 4A.",
    "grade": {
     "ev": -0.22,
     "sat": 0.88
    },
-   "cam": "t1_3A"
+   "cam": "t15_3A"
   },
   {
    "id": "S05",
    "clip": "plano 4A",
    "role": "Mundo cinematográfico",
-   "in": 5.917,
+   "in": 5.965,
    "out": 7.56,
    "speed": [
     [
-     5.917,
+     5.965,
      0.0
+    ],
+    [
+     6.1,
+     0.3
+    ],
+    [
+     6.6,
+     1.1197
+    ],
+    [
+     7.0,
+     1.7754
+    ],
+    [
+     7.3,
+     2.2677
     ],
     [
      7.625,
      2.8
     ]
    ],
-   "notes": "V2 · T2: empuje hacia el foco de rodaje de la izquierda (seguido automáticamente); el foco pasa junto al objetivo.",
+   "notes": "V6 · T1.5: entra en el corte a ≈1,35x de su ritmo y desacelera hasta el ritmo aprobado (idéntico desde 6,6 s); microshake de 3 px / 2 frames al asentarse.",
    "grade": {
     "ev": -0.2,
     "sat": 0.9
    },
-   "cam": "t2_4A"
+   "cam": "t2_4A",
+   "shake": [
+    [
+     6.2,
+     3,
+     0.035
+    ]
+   ]
   },
   {
    "id": "S06",
@@ -453,9 +484,10 @@
   {
    "from": "S04",
    "to": "S05",
-   "type": "dissolve",
-   "t0": 5.917,
-   "t1": 6.083
+   "type": "custom",
+   "name": "T15",
+   "t0": 5.45,
+   "t1": 6.35
   },
   {
    "from": "S05",

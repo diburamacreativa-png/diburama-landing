@@ -212,7 +212,7 @@ def cam_3A(t):
 T2 = dict(PUSH0=7.0, PEAK=7.5, SW0=7.46, SW1=7.54, END=7.9, LIGHT5A=(0.45, 0.38), WIN=(7.0, 7.9))
 def cam_4A(t):
     if t < T2["PUSH0"]:
-        s_, ax, ay, bx, by = CTX["kf_interp"]([[5.917, 1.06, 0.58, 0.36, 0.58, 0.36], [6.4, 1.0, 0.58, 0.36, 0.58, 0.36]], t, (1, 2, 3, 4, 5))
+        s_, ax, ay, bx, by = CTX["kf_interp"]([[5.9, 1.0, 0.58, 0.36, 0.58, 0.36], [6.4, 1.0, 0.58, 0.36, 0.58, 0.36]], t, (1, 2, 3, 4, 5))
         return dict(s=s_, ax=ax, ay=ay, bx=bx, by=by)
     x = (t - T2["PUSH0"]) / (T2["SW1"] - T2["PUSH0"])
     lx, ly = lamp_at(t)
@@ -454,3 +454,52 @@ def win_T4(t, fps):
     out = zoom_blur(out, cx, cy, 0.22 * k ** 1.4)
     out = bulge(out, cx, cy, 0.26 * k ** 2)
     return out + own_light(out, 0.6) * (0.6 * k ** 2)
+
+
+# ------------------------------------------------------------------ T1.5  (3A tunnel → 4A film set, revised after client review)
+# Speed-ramp into the mouth of the tunnel: the 3A clip's own forward travel accelerates (≈0.8x cruise → ≈2.5x)
+# while the camera pushes physically into the mouth (1.0 → 1.55x, ease-in), so that at the cut the mouth is
+# exactly the size and position of 4A's arch. The cut happens in 2 frames at peak speed, under the shutter's
+# directional (radial) blur and a brief bloom built from the set's own lights. Then the camera decelerates.
+T15 = dict(P0=5.50, TS=6.0, S_END=1.55, A=(0.63, 0.37), DEST=(0.55, 0.40), POW=2.6, WIN=(5.45, 6.35), XF=0.035)
+def u15(t):
+    return min(max((t - T15["P0"]) / (T15["TS"] - T15["P0"]), 0.0), 1.0) ** T15["POW"]
+def vel15(t):
+    """normalised forward speed: rises to 1 at the cut, then decays (deceleration inside the set)"""
+    if t <= T15["TS"]:
+        x = min(max((t - T15["P0"]) / (T15["TS"] - T15["P0"]), 0.0), 1.0); return x ** (T15["POW"] - 1)
+    return math.exp(-(t - T15["TS"]) / 0.09)
+def cam_3A_15(t):
+    if t <= T15["P0"]:
+        return cam_3A(t)
+    c0 = cam_3A(T15["P0"]); u = u15(t)
+    ax, ay = T15["A"]
+    # continuous with the approved camera at P0 (≈ identity), then push about the mouth of the tunnel
+    s = c0["s"] * (T15["S_END"] / c0["s"]) ** u
+    bx, by = lerp(ax, T15["DEST"][0], u), lerp(ay, T15["DEST"][1], u)
+    bx, by = clamp_dest(s, ax, ay, bx, by)
+    return dict(s=s, ax=ax, ay=ay, bx=bx, by=by)
+CAMS["t15_3A"] = cam_3A_15
+
+def win_T15(t, fps):
+    SEG = CTX["SEG"]; W, H = CTX["W"], CTX["H"]
+    k = vel15(t)
+    a = smooth((t - (T15["TS"] - T15["XF"])) / (2 * T15["XF"]))
+    out = 0
+    if a < 1:
+        out = SEG["S04"].render(t, fps, max_n=24) * (1 - a)
+    if a > 0:
+        out = out + SEG["S05"].render(t, fps, max_n=24) * a
+    cx, cy = T15["DEST"][0] * W, T15["DEST"][1] * H
+    out = zoom_blur(out, cx, cy, 0.14 * k ** 1.6)                     # extra radial streak only near peak speed
+    # brief bloom from the set's own lights (the beams over the arch): local, warm, no white frame
+    L = own_light(out, 0.62)
+    wloc = np.exp(-(radial(cx, cy - 0.07 * H, 0.42 * W) ** 2))[..., None]
+    out = out + L * wloc * (1.6 * k ** 3)
+    return out * (1 + 0.06 * k ** 3)
+_WINDOWS_EXTRA = dict(T15=win_T15)
+_window_orig = window
+def window(name, t, fps):
+    if name in _WINDOWS_EXTRA:
+        return np.asarray(_WINDOWS_EXTRA[name](t, fps), dtype=np.float32)
+    return _window_orig(name, t, fps)
