@@ -154,9 +154,8 @@ class Curves:
         -> stereographic tiny planet at T_ONE -> orthographic ball. One dolly-out, no hold.
         Past d=1 it is driven by rho = R_visible/G (visible-disc edge / ground-disc radius), so the sky
         wraps behind the ball as a gradual radial sweep revealing the red."""
-        th = getattr(self, 't_h', 1.971)
         if t <= T_ONE:
-            return float(smootherstep(th, T_ONE, t))
+            return float(smoothstep(T_CURVE0, T_ONE, t))
         # 1/d eased smoothly from 1 to 0: the ground disc G = S(1 + 1/d) stays smooth, and the visible-disc
         # ratio rho = 1/sqrt(1 - 1/d^2) starts at infinity (edge off-screen) and closes onto the ball.
         E = float(SWEEP_EASE(clamp01((t - T_ONE) / (T_ORTHO - T_ONE))))
@@ -178,7 +177,8 @@ class Curves:
 #  TIMELINE OF THE FINALE
 # =====================================================================================
 T_PULL0 = 2.22        # second pull-back starts (planet already transforming)
-T_ONE = 2.30          # stereographic tiny planet
+T_CURVE0 = 1.90       # the panorama starts to curve (inside the handoff blend)
+T_ONE = 2.34          # stereographic tiny planet
 T_ORTHO = 2.84        # projection reaches orthographic (sky fully wrapped behind the ball)
 def SWEEP_EASE(u, a=2.6, u1=0.6):
     """Slow power start (the red edge enters the frame gently), cubic Hermite landing with zero slope."""
