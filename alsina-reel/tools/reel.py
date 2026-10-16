@@ -104,10 +104,10 @@ class Curves:
         self.t_h = float(np.interp(-math.log(S_H), -self.lam, self.tt))
         # second, continuous pull-back: the planet never stops; the camera keeps receding until the
         # ball has the size of the dot (G_target) at T_DOT. Smooth ease-in/out added on top of the tail.
-        E2 = cubic_bezier(0.50, 0.0, 0.42, 1.0)(clamp01((self.tt - T_PULL0) / (T_DOT - T_PULL0)))
+        E2 = cubic_bezier(0.80, 0.0, 0.30, 1.0)(clamp01((self.tt - T_PULL0) / (T_DOT - T_PULL0)))
+        # past the tiny planet the ball size is G = 2 exp(lam): land it exactly on the dot size at T_DOT
         S_old = math.exp(float(np.interp(T_DOT, self.tt, self.lam)))
-        dd = self.d_at(T_DOT)
-        self.L2 = math.log(S_old * (dd + 1) / dd / G_target)
+        self.L2 = math.log(2.0 * S_old / G_target)
         self.E2 = E2
         self.lam = self.lam - self.L2 * E2
         self.v = -np.gradient(self.lam, dt)
@@ -150,17 +150,9 @@ class Curves:
 
     # ---- panorama phase
     def d_at(self, t):
-        """Camera distance from the sphere centre, continuous 0 -> 1 -> inf: gnomonic (inside the pano)
-        -> stereographic tiny planet at T_ONE -> orthographic ball. One dolly-out, no hold.
-        Past d=1 it is driven by rho = R_visible/G (visible-disc edge / ground-disc radius), so the sky
-        wraps behind the ball as a gradual radial sweep revealing the red."""
-        if t <= T_ONE:
-            return float(smoothstep(T_CURVE0, T_ONE, t))
-        # 1/d eased smoothly from 1 to 0: the ground disc G = S(1 + 1/d) stays smooth, and the visible-disc
-        # ratio rho = 1/sqrt(1 - 1/d^2) starts at infinity (edge off-screen) and closes onto the ball.
-        E = float(SWEEP_EASE(clamp01((t - T_ONE) / (T_ORTHO - T_ONE))))
-        inv = 1.0 - E
-        return min(1.0 / max(inv, 1e-6), 400.0)
+        """Camera distance from the sphere centre up to the tiny planet: 0 (gnomonic, inside the pano)
+        -> 1 (stereographic) at T_ONE, arriving with zero speed. Beyond, see sphere_state()."""
+        return float(smoothstep(T_CURVE0, T_ONE, t))
 
     def nadir_at(self, t, S):
         """Centre of the projection on screen: from the handoff alignment to the planet position, then
@@ -176,19 +168,12 @@ class Curves:
 # =====================================================================================
 #  TIMELINE OF THE FINALE
 # =====================================================================================
-T_PULL0 = 2.22        # second pull-back starts (planet already transforming)
+T_PULL0 = 2.28        # second pull-back starts (planet already transforming)
 T_CURVE0 = 1.90       # the panorama starts to curve (inside the handoff blend)
-T_ONE = 2.34          # stereographic tiny planet
-T_ORTHO = 2.84        # projection reaches orthographic (sky fully wrapped behind the ball)
-def SWEEP_EASE(u, a=2.6, u1=0.6):
-    """Slow power start (the red edge enters the frame gently), cubic Hermite landing with zero slope."""
-    u = float(u)
-    if u <= u1:
-        return u ** a
-    y1, m1 = u1 ** a, a * u1 ** (a - 1)
-    h = 1 - u1; x = (u - u1) / h
-    # Hermite from (y1, slope m1*h) to (1, slope 0)
-    return (2 * x ** 3 - 3 * x ** 2 + 1) * y1 + (x ** 3 - 2 * x ** 2 + x) * m1 * h + (-2 * x ** 3 + 3 * x ** 2) * 1.0
+T_ONE = 2.30          # stereographic tiny planet
+T_ORTHO = 2.64        # projection reaches orthographic (sky fully wrapped behind the ball)
+SWEEP_EASE = cubic_bezier(0.20, 0.25, 0.40, 1.0)   # edge travels steadily, then lands softly on the ball
+SWEEP_R0 = 1450.0                                   # edge starts just outside the frame corners (~1200 px)
 T_DOT = 2.94          # ball has become the white dot (vector dot takes over, identical geometry)
 T_IMPACT = 3.00       # dot hits the centre of the frame
 SG0 = 1.60            # logo-group scale at impact (the dot carries the frame); settles to 1.0
@@ -197,15 +182,30 @@ DOTV = None           # (cx, cy, hx, hy) of the vector dot, logo space
 
 
 def sphere_state(t, C):
-    S = C.S_at(t); d = C.d_at(t)
-    G = S * (d + 1) / d if d > 1e-6 else 1e9
+    """Geometry of the panorama sphere at time t.
+    Up to T_ONE: S from the master curve, d from d_at (curvature).
+    After: one continuous dolly-out. The ball size G = 2 exp(lam) is the master (smooth, it lands on the
+    dot size); the visible-disc edge R (where the sky wraps behind the ball, revealing the red) travels
+    steadily across the frame in pixels; the projection follows from geometry:
+        G = S (1 + 1/d),   R = G / sqrt(1 - 1/d^2)   ->   1/d = sqrt(1 - (G/R)^2)."""
+    lam = float(np.interp(t, C.tt, C.lam))
+    if t <= T_ONE:
+        S = math.exp(lam); d = C.d_at(t)
+        G = S * (d + 1) / d if d > 1e-6 else 1e9
+    else:
+        G = 2.0 * math.exp(lam)
+        E = float(SWEEP_EASE(clamp01((t - T_ONE) / (T_ORTHO - T_ONE))))
+        R = G + (SWEEP_R0 - G) * (1 - E)
+        x = math.sqrt(max(0.0, 1 - (G / R) ** 2))
+        d = min(1.0 / max(x, 1e-6), 400.0)
+        S = G * d / (d + 1)
     cx, cy, hx, hy = DOTV
     Gt = math.sqrt(hx * hy * 4 / math.pi) * SG0
     sigma = G / Gt
     ls = math.log(max(sigma, 1e-3))
     mu = float(smootherstep(math.log(3.5), math.log(1.04), ls)) if sigma < 3.5 else 0.0
     white = float(smoothstep(math.log(6.0), math.log(1.10), ls))
-    return dict(S=S, d=d, G=G, sigma=sigma, mu=mu, white=white, c=C.nadir_at(t, S), roll=C.roll_at(t))
+    return dict(S=S, d=d, G=G, sigma=sigma, mu=mu, white=white, c=C.nadir_at(t, math.exp(lam)), roll=C.roll_at(t))
 
 
 # =====================================================================================

@@ -29,17 +29,18 @@ Reproducir desde cero: `bash tools/run_all.sh` (requisitos: ffmpeg con libx264/p
    con subida gaussiana gobierna tanto el vídeo (remapeo temporal f16→f240) como la panorámica. Pico
    de velocidad en t ≈ 1,97 s, justo en el empalme vídeo→panorámica (morph de flujo óptico de gran
    escala bajo motion blur).
-3. **1,95–2,45 s · Formación de la esfera, sin pausa.** La cámara virtual hace un único dolly-out
+3. **1,90–2,36 s · Formación de la esfera, sin pausa.** La cámara virtual hace un único dolly-out
    continuo: distancia de proyección d = 0 (gnomónica, dentro de la panorámica) → d = 1
    (estereográfica, tiny planet a 2,30 s) → d → ∞ (ortográfica, la bola vista desde fuera). Una
-   segunda rampa de alejamiento arranca a 2,22 s, antes de que el planeta termine de formarse: la
-   velocidad mínima es 0,84/s, nunca cero. Gira 56° y el planeta sube a la mitad superior del cuadro.
-4. **2,42–3,00 s · Esfera → punto, continuo.** El cielo se envuelve detrás de la bola y el borde del
-   disco visible entra desde las esquinas (2,42 s) y se cierra sobre ella en ~7 fotogramas,
-   desacelerando: el rojo llega como consecuencia del propio alejamiento, sin flash ni fundido. La
-   bola se simplifica (morph radial a superelipse → rectángulo exacto del punto, sobreexposición a
-   blanco) entre 2,55 y 2,76 s, y cae acelerando (potencia 2,6) hacia el centro exacto del cuadro.
-   El punto llega a 1,6× el tamaño del logo para que tenga protagonismo.
+   segunda rampa de alejamiento arranca a 2,28 s, antes de que el planeta termine de formarse: la
+   velocidad nunca llega a cero. Gira 56° y el planeta sube a la mitad superior del cuadro.
+4. **2,36–3,00 s · Esfera → punto, continuo.** El cielo se envuelve detrás del planeta: el borde del
+   disco visible entra por las esquinas a 2,36 s y avanza ~250 px por fotograma, desacelerando, hasta
+   cerrarse sobre la bola a 2,64 s. El rojo llega como consecuencia del propio alejamiento, sin flash
+   ni fundido. Solo entonces la bola, con la obra aún visible, se comprime, se transforma con un morph
+   radial a superelipse en el rectángulo exacto del punto y se sobreexpone a blanco (2,60–2,76 s). A
+   partir de 2,40 s cae acelerando (potencia 2,6) hacia el centro exacto del cuadro. El punto llega a
+   1,6× el tamaño del logo para que tenga protagonismo.
 5. **3,00–3,18 s · Impacto.** Llega a (540, 960) con velocidad; aplastamiento del 7 % durante
    un fotograma y rebote amortiguado de 5 px (muelle con amortiguación de 60 ms), asentado a 3,18 s.
 6. **3,15–3,42 s · Palo de la «i».** Sale del propio punto: su borde inferior baja delante
