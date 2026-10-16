@@ -88,7 +88,7 @@ class Curves:
         self.Z = video_Z                     # cumulative log-scale of video content per frame
         self.tt = np.linspace(-0.2, 7.0, 72001)
         dt = self.tt[1] - self.tt[0]
-        s0 = 1.035
+        s0 = 1.02
         self.lam0 = math.log(S_H * math.exp(self.Z[0] - self.Z[HANDOFF_FRAME]) * s0)
         lam_end = math.log(S_PLANET_END)
         target = self.lam0 - lam_end
@@ -127,9 +127,9 @@ class Curves:
 
     # ---- video phase
     def micro(self, t):
-        e = smootherstep(0.0, 1.1, t)
-        s = 1.035 + (1.0 - 1.035) * e
-        rot = math.radians(1.0) * (1 - e)
+        e = smootherstep(0.0, 1.6, t)
+        s = 1.02 + (1.0 - 1.02) * e
+        rot = math.radians(0.6) * (1 - e)
         return s, rot
 
     def video_tau(self, t):
@@ -150,7 +150,7 @@ class Curves:
 # =====================================================================================
 #  COLLAPSE (ball -> dot of the i)
 # =====================================================================================
-T_SPH, T_COLL0, T_LOCK = 2.88, 3.00, 3.50
+T_SPH, T_COLL0, T_LOCK = 2.84, 3.00, 3.50
 DOT = None   # filled from the logo PNG: centre and half sizes
 
 
@@ -183,7 +183,7 @@ def collapse_state(t, S_planet):
     b = b + arr * 2.5 * math.sin(math.pi * clamp01((t - (T_LOCK - 0.07)) / 0.11)) * (t > T_LOCK - 0.07)
     # sky wraps behind the ball: visible-disc / ground-disc ratio
     # red sweep: the visible-disc edge enters from the corners and decelerates onto the ball
-    k = 1 - (1 - clamp01((t - T_SPH) / 0.42)) ** 3
+    k = 1 - (1 - clamp01((t - T_SPH) / 0.55)) ** 2
     ratio = (3000.0 / G) ** (1 - k)
     ratio = max(ratio, 1.0005)
     mu = float(smootherstep(0.0, 1.0, (math.log(max(sigma, 1.0)) - math.log(4.5)) / (0 - math.log(4.5)))) if sigma < 4.5 else 0.0
@@ -460,7 +460,7 @@ class Renderer:
         rows = json.load(open(os.path.join(ROOT, 'build/video_motion.json')))
         ls = np.log([r['scale'] for r in rows])
         ls = np.minimum(ls, -1e-4)                 # strictly monotonic zoom-out
-        ls = ndimage.uniform_filter1d(ls, 5, mode='nearest')
+        ls = ndimage.gaussian_filter1d(ls, 7.0, mode='nearest')     # smooth zoom-rate -> even playback
         self.Z = np.concatenate([[0.0], np.cumsum(ls)])
         self.C = Curves(self.Z)
         self.video = Video(len(self.Z))
