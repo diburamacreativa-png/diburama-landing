@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "cinematic-camera": {
+      "source": "Liamrjohnston/remotion-motion-graphics-skill",
+      "sourceType": "github",
+      "skillPath": "skills/cinematic-camera/SKILL.md",
+      "computedHash": "ce45405d4e80348050ba71525fc7745da117f8984d9d028858098dbcec7e763e"
+    },
+    "motion-graphics": {
+      "source": "Liamrjohnston/remotion-motion-graphics-skill",
+      "sourceType": "github",
+      "skillPath": "skills/motion-graphics/SKILL.md",
+      "computedHash": "b8f77902788ba7bd1dad16fc2ccf2362d173123e88b27143357a14be5e80f093"
+    }
+  }
+}
