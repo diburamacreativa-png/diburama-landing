@@ -21,12 +21,12 @@ Reproducir desde cero: `bash tools/run_all.sh` (requisitos: ffmpeg con libx264/p
 
 ## Cómo está construida (un solo sistema de coordenadas vertical)
 
-1. **0–0,75 s · Dentro de la obra.** Fotogramas reales del ascenso del dron (`pano.mp4`, f0–f12),
+1. **0–0,75 s · Dentro de la obra.** Fotogramas reales del ascenso del dron (`pano.mp4`, f0–f16),
    girados 90° para que el 16:9 nativo llene el 9:16 a resolución nativa (sin recorte ni reescalado
-   apreciable: 1,035× → 1,0×). Parallax real del dron, micro-giro de 1° que se amortigua.
+   apreciable: 1,02× → 1,0×). Parallax real del dron, micro-giro de 0,6° que se amortigua.
    Interpolación por flujo óptico (DIS) entre fotogramas para la cámara lenta.
 2. **0,75–2,6 s · Salida acelerada.** Una única curva de velocidad (log-escala del centro de imagen)
-   con subida gaussiana y cola inercial gobierna tanto el vídeo (remapeo temporal f12→f240) como la
+   con subida gaussiana y cola inercial gobierna tanto el vídeo (remapeo temporal f16→f240) como la
    panorámica. Pico de velocidad en t ≈ 1,97 s, justo en el empalme vídeo→panorámica, que se hace
    con morph de flujo óptico de gran escala bajo motion blur. A partir de ahí la cámara virtual pasa
    de proyección gnomónica (d=0) a estereográfica (d=1) mientras gira 56° y desacelera.
@@ -60,5 +60,8 @@ panorámica se muestrea con mipmapping por huella angular para evitar aliasing a
   curvatura la periferia gnomónica está muy estirada y se ve blanda, enmascarada por el blur.
 - Sin audio: la pista de `LOGO VERTICAL.mp4` está sincronizada con otra animación y no he podido
   escucharla para validar un reajuste; el encargo prefiere exportar sin audio a meter una pista mediocre.
+- En el MP4 el rojo se decodifica como (169, 24, 44) frente a (170, 25, 45) del original: diferencia de 1 código
+  por redondeo YUV, invisible. La diferencia media con el fotograma final de referencia es 0,7/255.
+- La intro hereda la cadencia algo irregular del vídeo original del dron (2–3 px por fotograma).
 - El rojo #AA192D está medido en el vídeo comprimido; si el manual de marca da otro valor, se cambia
   en `RED_SRGB` (`tools/reel.py`) y se vuelve a renderizar.
