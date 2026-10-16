@@ -43,7 +43,8 @@ NADIR_H = np.array([435.2, 1162.7])
 FOE_OUT = np.array([600.0, 1919.0 - 930.0])
 
 # ---------------------------------------------------------------- composition
-PLANET_C = np.array([540.0, 1000.0])     # tiny planet centre
+PLANET_C = np.array([540.0, 850.0])      # tiny planet centre (upper half: the ball then falls)
+IMPACT_C = np.array([540.0, 960.0])      # exact centre of the frame: the dot lands here
 S_PLANET_END = 132.0                      # stereographic scale at t=2.92 (ground disc = 4S ~ 50% width)
 ROLL_FINAL = math.radians(30.0)          # crane pointing up out of the planet
 
@@ -84,7 +85,7 @@ class Curves:
     v(t) = -d lam/dt: one asymmetric speed-ramp (gaussian rise, long inertial tail) shared by the real
     footage and the panorama, so velocity is continuous through the handoff."""
 
-    def __init__(self, video_Z):
+    def __init__(self, video_Z, G_target):
         self.Z = video_Z                     # cumulative log-scale of video content per frame
         self.tt = np.linspace(-0.2, 7.0, 72001)
         dt = self.tt[1] - self.tt[0]
@@ -101,6 +102,15 @@ class Curves:
         self.v = base * self.A + drift
         self.lam = self.lam0 - np.cumsum(self.v) * dt
         self.t_h = float(np.interp(-math.log(S_H), -self.lam, self.tt))
+        # second, continuous pull-back: the planet never stops; the camera keeps receding until the
+        # ball has the size of the dot (G_target) at T_DOT. Smooth ease-in/out added on top of the tail.
+        E2 = cubic_bezier(0.50, 0.0, 0.42, 1.0)(clamp01((self.tt - T_PULL0) / (T_DOT - T_PULL0)))
+        S_old = math.exp(float(np.interp(T_DOT, self.tt, self.lam)))
+        dd = self.d_at(T_DOT)
+        self.L2 = math.log(S_old * (dd + 1) / dd / G_target)
+        self.E2 = E2
+        self.lam = self.lam - self.L2 * E2
+        self.v = -np.gradient(self.lam, dt)
         # roll speed: starts after the handoff, peaks during the curvature, inertia tail into the collapse
         tr = 2.22
         w = np.where(self.tt < tr, np.exp(-((self.tt - tr) / 0.16) ** 2), 1 / (1 + ((self.tt - tr) / 0.26) ** 2) ** 2)
@@ -120,7 +130,8 @@ class Curves:
         return float(np.interp(t, self.tt, self.v))
 
     def roll_at(self, t):
-        return float(np.interp(t, self.tt, self.roll))
+        spin = math.radians(30.0) * float(np.interp(t, self.tt, self.E2))
+        return float(np.interp(t, self.tt, self.roll)) - spin
 
     def S_at(self, t):
         return math.exp(float(np.interp(t, self.tt, self.lam)))
@@ -139,58 +150,62 @@ class Curves:
 
     # ---- panorama phase
     def d_at(self, t):
-        return float(smootherstep(self.t_h, 2.60, t))
+        """Camera distance from the sphere centre, continuous 0 -> 1 -> inf: gnomonic (inside the pano)
+        -> stereographic tiny planet at T_ONE -> orthographic ball. One dolly-out, no hold.
+        Past d=1 it is driven by rho = R_visible/G (visible-disc edge / ground-disc radius), so the sky
+        wraps behind the ball as a gradual radial sweep revealing the red."""
+        th = getattr(self, 't_h', 1.971)
+        if t <= T_ONE:
+            return float(smootherstep(th, T_ONE, t))
+        # 1/d eased smoothly from 1 to 0: the ground disc G = S(1 + 1/d) stays smooth, and the visible-disc
+        # ratio rho = 1/sqrt(1 - 1/d^2) starts at infinity (edge off-screen) and closes onto the ball.
+        E = float(SWEEP_EASE(clamp01((t - T_ONE) / (T_ORTHO - T_ONE))))
+        inv = 1.0 - E
+        return min(1.0 / max(inv, 1e-6), 400.0)
 
     def nadir_at(self, t, S):
+        """Centre of the projection on screen: from the handoff alignment to the planet position, then
+        the ball falls (accelerating) into the exact centre of the frame, impact at T_IMPACT."""
         model = FOE_OUT + (S / S_H) * (NADIR_H - FOE_OUT)
-        e = smootherstep(self.t_h, 2.78, t)
-        return model * (1 - e) + PLANET_C * e
+        if t <= 2.40:
+            e = smootherstep(self.t_h, 2.40, t)
+            return model * (1 - e) + PLANET_C * e
+        f = float(clamp01((t - 2.40) / (T_IMPACT - 2.40))) ** 2.6
+        return PLANET_C + (IMPACT_C - PLANET_C) * f
 
 
 # =====================================================================================
-#  COLLAPSE (ball -> dot of the i)
+#  TIMELINE OF THE FINALE
 # =====================================================================================
-T_SPH, T_COLL0, T_LOCK = 2.84, 3.00, 3.50
-DOT = None   # filled from the logo PNG: centre and half sizes
+T_PULL0 = 2.22        # second pull-back starts (planet already transforming)
+T_ONE = 2.30          # stereographic tiny planet
+T_ORTHO = 2.84        # projection reaches orthographic (sky fully wrapped behind the ball)
+def SWEEP_EASE(u, a=2.6, u1=0.6):
+    """Slow power start (the red edge enters the frame gently), cubic Hermite landing with zero slope."""
+    u = float(u)
+    if u <= u1:
+        return u ** a
+    y1, m1 = u1 ** a, a * u1 ** (a - 1)
+    h = 1 - u1; x = (u - u1) / h
+    # Hermite from (y1, slope m1*h) to (1, slope 0)
+    return (2 * x ** 3 - 3 * x ** 2 + 1) * y1 + (x ** 3 - 2 * x ** 2 + x) * m1 * h + (-2 * x ** 3 + 3 * x ** 2) * 1.0
+T_DOT = 2.94          # ball has become the white dot (vector dot takes over, identical geometry)
+T_IMPACT = 3.00       # dot hits the centre of the frame
+SG0 = 1.60            # logo-group scale at impact (the dot carries the frame); settles to 1.0
+T_SETTLE0, T_SETTLE1 = 3.36, 4.30
+DOTV = None           # (cx, cy, hx, hy) of the vector dot, logo space
 
 
-def collapse_state(t, S_planet):
-    """Returns dict with sphere centre, ground radius G, ratio R_vis/G, morph mu, whiten p, scale sigma."""
-    G_planet = 2.0 * S_planet
-    cx, cy, hx, hy = DOT
-    Gdot = math.sqrt(hx * hy * 4 / math.pi)              # area-equivalent radius
-    total = math.log(G_planet / Gdot)
-    u = (t - T_COLL0) / (T_LOCK - T_COLL0)
-    # collapse progress: slow start (continuing the drift), violent acceleration, precise deceleration,
-    # minimal overshoot (dot 4% smaller) settling 2 frames after the lock
-    if u <= 0:
-        prog = 0.0
-    elif u < 1:
-        prog = float(cubic_bezier(0.60, 0.0, 0.34, 1.0)(u))
-    else:
-        prog = 1.0
-    over = 0.04 * math.sin(math.pi * clamp01((t - (T_LOCK - 0.08)) / 0.12)) if t > T_LOCK - 0.08 else 0.0
-    logG = math.log(G_planet) - total * prog - over
-    G = math.exp(logG)
-    sigma = G / Gdot
-    # path: cubic bezier from planet centre to the dot, swinging left then into place
-    P0 = PLANET_C; P3 = np.array([cx, cy])
-    P1 = P0 + np.array([-70.0, -40.0]); P2 = P3 + np.array([-120.0, 30.0])
-    pu = float(cubic_bezier(0.55, 0.0, 0.25, 1.0)(clamp01(u))) if u > 0 else 0.0
-    b = (1 - pu) ** 3 * P0 + 3 * (1 - pu) ** 2 * pu * P1 + 3 * (1 - pu) * pu ** 2 * P2 + pu ** 3 * P3
-    # position overshoot: 2.5 px past the target along the arrival direction, settling
-    arr = (P3 - P2) / np.linalg.norm(P3 - P2)
-    b = b + arr * 2.5 * math.sin(math.pi * clamp01((t - (T_LOCK - 0.07)) / 0.11)) * (t > T_LOCK - 0.07)
-    # sky wraps behind the ball: visible-disc / ground-disc ratio
-    # red sweep: the visible-disc edge enters from the corners and decelerates onto the ball
-    k = 1 - (1 - clamp01((t - T_SPH) / 0.55)) ** 2
-    ratio = (3000.0 / G) ** (1 - k)
-    ratio = max(ratio, 1.0005)
-    mu = float(smootherstep(0.0, 1.0, (math.log(max(sigma, 1.0)) - math.log(4.5)) / (0 - math.log(4.5)))) if sigma < 4.5 else 0.0
-    if t >= T_LOCK:
-        mu = 1.0
-    wp = float(smoothstep(math.log(8.0), math.log(1.15), math.log(max(sigma, 1e-3))))
-    return dict(c=b, G=G, ratio=ratio, mu=mu, white=wp, sigma=sigma, spin=math.radians(28.0) * prog)
+def sphere_state(t, C):
+    S = C.S_at(t); d = C.d_at(t)
+    G = S * (d + 1) / d if d > 1e-6 else 1e9
+    cx, cy, hx, hy = DOTV
+    Gt = math.sqrt(hx * hy * 4 / math.pi) * SG0
+    sigma = G / Gt
+    ls = math.log(max(sigma, 1e-3))
+    mu = float(smootherstep(math.log(3.5), math.log(1.04), ls)) if sigma < 3.5 else 0.0
+    white = float(smoothstep(math.log(6.0), math.log(1.10), ls))
+    return dict(S=S, d=d, G=G, sigma=sigma, mu=mu, white=white, c=C.nadir_at(t, S), roll=C.roll_at(t))
 
 
 # =====================================================================================
@@ -281,175 +296,123 @@ def footprint(dirs):
 
 
 # =====================================================================================
-#  LOGO
+#  LOGO (vector reconstruction of the original white logo)
 # =====================================================================================
-class Logo:
-    def __init__(self):
-        png = cv2.imread(os.path.join(ROOT, 'assets/source/alsina_logo_blanco_transparente.png'), cv2.IMREAD_UNCHANGED)
-        a = png[..., 3].astype(np.float32) / 255.0
-        full = np.zeros((H, W), np.float32)
-        ox, oy = LOGO_OFFSET
-        full[oy:oy + a.shape[0], ox:ox + a.shape[1]] = a
-        self.alpha = full
-        lab, n = ndimage.label(full > 0.5)
-        # extend labels to anti-aliased fringe pixels (nearest core pixel)
-        idx = ndimage.distance_transform_edt(lab == 0, return_distances=False, return_indices=True)
-        lab_full = lab[idx[0], idx[1]] * (full > 0)
-        objs = ndimage.find_objects(lab)
-        comps = {}
-        for i, sl in enumerate(objs):
-            ys, xs = sl
-            comps[i + 1] = dict(x0=xs.start, x1=xs.stop, y0=ys.start, y1=ys.stop)
-        # identify components by position
-        def find(x0, y0):
-            for k, c in comps.items():
-                if abs(c['x0'] - x0) <= 2 and abs(c['y0'] - y0) <= 2:
-                    return k
-            raise KeyError((x0, y0))
-        names = dict(A_diag=find(262, 844), l=find(382, 845), dot=find(554, 845), s=find(429, 891),
-                     n=find(608, 891), a=find(746, 891), i_stem=find(554, 893), A_leg=find(196, 935))
-        self.parts = {}
-        for nm, k in names.items():
-            self.parts[nm] = dict(alpha=(full * (lab_full == k)).astype(np.float32), **comps[k])
-        # exact dot geometry from alpha moments
-        da = self.parts['dot']['alpha']
-        ys, xs = np.nonzero(da > 0)
-        y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
-        sub = da[y0:y1, x0:x1]
-        wcol = sub.max(0).sum(); hrow = sub.max(1).sum()
-        cx = (sub.sum(0) * (np.arange(x0, x1) + 0.5)).sum() / sub.sum()
-        cy = (sub.sum(1) * (np.arange(y0, y1) + 0.5)).sum() / sub.sum()
-        self.dot = (float(cx), float(cy), float(wcol / 2), float(hrow / 2))
-        # stroke axes for the A (PCA)
-        for nm in ('A_diag', 'A_leg'):
-            ys, xs = np.nonzero(self.parts[nm]['alpha'] > 0.5)
-            pts = np.stack([xs, ys], 1).astype(np.float64)
-            m = pts.mean(0); cov = np.cov((pts - m).T); ev, evec = np.linalg.eigh(cov)
-            ax = evec[:, 1]
-            if ax[1] < 0:
-                ax = -ax                      # pointing downwards
-            self.parts[nm]['axis'] = ax; self.parts[nm]['centroid'] = m
-            proj = (pts - m) @ ax
-            self.parts[nm]['span'] = (proj.min(), proj.max())
-        # left edge line of the long stroke (for clipping the short leg as it slides out from behind it)
-        self.crop = (150, 790, 940, 1070)    # x0,y0,x1,y1 working window
-
-
-def shift_alpha(a, dx, dy, crop):
-    x0, y0, x1, y1 = crop
-    sub = a[y0:y1, x0:x1]
-    M = np.float32([[1, 0, dx], [0, 1, dy]])
-    out = np.zeros_like(a)
-    out[y0:y1, x0:x1] = cv2.warpAffine(sub, M, (x1 - x0, y1 - y0), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_CONSTANT)
-    return np.clip(out, 0, 1)
-
-
-def soft_half(coord, edge, sign=1.0, soft=1.0):
-    """1 where sign*(coord-edge) >= 0, anti-aliased."""
-    return np.clip(sign * (coord - edge) / soft + 0.5, 0, 1)
-
+from logo_vec import trace, raster
 
 GX, GY = np.meshgrid(np.arange(W, dtype=np.float32) + 0.5, np.arange(H, dtype=np.float32) + 0.5)
-
-T_BUILD0 = T_LOCK + 0.04
-
-
-def ease_part(t, t0, dur, f=EXPO_OUT):
-    return float(f(clamp01((t - t0) / dur))) if t > t0 else 0.0
+QUINT_OUT = cubic_bezier(0.22, 1.0, 0.36, 1.0)
+QUART_INOUT = cubic_bezier(0.55, 0.0, 0.15, 1.0)
 
 
-def logo_alpha(t, logo):
-    """White coverage of the logo build at time t (after lock)."""
-    fr = 1.0 / FPS
-    L = T_BUILD0
-    out = np.zeros((H, W), np.float32)
-    P = logo.parts
-    crop = logo.crop
-    # dot: exact logo dot (the ball has become it)
-    out = np.maximum(out, P['dot']['alpha'])
-    # i stem: extrudes downward out of the dot
-    e = ease_part(t, L + 0 * fr, 7 * fr)
-    if e > 0:
-        a = shift_alpha(P['i_stem']['alpha'], 0, -(1 - e) * 120, crop)
-        a *= soft_half(GY, P['dot']['y1'] + 0.5, 1)
-        out = np.maximum(out, a)
-    # l: rises from the baseline
-    e = ease_part(t, L + 2 * fr, 8 * fr)
-    if e > 0:
-        a = shift_alpha(P['l']['alpha'], 0, (1 - e) * 185, crop)
-        a *= soft_half(GY, P['l']['y1'], -1)
-        out = np.maximum(out, a)
-    # n: slides out from behind the stem of the i
-    e = ease_part(t, L + 3 * fr, 8 * fr)
-    if e > 0:
-        a = shift_alpha(P['n']['alpha'], -(1 - e) * 70, 0, crop)
-        a *= soft_half(GX, P['i_stem']['x1'] + 3, 1)
-        out = np.maximum(out, a)
-    # s: drops from the x-height line
-    e = ease_part(t, L + 4 * fr, 8 * fr)
-    if e > 0:
-        a = shift_alpha(P['s']['alpha'], 0, -(1 - e) * 140, crop)
-        a *= soft_half(GY, P['s']['y0'] - 0.5, 1)
-        out = np.maximum(out, a)
-    # a: slides out from behind the n
-    e = ease_part(t, L + 5 * fr, 8 * fr)
-    if e > 0:
-        a = shift_alpha(P['a']['alpha'], -(1 - e) * 80, 0, crop)
-        a *= soft_half(GX, P['n']['x1'] + 4, 1)
-        out = np.maximum(out, a)
-    # A long stroke: drawn along its own axis from the apex
-    e = ease_part(t, L + 6 * fr, 8 * fr)
-    if e > 0:
-        p = P['A_diag']; ax = p['axis']; c = p['centroid']
-        proj = (GX - c[0]) * ax[0] + (GY - c[1]) * ax[1]
-        lo, hi = p['span']
-        front = lo - 2 + (hi - lo + 4) * e
-        a = shift_alpha(p['alpha'], -ax[0] * (1 - e) * 40, -ax[1] * (1 - e) * 40, crop)
-        a *= np.clip((front - proj) / 1.5 + 0.5, 0, 1)
-        out = np.maximum(out, a)
-    # A short leg: slides out from behind the long stroke and closes the A (final beat)
-    e = ease_part(t, L + 11 * fr, 6 * fr, cubic_bezier(0.2, 1.0, 0.3, 1.04))
-    if e > 0:
-        p = P['A_leg']; ax = p['axis']
-        k = (1 - e) * 95
-        a = shift_alpha(p['alpha'], -ax[0] * k, -ax[1] * k, crop)
-        # visible only left of the long stroke's left edge
-        q = P['A_diag']; qa = q['axis']; nrm = np.array([qa[1], -qa[0]])
+class VecLogo:
+    NAMES = dict(A_diag=(262, 844), l=(382, 845), dot=(554, 845), s=(429, 891), n=(608, 891),
+                 a=(746, 891), i_stem=(554, 893), A_leg=(196, 935))
+
+    def __init__(self):
+        raw = trace()
+        self.P = {}
+        for nm, (x0, y0) in self.NAMES.items():
+            k = [k for k, v in raw.items() if abs(v['x0'] - x0) <= 2 and abs(v['y0'] - y0) <= 2][0]
+            self.P[nm] = raw[k]
+        allp = np.concatenate(self.P['dot']['polys'])
+        x0, y0 = allp.min(0); x1, y1 = allp.max(0)
+        self.dot = ((x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 2, (y1 - y0) / 2)
+        st = np.concatenate(self.P['i_stem']['polys'])
+        self.stem_y0, self.stem_y1 = st[:, 1].min(), st[:, 1].max()
+        # stroke axes of the A (PCA on the outline)
+        for nm in ('A_diag', 'A_leg'):
+            pts = np.concatenate(self.P[nm]['polys'])
+            m = pts.mean(0); ev, evec = np.linalg.eigh(np.cov((pts - m).T))
+            ax = evec[:, 1]
+            if ax[1] < 0:
+                ax = -ax
+            self.P[nm]['axis'] = ax; self.P[nm]['centroid'] = m
+        # clip half-plane for the short leg: left of the long stroke's left edge
+        q = self.P['A_diag']; qa = q['axis']; nrm = np.array([qa[1], -qa[0]])
         if nrm[0] > 0:
             nrm = -nrm
-        # left edge: max extent of the stroke along -normal
-        ys, xs = np.nonzero(q['alpha'] > 0.5)
-        dist = (xs - q['centroid'][0]) * nrm[0] + (ys - q['centroid'][1]) * nrm[1]
-        edge = dist.max()
-        dd = (GX - q['centroid'][0]) * nrm[0] + (GY - q['centroid'][1]) * nrm[1]
-        a *= np.clip((dd - edge + 1.0), 0, 1) if e < 0.999 else 1.0
-        out = np.maximum(out, a)
-    if t >= L + 20 * fr:
-        return logo.alpha.copy()
-    return np.clip(out, 0, 1)
+        pts = np.concatenate(q['polys'])
+        edge = ((pts - q['centroid']) @ nrm).max()
+        p0 = q['centroid'] + nrm * (edge + 0.8)
+        self.leg_clip = [np.array([p0 - qa * 2000, p0 + qa * 2000, p0 + qa * 2000 + nrm * 3000, p0 - qa * 2000 + nrm * 3000])]
+        mid = lambda a_, b_: 0.5 * (a_ + b_)
+        P = self.P
+        R = lambda xc: [np.array([[xc, 0], [4000, 0], [4000, 4000], [xc, 4000]], float)]
+        L = lambda xc: [np.array([[-4000, 0], [xc, 0], [xc, 4000], [-4000, 4000]], float)]
+        # (name, start, duration, slide vector in logo px, clip)   -- cadence radiating out from the i
+        wdt = lambda nm: P[nm]['x1'] - P[nm]['x0']
+        self.reveals = [
+            ('n',      3.40, 0.36, (-0.62 * wdt('n'), 0), R(mid(P['i_stem']['x1'], P['n']['x0']))),
+            ('s',      3.46, 0.34, (+0.62 * wdt('s'), 0), L(mid(P['s']['x1'], P['i_stem']['x0']))),
+            ('l',      3.76, 0.32, (+0.90 * wdt('l'), 0), L(mid(P['l']['x1'], P['s']['x0']))),
+            ('a',      3.79, 0.33, (-0.62 * wdt('a'), 0), R(mid(P['n']['x1'], P['a']['x0']))),
+            ('A_diag', 3.86, 0.32, (+0.50 * wdt('A_diag'), 0), L(mid(P['A_diag']['x1'], P['l']['x0']))),
+            ('A_leg',  3.97, 0.28, tuple(-P['A_leg']['axis'] * 70.0), self.leg_clip),
+        ]
+        self._hold = None
 
+    # ---- group motion: impact, bounce, settle
+    def group(self, t, fall_pos):
+        """Returns (T, s, sx, sy): screen position of the dot centre, group scale, dot squash."""
+        sx = sy = 1.0
+        if t < T_IMPACT:
+            T = np.array(fall_pos, float)
+        else:
+            u = t - T_IMPACT
+            b = -10.0 * math.exp(-u / 0.06) * math.sin(2 * math.pi * u / 0.17) if u < 0.4 else 0.0
+            T = IMPACT_C + np.array([0.0, b])
+            p = math.exp(-((u - 0.008) / 0.026) ** 2)
+            sy = 1 - 0.07 * p; sx = 1 + 0.045 * p
+        e = float(QUART_INOUT(clamp01((t - T_SETTLE0) / (T_SETTLE1 - T_SETTLE0))))
+        dc = np.array(self.dot[:2])
+        T = T * (1 - e) + dc * e
+        s = SG0 + (1.0 - SG0) * e
+        return T, s, sx, sy
 
-def guides(t):
-    """Fleeting construction guides (x-height and baseline), 2 px, low opacity, gone before the hold."""
-    fr = 1.0 / FPS
-    L = T_BUILD0
-    g = np.zeros((H, W), np.float32)
-    e = ease_part(t, L - 1 * fr, 9 * fr)
-    fade = 1 - smoothstep(L + 8 * fr, L + 15 * fr, t)
-    if e <= 0 or fade <= 0:
-        return g
-    cx = DOT[0]
-    half_l = (cx - 176) * e; half_r = (903 - cx) * e
-    for y in (891.0, 1027.0, 844.0):
-        band = np.clip(1.0 - np.abs(GY - y) / 1.0, 0, 1)
-        span = np.clip((GX - (cx - half_l)) + 0.5, 0, 1) * np.clip(((cx + half_r) - GX) + 0.5, 0, 1)
-        g = np.maximum(g, band * span)
-    # vertical through the i
-    ev = ease_part(t, L - 1 * fr, 7 * fr)
-    band = np.clip(1.0 - np.abs(GX - cx) / 1.0, 0, 1)
-    span = np.clip(GY - 840, 0, 1) * np.clip((840 + 190 * ev) - GY, 0, 1)
-    g = np.maximum(g, band * span)
-    return g * 0.32 * fade
+    def _map(self, polys, T, s, sx=1.0, sy=1.0):
+        dc = np.array(self.dot[:2])
+        return [T + s * (p - dc) * [sx, sy] for p in polys]
+
+    def coverage(self, t, fall_pos):
+        if t >= T_SETTLE1 + 0.02:
+            if self._hold is None:
+                self._hold = self._cov_at(T_SETTLE1 + 0.02, fall_pos)
+            return self._hold
+        return self._cov_at(t, fall_pos)
+
+    def _cov_at(self, t, fall_pos):
+        T, s, sx, sy = self.group(t, fall_pos)
+        out = np.zeros((H, W), np.float32)
+        def put(screen_polys, clip=None):
+            allp = np.concatenate(screen_polys)
+            x0 = max(int(math.floor(allp[:, 0].min())) - 2, 0); y0 = max(int(math.floor(allp[:, 1].min())) - 2, 0)
+            x1 = min(int(math.ceil(allp[:, 0].max())) + 2, W); y1 = min(int(math.ceil(allp[:, 1].max())) + 2, H)
+            if x1 <= x0 or y1 <= y0:
+                return
+            c = raster(screen_polys, (x0, y0, x1, y1), clip)
+            out[y0:y1, x0:x1] = np.maximum(out[y0:y1, x0:x1], c)
+        P = self.P
+        put(self._map(P['dot']['polys'], T, s, sx, sy))
+        # i stem: pulled out of the dot -- bottom edge leads, top edge follows and opens the gap
+        if t > 3.15:
+            eb = float(QUINT_OUT(clamp01((t - 3.15) / 0.27)))
+            et = float(cubic_bezier(0.5, 0.0, 0.2, 1.0)(clamp01((t - 3.17) / 0.25)))
+            d_bot = self.dot[1] + self.dot[3]
+            top = d_bot + (self.stem_y0 - d_bot) * et
+            bot = d_bot + (self.stem_y1 - d_bot) * eb
+            if bot - top > 0.05:
+                k = (bot - top) / (self.stem_y1 - self.stem_y0)
+                polys = [np.column_stack([p[:, 0], top + (p[:, 1] - self.stem_y0) * k]) for p in P['i_stem']['polys']]
+                put(self._map(polys, T, s))
+        for nm, t0, dur, slide, clip in self.reveals:
+            if t <= t0:
+                continue
+            e = float(QUINT_OUT(clamp01((t - t0) / dur)))
+            off = np.array(slide) * (1 - e)
+            polys = [p + off for p in P[nm]['polys']]
+            put(self._map(polys, T, s), self._map(clip, T, s) if e < 1 else None)
+        return out
 
 
 # =====================================================================================
@@ -462,12 +425,13 @@ class Renderer:
         ls = np.minimum(ls, -1e-4)                 # strictly monotonic zoom-out
         ls = ndimage.gaussian_filter1d(ls, 7.0, mode='nearest')     # smooth zoom-rate -> even playback
         self.Z = np.concatenate([[0.0], np.cumsum(ls)])
-        self.C = Curves(self.Z)
+        self.logo = VecLogo()
+        global DOTV
+        DOTV = self.logo.dot
+        Gt = math.sqrt(DOTV[2] * DOTV[3] * 4 / math.pi) * SG0
+        self.C = Curves(self.Z, Gt)
         self.video = Video(len(self.Z))
         self.pano = Pano(os.path.join(ROOT, 'assets/source/DJI_20260617130023_0031_D.jpg'))
-        self.logo = Logo()
-        global DOT
-        DOT = self.logo.dot
         self.t_blend0 = self.C.t_h - 0.12
         self.t_blend1 = self.C.t_h + 0.08
         self.dis_morph = cv2.DISOpticalFlow_create(cv2.DISOPTICAL_FLOW_PRESET_MEDIUM)
@@ -483,62 +447,47 @@ class Renderer:
             img = cv2.warpAffine(img, M, (W, H), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REFLECT)
         return img
 
-    # ----- panorama / planet / ball layer; returns (rgb, coverage)
+    # ----- panorama -> tiny planet -> ball -> dot; returns (rgb, coverage, state)
     def pano_layer(self, t):
-        C = self.C
-        if t < T_SPH:
-            S = C.S_at(t); d = C.d_at(t); roll = C.roll_at(t)
-            cen = C.nadir_at(t, S)
-            st = None
-        else:
-            st = collapse_state(t, C.S_at(t))
-            roll = C.roll_at(t) - st['spin']
-            G = st['G']; ratio = st['ratio']
-            d = math.sqrt(ratio ** 2 / (ratio ** 2 - 1.0)) if ratio > 1.0 else 1e6
-            d = min(max(d, 1.0), 400.0)
-            S = G * d / (d + 1.0)              # ground disc radius = S (d+1)/d = G
-            cen = st['c']
+        st = sphere_state(t, self.C)
+        S, d, cen, roll = st['S'], st['d'], st['c'], st['roll']
         x = (GX - cen[0]); y = (GY - cen[1])
         cover = np.ones((H, W), np.float32)
-        if st is not None and st['mu'] > 0:
-            # true shape morph: radial remap of the disc onto a superellipse that becomes the dot rectangle
-            mu = st['mu']; sig = st['sigma']
-            _, _, hx, hy = DOT
-            Rvis = S * math.sqrt((d + 1) / (d - 1)) if d > 1.0001 else 1e9
-            a_ = Rvis * (1 - mu) + hx * sig * mu
-            b_ = Rvis * (1 - mu) + hy * sig * mu
+        Rvis = S * math.sqrt((d + 1) / (d - 1)) if d > 1.0001 else 1e9
+        mu = st['mu']
+        if mu > 0:
+            # true shape morph: radial remap of the visible disc onto a superellipse -> the dot rectangle
+            _, _, hx, hy = DOTV
+            sig = st['sigma']
+            a_ = Rvis * (1 - mu) + hx * SG0 * sig * mu
+            b_ = Rvis * (1 - mu) + hy * SG0 * sig * mu
             m = 2.0 + 58.0 * mu ** 2
             r = np.sqrt(x * x + y * y) + 1e-6
-            cph = np.abs(x) / r; sph = np.abs(y) / r
-            rb = 1.0 / ((cph / a_) ** m + (sph / b_) ** m) ** (1.0 / m)
+            rb = 1.0 / ((np.abs(x) / r / a_) ** m + (np.abs(y) / r / b_) ** m) ** (1.0 / m)
             cover = np.clip(rb - r + 0.5, 0, 1).astype(np.float32)
-            if mu > 0.6:   # crisp rectangle AA for the final frames
+            if mu > 0.6:
                 box = np.clip(a_ - np.abs(x) + 0.5, 0, 1) * np.clip(b_ - np.abs(y) + 0.5, 0, 1)
                 wbox = smoothstep(0.6, 1.0, mu)
                 cover = cover * (1 - wbox) + box * wbox
-            scale_tex = Rvis / rb
-            x = x * scale_tex; y = y * scale_tex
+            sc = Rvis / rb
+            x = x * sc; y = y * sc
+        elif d > 1.0001:
+            r = np.sqrt(x * x + y * y)
+            cover = np.clip(Rvis - r + 0.5, 0, 1).astype(np.float32)
         c, s_ = math.cos(roll), math.sin(roll)
         u = (c * x - s_ * y) / S; v = (s_ * x + c * y) / S
         dirs, q = directions(u.astype(np.float32), v.astype(np.float32), d)
-        foot = footprint(dirs)
-        rgb = self.pano.sample(dirs, foot)
-        if st is not None:
-            if d > 1.0001 and st['mu'] <= 0:
-                Rvis = S * math.sqrt((d + 1) / (d - 1))
-                r = np.sqrt((GX - cen[0]) ** 2 + (GY - cen[1]) ** 2)
-                cover = np.clip(Rvis - r + 0.5, 0, 1).astype(np.float32)
-                # subtle limb shading so it reads as a ball, fades as it whitens
-                rn = np.clip(r / Rvis, 0, 1)
-                k = 0.22 * smoothstep(1.02, 3.0, d) * (1 - st['white'])
-                rgb *= (1 - k * (1 - np.sqrt(1 - rn * rn)))[..., None]
-            elif st['mu'] > 0:
-                cover = cover * (q < 1.0000001)
-            wp = st['white']
-            if wp > 0:
-                p = 1.0 + 80.0 * wp ** 2.2
-                rgb = 1.0 - np.power(np.clip(1.0 - rgb, 0, 1), p)
-                rgb = rgb * (1 - wp ** 6) + wp ** 6
+        rgb = self.pano.sample(dirs, footprint(dirs))
+        if d > 1.0001 and mu <= 0:
+            # subtle limb shading so it reads as a ball; fades as it turns white
+            rn = np.clip(np.sqrt((GX - cen[0]) ** 2 + (GY - cen[1]) ** 2) / Rvis, 0, 1)
+            k = 0.22 * smoothstep(1.02, 3.0, d) * (1 - st['white'])
+            rgb *= (1 - k * (1 - np.sqrt(1 - rn * rn)))[..., None]
+        wp = st['white']
+        if wp > 0:
+            p = 1.0 + 80.0 * wp ** 2.2
+            rgb = 1.0 - np.power(np.clip(1.0 - rgb, 0, 1), p)
+            rgb = rgb * (1 - wp ** 6) + wp ** 6
         return rgb, cover, st
 
     def subframe(self, t):
@@ -550,22 +499,12 @@ class Renderer:
             vid = self.video_layer(t)
             pan, _, _ = self.pano_layer(t)
             return self.morph(vid, pan, a)
-        if t < T_LOCK + 0.10:
+        if t < T_DOT:
             rgb, cover, st = self.pano_layer(t)
-            out = RED[None, None, :] * (1 - cover[..., None]) + rgb * cover[..., None]
-            if t >= T_LOCK:
-                # hand over to the exact logo dot alpha (geometrically identical rectangle)
-                k = smoothstep(T_LOCK, T_LOCK + 0.08, t)
-                da = self.logo.parts['dot']['alpha']
-                out_l = RED[None, None, :] * (1 - da[..., None]) + da[..., None]
-                out = out * (1 - k) + out_l * k
-            if t >= T_BUILD0 - 1.0 / FPS:
-                la = np.maximum(logo_alpha(t, self.logo) if t >= T_BUILD0 else 0, guides(t))
-                out = out * (1 - la[..., None]) + la[..., None]
-            return out
-        la = logo_alpha(t, self.logo)
-        g = guides(t)
-        cov = np.maximum(la, g)
+            return RED[None, None, :] * (1 - cover[..., None]) + rgb * cover[..., None]
+        # the white ball is now exactly the dot: continue with the vector logo group (same geometry)
+        fall = C.nadir_at(min(t, T_IMPACT), C.S_at(min(t, T_IMPACT)))
+        cov = self.logo.coverage(t, fall)
         return RED[None, None, :] * (1 - cov[..., None]) + cov[..., None]
 
     def morph(self, vid, pan, a):
@@ -585,11 +524,9 @@ class Renderer:
             return 3
         if t < self.C.t_h - 0.6:
             return 8
-        if t < 2.9:
+        if t < T_IMPACT + 0.06:
             return 20
-        if t < T_LOCK + 0.1:
-            return 20
-        if t < T_BUILD0 + 0.75:
+        if t < T_SETTLE1 + 0.04:
             return 12
         return 1
 
@@ -618,16 +555,17 @@ def main():
     C = R.C
     print('A=%.3f  handoff t_h=%.3f s (frame %.1f)' % (C.A, C.t_h, C.t_h * FPS))
     if args.curves:
-        for k in range(0, 90):
+        for k in range(40, 112):
             t = k / FPS
             line = 't=%.2f v=%.3f S=%.1f' % (t, C.speed(t), C.S_at(t))
             if t < C.t_h + 0.1:
                 line += ' tau=%.1f' % C.video_tau(t)
-            if t > C.t_h - 0.1 and t < 2.95:
-                S = C.S_at(t); line += ' S=%.1f d=%.3f roll=%.1f nad=%s' % (S, C.d_at(t), math.degrees(C.roll_at(t)), np.round(C.nadir_at(t, S), 0))
-            if t > T_SPH:
-                st = collapse_state(t, C.S_at(t))
-                line += ' G=%.1f ratio=%.3f mu=%.2f wh=%.2f c=%s' % (st['G'], st['ratio'], st['mu'], st['white'], np.round(st['c'], 1))
+            if t > C.t_h - 0.1 and t < T_DOT + 0.05:
+                st = sphere_state(t, C)
+                line += ' d=%.3f G=%.1f sig=%.2f mu=%.2f wh=%.2f roll=%.1f c=%s' % (st['d'], st['G'], st['sigma'], st['mu'], st['white'], math.degrees(st['roll']), np.round(st['c'], 1))
+            if t >= T_DOT:
+                T, sg, sx, sy = R.logo.group(t, C.nadir_at(min(t, T_IMPACT), 1.0))
+                line += ' group T=%s s=%.3f squash=(%.3f,%.3f)' % (np.round(T, 1), sg, sx, sy)
             print(line)
         return
     if args.list:

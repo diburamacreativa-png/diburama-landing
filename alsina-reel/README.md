@@ -25,26 +25,38 @@ Reproducir desde cero: `bash tools/run_all.sh` (requisitos: ffmpeg con libx264/p
    girados 90° para que el 16:9 nativo llene el 9:16 a resolución nativa (sin recorte ni reescalado
    apreciable: 1,02× → 1,0×). Parallax real del dron, micro-giro de 0,6° que se amortigua.
    Interpolación por flujo óptico (DIS) entre fotogramas para la cámara lenta.
-2. **0,75–2,6 s · Salida acelerada.** Una única curva de velocidad (log-escala del centro de imagen)
-   con subida gaussiana y cola inercial gobierna tanto el vídeo (remapeo temporal f16→f240) como la
-   panorámica. Pico de velocidad en t ≈ 1,97 s, justo en el empalme vídeo→panorámica, que se hace
-   con morph de flujo óptico de gran escala bajo motion blur. A partir de ahí la cámara virtual pasa
-   de proyección gnomónica (d=0) a estereográfica (d=1) mientras gira 56° y desacelera.
-3. **2,6–3,1 s · Tiny planet** de la panorámica DJI real: suelo ≈ 50 % del ancho, grúa vertical
-   saliendo del planeta, cielo envolvente; rotación residual amortiguada.
-4. **3,1–3,52 s · Esfera → punto de la «i».** La proyección continúa hacia ortográfica (d→∞): el
-   cielo se envuelve detrás de la bola y el borde del disco visible barre la pantalla desde las
-   esquinas, dejando el rojo corporativo (no hay flash ni fundido). La bola se acelera en curva
-   Bézier, se comprime, se transforma con un remapeo radial a superelipse (true shape morph) hasta el
-   rectángulo exacto del punto (37,0×30,9 px, centro 573,0/860,4) y se sobreexpone a blanco puro.
-   Sobreimpulso de 2,5 px y 4 % de escala, asentado en 2 fotogramas.
-5. **3,52–4,22 s · Construcción del logo** con las formas blancas originales (8 componentes del PNG
-   oficial, colocado en (189, 836), error medio 0,4 % frente al fotograma final de `LOGO VERTICAL.mp4`):
-   el fuste de la «i» sale del punto, la «l» sube desde la línea base, «n» y «a» se deslizan desde
-   detrás de la letra anterior, la «s» cae desde la altura de x, el trazo largo de la «A» se dibuja a
-   lo largo de su eje y la pata corta cierra la «A» en el último golpe. Guías de 2 px al 32 % (línea
-   base, altura de x, eje de la «i») que desaparecen antes del cierre.
-6. **4,22–6,4 s · Cierre limpio**: logo original blanco sobre #AA192D uniforme (2,2 s).
+2. **0,75–1,95 s · Salida acelerada.** Una única curva de velocidad (log-escala del centro de imagen)
+   con subida gaussiana gobierna tanto el vídeo (remapeo temporal f16→f240) como la panorámica. Pico
+   de velocidad en t ≈ 1,97 s, justo en el empalme vídeo→panorámica (morph de flujo óptico de gran
+   escala bajo motion blur).
+3. **1,95–2,45 s · Formación de la esfera, sin pausa.** La cámara virtual hace un único dolly-out
+   continuo: distancia de proyección d = 0 (gnomónica, dentro de la panorámica) → d = 1
+   (estereográfica, tiny planet a 2,30 s) → d → ∞ (ortográfica, la bola vista desde fuera). Una
+   segunda rampa de alejamiento arranca a 2,22 s, antes de que el planeta termine de formarse: la
+   velocidad mínima es 0,84/s, nunca cero. Gira 56° y el planeta sube a la mitad superior del cuadro.
+4. **2,42–3,00 s · Esfera → punto, continuo.** El cielo se envuelve detrás de la bola y el borde del
+   disco visible entra desde las esquinas (2,42 s) y se cierra sobre ella en ~7 fotogramas,
+   desacelerando: el rojo llega como consecuencia del propio alejamiento, sin flash ni fundido. La
+   bola se simplifica (morph radial a superelipse → rectángulo exacto del punto, sobreexposición a
+   blanco) entre 2,55 y 2,76 s, y cae acelerando (potencia 2,6) hacia el centro exacto del cuadro.
+   El punto llega a 1,6× el tamaño del logo para que tenga protagonismo.
+5. **3,00–3,18 s · Impacto.** Llega a (540, 960) con velocidad; aplastamiento del 7 % durante
+   un fotograma y rebote amortiguado de 5 px (muelle con amortiguación de 60 ms), asentado a 3,18 s.
+6. **3,15–3,42 s · Palo de la «i».** Sale del propio punto: su borde inferior baja delante
+   (quint-out) y el superior le sigue, abriendo el hueco entre punto y palo: una sola pieza que se
+   desdobla.
+7. **3,40–3,80 s · «n» y «s» por máscara**, saliendo de detrás del palo de la «i» hacia cada lado. A la
+   vez, el grupo empieza a asentarse: escala 1,6 → 1,0 y desplazamiento al encuadre final (curva
+   ease-in-out de 3,36 a 4,30 s, sin overshoot).
+8. **3,76–4,25 s · Resto de letras por máscara**, en cadencia hacia fuera: «l» y «a» (3,76/3,79),
+   trazo largo de la «A» (3,86) y pata corta que cierra la «A» (3,97–4,25). Sin guías, contornos ni
+   ningún otro elemento.
+9. **4,30–6,4 s · Hold**: logo blanco original sobre #AA192D, estático (2,1 s), en la posición exacta
+   del cierre de `LOGO VERTICAL.mp4` (centrado horizontalmente; la banda de altura de x centrada en el
+   eje vertical del cuadro).
+
+El logo se reconstruye en vectorial a partir del PNG oficial (trazado a 8×, diferencia media 0,36 %
+frente al original) y se rasteriza con supermuestreo 4×4, para que siga nítido mientras se escala.
 
 Todo se compone en luz lineal en coma flotante de 32 bits y se exporta a PNG de 16 bits. Motion blur
 real por supermuestreo temporal (obturador de 180°, hasta 20 subfotogramas por fotograma). La
