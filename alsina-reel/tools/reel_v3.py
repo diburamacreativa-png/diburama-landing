@@ -78,7 +78,9 @@ def s_to240(tau):
 
 # new-shot zoom (accurate per-frame measurement), anchored to the old frame at 227
 _im = json.load(open(os.path.join(ROOT, 'build/inicio_motion.json')))['frames']
-_ln = ndimage.gaussian_filter1d(np.log([r['scale'] for r in _im]), 2.0, mode='nearest')
+# NOT smoothed: the source has an uneven 25->30 fps cadence (full / half steps). Using the measured
+# per-frame zoom as the clock gives every output frame the same amount of motion (no judder).
+_ln = np.minimum(np.log([r['scale'] for r in _im]), -1e-4)
 ZN = np.concatenate([[0.0], np.cumsum(_ln)])          # ZN[m], m = 0..105
 C_OLD227 = S240 / s_to240(227.0)
 C_NEW105 = C_OLD227 / CROP_S
@@ -104,7 +106,19 @@ def tau_from_C(c):
 # footage -> panorama correction measured on ground landmarks at the handoff (build/v3_sim.npy):
 # yellow-crane base, green-crane base, south fence, site-office fence. Eased in before the blend and
 # folded into the speed curve (the footage advances to compensate), so perceived speed is unchanged.
-_SIM = np.load(os.path.join(ROOT, 'build/v3_sim.npy'))
+LM_FOOTAGE = np.float32([[260, 460], [710, 700], [540, 1360], [300, 250]])   # output px at the handoff
+LM_PANO = np.float32([[230, 490], [560, 800], [540, 1640], [300, 185]])
+
+
+def _fit_similarity(F, P):
+    M, b = [], []
+    for (x, y), (u, v) in zip(F, P):
+        M.append([x, -y, 1, 0]); b.append(u); M.append([y, x, 0, 1]); b.append(v)
+    a, bb, tx, ty = np.linalg.lstsq(np.array(M, float), np.array(b, float), rcond=None)[0]
+    return np.array([[a, -bb, tx], [bb, a, ty]])
+
+
+_SIM = _fit_similarity(LM_FOOTAGE, LM_PANO)
 SIM_S = float(math.hypot(_SIM[0, 0], _SIM[1, 0])); SIM_R = float(math.atan2(_SIM[1, 0], _SIM[0, 0]))
 SIM_T = _SIM[:, 2].copy()
 CORR = (1.55, 1.76)
