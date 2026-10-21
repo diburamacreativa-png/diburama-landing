@@ -1,0 +1,58 @@
+﻿id,fotograma,timecode,evento_s,inicio_wav_s,archivo,alineacion,nivel_rel_musica_dB,ganancia_aplicada_dB,pan,pitch_st,eq,descripcion_visual,cambio_respecto_CSV_original
+G01,5.5,00:00:00:06,0.22,0.0158,01_WHOOSHES/WHOOSH_03_AIRE_LIGERO.wav,peak,-17,-19.39,0.0,0,air,f0-5 apertura sobre la grua; arranca en f0 y culmina en la entrada de ¿Y,"CSV f0 (pico en 0, quedaba cortado): mismo WAV, ahora arranca en f0 y culmina en «¿Y»; -17 dB"
+G02,6.0,00:00:00:06,0.24,0.2376,03_UI_POPS_CLICKS/UI_03_POP_TEXTO_SUAVE.wav,attack,-14.5,-10.72,-0.2,0,pop,f6 «¿Y» aparece (izquierda),NUEVO: CSV ponía «¿Y SI» en f12; «¿Y» aparece en f6
+G03,12.0,00:00:00:12,0.48,0.4776,03_UI_POPS_CLICKS/UI_03_POP_TEXTO_SUAVE.wav,attack,-16,-11.6,0.2,2,pop,"f12 «SI» aparece (derecha), mismo pop +2 st","CSV f12 UI_02 -> UI_03 (pop por palabra, mismo pop que «¿Y» +2 st)"
+G04,12.0,00:00:00:12,0.48,0.48,01_WHOOSHES/WHOOSH_07_TRAZO_LINEA.wav,start,-21,-20.24,0.1,0,air,f12-19 linea grafica curva se dibuja,CSV f60 'curva fina': la curva se dibuja realmente en f12-19
+G05,20.0,00:00:00:20,0.8,0.7763,02_IMPACTS/HIT_03_GRUA_PROTAGONISTA.wav,attack,-3.5,-5.53,0.0,0,hit_sub,f20 «NO» + fondo a blanco: golpe heroe del gancho,CSV f20 -9 dB -> -3,5 dB (el bajo funk enmascaraba el golpe heroe; ver informe)
+G06,20.0,00:00:00:20,0.8,0.7973,03_UI_POPS_CLICKS/UI_04_POP_TEXTO_PUNCH.wav,attack,-12,-8.69,0.0,-2,pop,f20 capa de ataque para definir el «NO» sobre el bajo,NUEVO: capa de ataque (el HIT_03 es 98 % subgrave)
+G07,30.0,00:00:01:05,1.2,1.1976,03_UI_POPS_CLICKS/UI_02_TICK_MINIMO.wav,attack,-18.5,-6.79,0.1,0,click,f30 «NECE»,CSV f32 UI_08 triple tick -> 3 ticks individuales en f30/34/38 (UI_08 tiene ~110 ms entre ticks; la animacion 160 ms)
+G08,34.0,00:00:01:09,1.36,1.3579,03_UI_POPS_CLICKS/UI_02_TICK_MINIMO.wav,attack,-18,-6.4,0.1,1,click,f34 «SITA» (acumulacion +1 st),ver G07
+G09,38.0,00:00:01:13,1.52,1.518,03_UI_POPS_CLICKS/UI_02_TICK_MINIMO.wav,attack,-17.5,-5.43,0.1,2,click,f38 «RAS» (acumulacion +2 st),ver G07
+G10,46.0,00:00:01:21,1.84,1.8269,02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav,attack,-5.5,-5.87,0.0,0,hit,f46 «GRUA» + fondo rojo,"CSV f46 -9,5 dB -> -5,5 dB"
+G11,46.0,00:00:01:21,1.84,1.8378,03_UI_POPS_CLICKS/UI_05_SNAP_PALABRA.wav,attack,-14.5,-7.79,0.0,0,click,f46 capa de ataque de «GRUA»,NUEVO: capa de ataque de «GRUA»
+G12,66.0,00:00:02:16,2.64,2.4959,01_WHOOSHES/WHOOSH_02_RAPIDO_LATERAL.wav,peak,-16,-18.1,0.0,-1,air,"f59-66 barrido vertical del panel; la musica remata «EN CADA MONTAJE?» en 2,74 s",NUEVO: el barrido vertical f59-66 no estaba en el CSV
+G13,72.0,00:00:02:22,2.88,2.88,01_WHOOSHES/WHOOSH_07_TRAZO_LINEA.wav,start,-22,-21.2,-0.15,-2,air,"f72-80 linea alrededor del simbolo (motivo de linea, -2 st)","CSV f72 UI_04 pop eliminado (la musica ya golpea en 2,74 s = f68,5); se usa el motivo de linea para f72-80"
+G14,107.0,00:00:04:07,4.28,3.68,04_RISERS_REVERSE/REVERSE_02_PRE_CORTE.wav,end,-17,-16.27,0.0,0,air,aire invertido que termina en el gran cambio de escena f107,NUEVO: reverse que termina en el gran cambio de escena (jerarquia nivel 4)
+G15,107.0,00:00:04:07,4.28,4.0113,01_WHOOSHES/WHOOSH_04_MOTION_MEDIO.wav,peak,-13,-15.55,0.0,0,air,f107 corte a obra aerea: pico del whoosh en el corte,CSV f107 igual; -13 dB
+P01,115.0,00:00:04:15,4.6,4.5259,01_WHOOSHES/WHOOSH_01_MICRO_SECO.wav,peak,-17,-18.67,0.0,0,air,f113-117 «ALISPLAY» sube y se asienta,CSV f121 UI_04 -> swish; «ALISPLAY» entra en f113-117 (8 fotogramas antes)
+P02,124.0,00:00:04:24,4.96,4.868,01_WHOOSHES/WHOOSH_01_MICRO_SECO.wav,peak,-18,-20.31,0.0,-1.5,air,"f122-127 «MANUAL» sube (mismo swish -1,5 st)","CSV f132 UI_05 -> swish -1,5 st; «MANUAL» entra en f122-127"
+P03,185.0,00:00:07:10,7.4,7.2629,01_WHOOSHES/WHOOSH_02_RAPIDO_LATERAL.wav,peak,-14,-16.6,0.0,0,air,f185 cambio de toma con barrido,CSV f185 igual
+P04,189.0,00:00:07:14,7.56,7.4824,01_WHOOSHES/WHOOSH_01_MICRO_SECO.wav,peak,-18,-17.03,0.2,1,air,f187-191 «240» entra desde la derecha,NUEVO: «240» entra desde la derecha f187-191
+P05,197.0,00:00:07:22,7.88,7.8736,02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav,attack,-8,-7.06,0.0,0,hit,f197 «PLUS» consolidado (ultima letra asentada): hit seco,CSV f200 HIT_02 -> HIT_01 seco en f197 (ultima letra asentada)
+D01,242.0,00:00:09:17,9.68,9.3856,01_WHOOSHES/WHOOSH_05_GRAVE_CON_CUERPO.wav,peak,-14,-16.49,0.0,0,air_body,f242 corte principal,CSV f242 igual
+D02,245.0,00:00:09:20,9.8,9.7975,03_UI_POPS_CLICKS/UI_03_POP_TEXTO_SUAVE.wav,attack,-15.5,-11.39,0.0,-1,pop,f245 «DISEÑADO» se materializa,CSV f256 triple tick -> pop en f245 («DISEÑADO»)
+D03,251.0,00:00:10:01,10.04,9.8861,03_UI_POPS_CLICKS/UI_07_GLITCH_SUTIL.wav,peak,-19,-12.0,0.1,0,click,f250-253 «PARA» entra en rojo con desenfoque glitch,NUEVO: «PARA» entra con desenfoque glitch f250-253
+D04,263.0,00:00:10:13,10.52,10.5178,03_UI_POPS_CLICKS/UI_05_SNAP_PALABRA.wav,attack,-18,-9.53,-0.1,0,click,f263 «EDIFICACION»,CSV f271 -> «EDIFICACION» aparece en f263
+D05,268.0,00:00:10:18,10.72,10.7178,03_UI_POPS_CLICKS/UI_04_POP_TEXTO_PUNCH.wav,attack,-15.5,-12.69,0.0,0,pop,f268 «CHILENA»,CSV f271 -> «CHILENA» aparece en f268
+D06,271.0,00:00:10:21,10.84,10.8377,03_UI_POPS_CLICKS/UI_01_CLICK_PRECISO.wav,attack,-20.5,-12.04,-0.1,0,click,"f271 contador 0,01 m arranca","CSV f284/f293 (sin evento visual) -> clicks siguiendo el contador 0,01->2,40 m (f271-283)"
+D07,274.0,00:00:10:24,10.96,10.958,03_UI_POPS_CLICKS/UI_01_CLICK_PRECISO.wav,attack,-20.5,-11.7,-0.1,0.5,click,"f274 contador 0,25 m",ver D06
+D08,277.0,00:00:11:02,11.08,11.078,03_UI_POPS_CLICKS/UI_01_CLICK_PRECISO.wav,attack,-19.5,-9.06,-0.1,1,click,"f277 contador 0,91 m",ver D06
+D09,280.0,00:00:11:05,11.2,11.198,03_UI_POPS_CLICKS/UI_01_CLICK_PRECISO.wav,attack,-19.5,-9.22,-0.1,1.5,click,"f280 contador 1,77 m",ver D06
+D10,283.0,00:00:11:08,11.32,11.3181,03_UI_POPS_CLICKS/UI_01_CLICK_PRECISO.wav,attack,-19.5,-9.31,-0.1,2,click,"f283 contador 2,27 m (desacelera)",ver D06
+D11,286.0,00:00:11:11,11.44,11.4375,02_IMPACTS/HIT_05_ACENTO_LIGERO.wav,attack,-11,-4.86,0.0,0,hit,"f286 la cota se fija en 2,40 m","CSV f301 -> f286 (la cota se fija en 2,40 m en f286)"
+M01,323.0,00:00:12:23,12.92,12.6606,01_WHOOSHES/WHOOSH_04_MOTION_MEDIO.wav,peak,-14,-15.14,0.0,1,air,f320-329 barrido del brazo de grua en primer plano (pico f323),CSV f323 igual (+1 st)
+M02,338.0,00:00:13:13,13.52,13.5176,03_UI_POPS_CLICKS/UI_02_TICK_MINIMO.wav,attack,-18.5,-6.91,0.15,0,click,f338 «ME» entra,CSV f344 «MENOS» -> microtick en f338 («ME»)
+M03,348.0,00:00:13:23,13.92,13.9179,03_UI_POPS_CLICKS/UI_02_TICK_MINIMO.wav,attack,-19,-6.51,0.15,1,click,f348 «NOS»,CSV f356 «DEPENDENCIA» -> microtick f348 («NOS»)
+M04,352.0,00:00:14:02,14.08,14.078,03_UI_POPS_CLICKS/UI_02_TICK_MINIMO.wav,attack,-18.5,-6.36,0.15,2,click,f352 «DEPEN / DE»,NUEVO: tercer microtick f352 («DEPEN/DE»)
+M05,374.0,00:00:14:24,14.96,14.9462,02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav,attack,-7.5,-6.01,0.0,-1,hit,f374 «GRUA» parpadea a rojo: golpe mediano (misma familia que el GRUA del gancho),CSV f381 HIT_01 -> HIT_02 -1 st en f374 (primer parpadeo rojo; misma familia que el GRUA del gancho)
+M06,382.0,00:00:15:07,15.28,15.2779,03_UI_POPS_CLICKS/UI_01_CLICK_PRECISO.wav,attack,-21,-11.91,0.0,-1,click,f382 segundo parpadeo rojo,NUEVO: segundo parpadeo rojo f382
+S01,400.0,00:00:16:00,16.0,15.6948,01_WHOOSHES/WHOOSH_04_MOTION_MEDIO.wav,peak,-14,-13.54,0.0,-1,air,f400 corte a montaje,CSV f400 igual (-1 st)
+S02,406.0,00:00:16:06,16.24,16.2376,03_UI_POPS_CLICKS/UI_03_POP_TEXTO_SUAVE.wav,attack,-16,-10.43,-0.1,0,pop,f406 «MONTAJE» aparece,CSV f416 -> f406 («MONTAJE» aparece antes)
+S03,425.0,00:00:17:00,17.0,16.9954,02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav,attack,-8,-8.39,0.0,1,hit,f425 «SIMPLE» completo: acento seco y corto,CSV f432 -> f425 («SIMPLE» completo en f425-426)
+S04,425.0,00:00:17:00,17.0,16.9979,03_UI_POPS_CLICKS/UI_05_SNAP_PALABRA.wav,attack,-17,-9.13,0.0,1,click,f425 capa snap de «SIMPLE»,NUEVO: capa snap de «SIMPLE»
+S05,431.0,00:00:17:06,17.24,17.2376,03_UI_POPS_CLICKS/UI_05_SNAP_PALABRA.wav,attack,-21,-13.62,0.1,-1,click,f431 «ACABADOS DE» empieza,CSV f448 -> f431 («ACABADOS DE» empieza)
+S06,455.0,00:00:18:05,18.2,18.193,02_IMPACTS/HIT_06_CALIDAD_CON_PESO.wav,attack,-5,-4.03,0.0,0,hit,f455 «CALIDAD.» completo: acento con peso,CSV f461 -> f455 (punto final de «CALIDAD.» en f455)
+S07,455.0,00:00:18:05,18.2,18.1973,03_UI_POPS_CLICKS/UI_04_POP_TEXTO_PUNCH.wav,attack,-17,-13.71,0.0,-2,pop,f455 capa pop de «CALIDAD»,NUEVO: capa pop de «CALIDAD»
+S08,478.5,00:00:19:03,19.14,18.9357,01_WHOOSHES/WHOOSH_03_AIRE_LIGERO.wav,peak,-14,-15.78,0.0,0,air,f476-479 latigazo con desenfoque y corte a toma vertical,"CSV f479 igual, pico en f478,5 (latigazo f476-479)"
+Z01,510.0,00:00:20:10,20.4,19.8,04_RISERS_REVERSE/REVERSE_02_PRE_CORTE.wav,end,-17,-14.38,0.0,0,air,aire invertido hacia el inicio del giro (f510),CSV f508 -> termina en f510 (el giro arranca en f509-510)
+Z02,516.0,00:00:20:16,20.64,20.1533,01_WHOOSHES/WHOOSH_06_SPIN_DRON.wav,peak,-14,-16.56,0.0,0,air,f509-520 giro acelerado (pico f516),CSV f516 igual
+Z03,534.25,00:00:21:09,21.37,20.92,04_RISERS_REVERSE/RISER_01_MICRO.wav,end,-12,-11.59,0.0,0,air,f520-533 zoom planeta: micro-riser que termina en el corte a rojo,CSV f522 -> termina exactamente en el corte a rojo f534
+C01,534.0,00:00:21:09,21.36,21.3332,02_IMPACTS/HIT_07_CIERRE_MARCA.wav,attack,-9,-10.4,0.0,0,hit_sub,f534 corte duro a rojo corporativo: impacto de marca corto,"CSV f534 igual, acortado (fundido 0,30-0,45 s)"
+C02,552.0,00:00:22:02,22.08,22.0771,05_OUTRO_MARCA/LOGO_01_CONFIRMACION_LIGERA.wav,attack,-15.5,-8.82,0.0,0,pop,f550-553 logotipo Alsina se arma: confirmacion digital 1,CSV f576 (sin evento visual) -> f552 (el logotipo Alsina se arma)
+C03,557.0,00:00:22:07,22.28,22.2778,05_OUTRO_MARCA/LOGO_03_TICK_SIMBOLO.wav,attack,-19,-6.46,0.0,0,click,f557 «x» + icono ALTIUS: confirmacion digital 2,CSV f554 -> f557 («x» + icono ALTIUS)
+ELIMINADO,83,00:00:03:08,,,03_UI_POPS_CLICKS/UI_08_TRIPLE_TICK_CADENCIA.wav,,,,,,,,f80-99 estatico: sin evento visual
+ELIMINADO,207,00:00:08:07,,,03_UI_POPS_CLICKS/UI_01_CLICK_PRECISO.wav,,,,,,,,PLUS ya asentado: sin evento visual
+ELIMINADO,389,00:00:15:14,,,01_WHOOSHES/WHOOSH_07_TRAZO_LINEA.wav,,,,,,,,no tapar «GRUA» (indicacion del brief)
+ELIMINADO,544,00:00:21:19,,,03_UI_POPS_CLICKS/UI_06_BLIP_DOBLE.wav,,,,,,,,el reveal ya lleva 2 confirmaciones (brief: 1-2)
+ELIMINADO,564,00:00:22:14,,,05_OUTRO_MARCA/LOGO_04_CLACK_IDENTIDAD.wav,,,,,,,,"la musica da su golpe mas fuerte del final justo en «GRAN VIA» (22,46 s): se omite para no duplicar"
+ELIMINADO,614,00:00:24:14,,,05_OUTRO_MARCA/LOGO_02_AIRE_SALIDA.wav,,,,,,,,"cola musical limpia: el tema cierra con su propio final en 24,90 s"
