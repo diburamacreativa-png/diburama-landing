@@ -23,11 +23,24 @@ from scipy import ndimage
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-import reel
+# Which finale follows the new opening: 'v2' (rebuilt finale, default) or 'v1' (first version: planet
+# hold with sky, dot travelling to the logo position, construction guides). ALSINA_BASE=v1 selects it.
+BASE = os.environ.get('ALSINA_BASE', 'v2')
+if BASE == 'v1':
+    import reel_v1 as reel
+else:
+    import reel
+ROLL_BASE = reel.ROLL_H                    # roll the base film starts its spin from (rotated footage)
 reel.ROLL_H = math.radians(-3.75)          # upright footage: pano roll at the handoff (v2: +86.25 rotated)
-from reel import (W, H, FPS, NF, SHUTTER, RED, srgb2lin, lin2srgb, smoothstep, smootherstep, clamp01,
-                  cubic_bezier, Curves, Pano, VecLogo, sphere_state, PLANET_C, IMPACT_C, T_IMPACT, T_DOT,
-                  SG0, T_SETTLE1, GX, GY, ROOT)
+for _n in ('W', 'H', 'FPS', 'NF', 'SHUTTER', 'RED', 'srgb2lin', 'lin2srgb', 'smoothstep', 'smootherstep',
+           'clamp01', 'cubic_bezier', 'Curves', 'Pano', 'PLANET_C', 'ROOT'):
+    globals()[_n] = getattr(reel, _n)
+if BASE == 'v2':
+    for _n in ('VecLogo', 'sphere_state', 'IMPACT_C', 'T_IMPACT', 'T_DOT', 'SG0', 'T_SETTLE1', 'GX', 'GY'):
+        globals()[_n] = getattr(reel, _n)
+else:
+    GY, GX = np.mgrid[0:reel.H, 0:reel.W].astype(np.float32) + 0.5
+NADIR_END = 2.40 if BASE == 'v2' else 2.78   # base film's nadir reaches the planet centre
 
 C_OUT = np.array([540.0, 960.0])
 N240 = np.array([756.3, 435.2])            # panorama nadir in old frame-240 px (v2 landmark alignment)
@@ -137,8 +150,11 @@ def k_old(t):
 
 
 class Curves3(Curves):
-    def __init__(self, video_Z, G_target):
-        super().__init__(video_Z, G_target)
+    def __init__(self, video_Z, G_target=None):
+        if BASE == 'v2':
+            super().__init__(video_Z, G_target)
+        else:
+            super().__init__(video_Z)
         tt = self.tt; dt = tt[1] - tt[0]
         v2 = self.v.copy(); lam2 = self.lam.copy()
         S0 = k_old(0.0) * C_old(float(M0))
@@ -192,11 +208,24 @@ class Curves3(Curves):
         if t <= self.t_h3:
             return C_OUT + (S / S240) * (N240 - self.G_at(t))
         model = C_OUT + (S / S240) * (N240 - self.G_h)
-        if t <= 2.40:
-            e = smootherstep(self.t_h3, 2.40, t)
+        if t <= NADIR_END:
+            e = smootherstep(self.t_h3, NADIR_END, t)
             return model * (1 - e) + PLANET_C * e
+        if BASE == 'v1':
+            return PLANET_C.copy()
         f = float(clamp01((t - 2.40) / (T_IMPACT - 2.40))) ** 2.6
         return PLANET_C + (IMPACT_C - PLANET_C) * f
+
+    def roll_at(self, t):
+        r = super().roll_at(t)
+        if BASE == 'v1':
+            # spin starts from the upright orientation but is exactly the v1 roll from 2.80 s on,
+            # so the v1 frames (planet hold, dot, logo) can be reused untouched
+            # (both spins are within ~2 degrees of the final orientation in that window: no overshoot)
+            base = ROLL_BASE + (r - reel.ROLL_H) * (reel.ROLL_FINAL - ROLL_BASE) / (reel.ROLL_FINAL - reel.ROLL_H)
+            w = float(smoothstep(2.62, 2.80, t))
+            return r * (1 - w) + base * w
+        return r
 
 
 # ------------------------------------------------------------------------------------ footage
@@ -266,10 +295,15 @@ class Renderer3(reel.Renderer):
         ls = np.log([r['scale'] for r in rows]); ls = np.minimum(ls, -1e-4)
         ls = ndimage.gaussian_filter1d(ls, 7.0, mode='nearest')
         self.Z = np.concatenate([[0.0], np.cumsum(ls)])
-        self.logo = VecLogo()
-        reel.DOTV = self.logo.dot
-        Gt = math.sqrt(reel.DOTV[2] * reel.DOTV[3] * 4 / math.pi) * SG0
-        self.C = Curves3(self.Z, Gt)
+        if BASE == 'v2':
+            self.logo = VecLogo()
+            reel.DOTV = self.logo.dot
+            Gt = math.sqrt(reel.DOTV[2] * reel.DOTV[3] * 4 / math.pi) * SG0
+            self.C = Curves3(self.Z, Gt)
+        else:
+            self.logo = reel.Logo()
+            reel.DOT = self.logo.dot
+            self.C = Curves3(self.Z)
         self.pano = Pano(os.path.join(ROOT, 'assets/source/DJI_20260617130023_0031_D.jpg'))
         self.new = FlowClip([os.path.join(ROOT, 'build/inicio_frames/f%03d.jpg' % (i + 1)) for i in range(106)])
         self.old = FlowClip([os.path.join(ROOT, 'build/pano_frames/f%03d.jpg' % (i + 1)) for i in range(256)],
@@ -324,7 +358,7 @@ def main():
     ap.add_argument('--frames', default='0:%d' % NF)
     ap.add_argument('--list', default=None)
     ap.add_argument('--preview', action='store_true')
-    ap.add_argument('--out', default=os.path.join(ROOT, 'build/frames_v3'))
+    ap.add_argument('--out', default=os.path.join(ROOT, 'build/frames_v3' if BASE == 'v2' else 'build/frames_v3v1'))
     ap.add_argument('--curves', action='store_true')
     args = ap.parse_args()
     os.makedirs(args.out, exist_ok=True)
