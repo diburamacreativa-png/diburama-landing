@@ -78,3 +78,27 @@ panorámica se muestrea con mipmapping por huella angular para evitar aliasing a
 - La intro hereda la cadencia algo irregular del vídeo original del dron (2–3 px por fotograma).
 - El rojo #AA192D está medido en el vídeo comprimido; si el manual de marca da otro valor, se cambia
   en `RED_SRGB` (`tools/reel.py`) y se vuelve a renderizar.
+
+## v3 · Nuevo inicio («Plano inicio zoom out.mp4»)
+
+`out/Alsina_Reel_v3_1080x1920.mp4` (6,4 s, 160 fotogramas, 25 fps). Renderizador: `tools/reel_v3.py`;
+cadena completa: `tools/run_v3.sh`.
+
+- **El nuevo plano es el mismo vuelo que `pano.mp4`:** su fotograma *m* es exactamente el fotograma
+  122+*m* del original (residuo de registro de 0,3 px), un recorte vertical de mayor resolución a
+  escala 0,415 con un reencuadre horizontal suave. Por eso se integra en el mismo sistema de
+  coordenadas que el empalme con la panorámica.
+- **0–1,28 s:** el plano nuevo, vertical y a resolución nativa (0,92 px de salida por px fuente), con su
+  propio desplazamiento de dron a 0,8× tiempo real. La reproducción usa el zoom medido de cada
+  fotograma como reloj, lo que corrige la cadencia irregular del original (pasos completos y medios
+  alternos, típicos de una conversión de 25 a 30 fps).
+- **1,28–1,75 s:** una única rampa de velocidad, monótona, que se une con continuidad de velocidad a
+  la curva de la v2 a 1,75 s. El fotograma es un "fotograma virtual": el recorte nítido compuesto
+  sobre el plano original más ancho del mismo instante (color igualado), lo que permite reencuadrar
+  hacia el centro de la obra.
+- **1,55–1,92 s:** corrección de similitud por referencias de suelo (×1,21, 2,8°) integrada en la curva
+  de velocidad, y empalme metraje → panorámica en el fotograma 240 (1,854 s) con morph de flujo bajo
+  motion blur.
+- **Desde 2,76 s** los fotogramas son exactamente los de la v2 (punto, impacto, logo). Entre 1,9 y
+  2,8 s el planeta se forma igual que en la v2, salvo el giro: parte de la orientación vertical del
+  nuevo plano (+34°) en lugar de la girada 90° (−56°) y llega a la misma orientación final.
