@@ -1,0 +1,524 @@
+{
+ "stats": {
+  "union_s": 6.0,
+  "master_gain_db_demo5": 0.8000000000000007,
+  "diferencia_union_dbfs": -138.49553746077018,
+  "apertura_0_J": {
+   "I": -14.0,
+   "TP": -1.2
+  },
+  "final": {
+   "I": -14.0,
+   "LRA": 1.5,
+   "TP": -1.2
+  },
+  "cuerpo_identico_a_demo5_desde_s": 6.0
+ },
+ "cues": [
+  {
+   "id": "O01",
+   "origen": "DEMO6",
+   "frame": 6.53,
+   "event_s": 0.2613,
+   "start_s": -0.0987,
+   "file": "04_RISERS_REVERSE/REVERSE_01_PREIMPACTO.wav",
+   "rel_db": -11,
+   "gain_db": -6.09,
+   "note": "f0-6 subida de tension: aire invertido que desemboca en el primer zoom"
+  },
+  {
+   "id": "O02",
+   "origen": "DEMO6",
+   "frame": 6.73,
+   "event_s": 0.2693,
+   "start_s": 0.1804,
+   "file": "01_WHOOSHES/WHOOSH_01_MICRO_SECO.wav",
+   "rel_db": -9,
+   "gain_db": -9.94,
+   "note": "f7 whoosh corto y rapido del zoom"
+  },
+  {
+   "id": "O03",
+   "origen": "DEMO6",
+   "frame": 6.53,
+   "event_s": 0.2613,
+   "start_s": 0.26,
+   "file": "02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav",
+   "rel_db": -6.5,
+   "gain_db": -5.24,
+   "note": "f7 golpe grave y seco del primer zoom (fundido con el golpe musical)"
+  },
+  {
+   "id": "O04",
+   "origen": "DEMO6",
+   "frame": 6.53,
+   "event_s": 0.2613,
+   "start_s": 0.2606,
+   "file": "02_IMPACTS/HIT_04_METAL_MATE_SUTIL.wav",
+   "rel_db": -13,
+   "gain_db": -7.81,
+   "note": "f7 contacto metalico discreto (caracter industrial)"
+  },
+  {
+   "id": "O05",
+   "origen": "DEMO6",
+   "frame": 23.44,
+   "event_s": 0.9376,
+   "start_s": 0.4876,
+   "file": "04_RISERS_REVERSE/RISER_01_MICRO.wav",
+   "rel_db": -13,
+   "gain_db": -10.97,
+   "note": "f12-23 micro-riser: tension hacia el segundo zoom"
+  },
+  {
+   "id": "O06",
+   "origen": "DEMO6",
+   "frame": 23.59,
+   "event_s": 0.9436,
+   "start_s": 0.8695,
+   "file": "01_WHOOSHES/WHOOSH_01_MICRO_SECO.wav",
+   "rel_db": -10,
+   "gain_db": -10.16,
+   "note": "f23 whoosh corto del zoom 2a"
+  },
+  {
+   "id": "O07",
+   "origen": "DEMO6",
+   "frame": 23.44,
+   "event_s": 0.9376,
+   "start_s": 0.9368,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "rel_db": -8,
+   "gain_db": -7.61,
+   "note": "f23 golpe seco del zoom 2a: aparece «SIN»"
+  },
+  {
+   "id": "O08",
+   "origen": "DEMO6",
+   "frame": 23.44,
+   "event_s": 0.9376,
+   "start_s": 0.9369,
+   "file": "03_UI_POPS_CLICKS/UI_04_POP_TEXTO_PUNCH.wav",
+   "rel_db": -12,
+   "gain_db": -8.65,
+   "note": "f23 capa de ataque de «SIN»"
+  },
+  {
+   "id": "O09",
+   "origen": "DEMO6",
+   "frame": 30.17,
+   "event_s": 1.2069,
+   "start_s": 0.9709,
+   "file": "04_RISERS_REVERSE/REVERSE_01_PREIMPACTO.wav",
+   "rel_db": -10,
+   "gain_db": -0.12,
+   "note": "f25-31 aire invertido entre los dos zooms: la tension se tensa hacia el remate"
+  },
+  {
+   "id": "O10",
+   "origen": "DEMO6",
+   "frame": 30.37,
+   "event_s": 1.2149,
+   "start_s": 1.0708,
+   "file": "01_WHOOSHES/WHOOSH_02_RAPIDO_LATERAL.wav",
+   "rel_db": -8,
+   "gain_db": -10.7,
+   "note": "f31 whoosh rapido del zoom 2b"
+  },
+  {
+   "id": "O11",
+   "origen": "DEMO6",
+   "frame": 30.17,
+   "event_s": 1.2069,
+   "start_s": 1.206,
+   "file": "02_IMPACTS/HIT_03_GRUA_PROTAGONISTA.wav",
+   "rel_db": -1.5,
+   "gain_db": -3.51,
+   "note": "f31 GOLPE 2b: el mas contundente de la apertura (mismo golpe heroe que «SIN» en el DEMO 5)"
+  },
+  {
+   "id": "O12",
+   "origen": "DEMO6",
+   "frame": 30.17,
+   "event_s": 1.2069,
+   "start_s": 1.2062,
+   "file": "02_IMPACTS/HIT_04_METAL_MATE_SUTIL.wav",
+   "rel_db": -10,
+   "gain_db": -4.99,
+   "note": "f31 capa metalica del remate"
+  },
+  {
+   "id": "O13",
+   "origen": "DEMO6",
+   "frame": 30.17,
+   "event_s": 1.2069,
+   "start_s": 1.2061,
+   "file": "03_UI_POPS_CLICKS/UI_05_SNAP_PALABRA.wav",
+   "rel_db": -13,
+   "gain_db": -4.84,
+   "note": "f31 aparece «NECESIDAD»"
+  },
+  {
+   "id": "O14",
+   "origen": "DEMO6",
+   "frame": 46.0,
+   "event_s": 1.84,
+   "start_s": 1.84,
+   "file": "01_WHOOSHES/WHOOSH_07_TRAZO_LINEA.wav",
+   "rel_db": -19,
+   "gain_db": -18.04,
+   "note": "f46-78 linea roja rodea el texto (motivo de linea)"
+  },
+  {
+   "id": "O15",
+   "origen": "DEMO6",
+   "frame": 83.0,
+   "event_s": 3.32,
+   "start_s": 2.72,
+   "file": "04_RISERS_REVERSE/REVERSE_02_PRE_CORTE.wav",
+   "rel_db": -14,
+   "gain_db": -11.45,
+   "note": "f78-82 barrido de camara: aire aspirado hacia el corte"
+  },
+  {
+   "id": "O16",
+   "origen": "DEMO6",
+   "frame": 82.5,
+   "event_s": 3.3,
+   "start_s": 2.995,
+   "file": "01_WHOOSHES/WHOOSH_04_MOTION_MEDIO.wav",
+   "rel_db": -9,
+   "gain_db": -9.46,
+   "note": "f78-83 barrido con desenfoque hacia DE GRUA"
+  },
+  {
+   "id": "O17",
+   "origen": "DEMO6",
+   "frame": 83.0,
+   "event_s": 3.32,
+   "start_s": 3.3187,
+   "file": "02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav",
+   "rel_db": -6.5,
+   "gain_db": -4.22,
+   "note": "f83 «DE GRUA» llega con el corte (mismo tratamiento que en el DEMO 5)"
+  },
+  {
+   "id": "O18",
+   "origen": "DEMO6",
+   "frame": 83.0,
+   "event_s": 3.32,
+   "start_s": 3.3192,
+   "file": "03_UI_POPS_CLICKS/UI_05_SNAP_PALABRA.wav",
+   "rel_db": -13,
+   "gain_db": -3.64,
+   "note": "f83 capa de ataque de «GRUA»"
+  },
+  {
+   "id": "O19",
+   "origen": "DEMO6",
+   "frame": 83.0,
+   "event_s": 3.32,
+   "start_s": 3.3193,
+   "file": "02_IMPACTS/HIT_04_METAL_MATE_SUTIL.wav",
+   "rel_db": -9,
+   "gain_db": -2.79,
+   "note": "f83 capa metalica de «GRUA»"
+  },
+  {
+   "id": "C05",
+   "origen": "DEMO5",
+   "frame": 130.5,
+   "event_s": 5.22,
+   "start_s": 5.0829,
+   "file": "01_WHOOSHES/WHOOSH_02_RAPIDO_LATERAL.wav",
+   "rel_db": -8.5,
+   "gain_db": -10.36,
+   "note": "f200-213 paneo a la izquierda y corte a la toma aerea"
+  },
+  {
+   "id": "D01",
+   "origen": "DEMO5",
+   "frame": 139.0,
+   "event_s": 5.56,
+   "start_s": 5.4859,
+   "file": "01_WHOOSHES/WHOOSH_01_MICRO_SECO.wav",
+   "rel_db": -14,
+   "gain_db": -14.29,
+   "note": "f220-222 «ALISPLAY» aparece"
+  },
+  {
+   "id": "D02",
+   "origen": "DEMO5",
+   "frame": 140.0,
+   "event_s": 5.6,
+   "start_s": 5.5994,
+   "file": "03_UI_POPS_CLICKS/UI_03_POP_TEXTO_SUAVE.wav",
+   "rel_db": -15.5,
+   "gain_db": -10.97,
+   "note": "f222 «ALISPLAY» se asienta"
+  },
+  {
+   "id": "D03",
+   "origen": "DEMO5",
+   "frame": 149.0,
+   "event_s": 5.96,
+   "start_s": 5.868,
+   "file": "01_WHOOSHES/WHOOSH_01_MICRO_SECO.wav",
+   "rel_db": -15,
+   "gain_db": -15.73,
+   "note": "f230-232 «MANUAL» aparece (mismo swish -1,5 st)"
+  },
+  {
+   "id": "D04",
+   "origen": "DEMO5",
+   "frame": 150.0,
+   "event_s": 6.0,
+   "start_s": 5.9992,
+   "file": "03_UI_POPS_CLICKS/UI_05_SNAP_PALABRA.wav",
+   "rel_db": -17,
+   "gain_db": -8.76,
+   "note": "f232 «MANUAL» asentado: acento tecnico"
+  },
+  {
+   "id": "D05",
+   "origen": "DEMO5",
+   "frame": 169.0,
+   "event_s": 6.76,
+   "start_s": 6.76,
+   "file": "01_WHOOSHES/WHOOSH_07_TRAZO_LINEA.wav",
+   "rel_db": -21,
+   "gain_db": -21.1,
+   "note": "f251 linea roja vertical (motivo de linea, -2 st)"
+  }
+ ],
+ "ducks": [
+  {
+   "t0": 0.2613,
+   "t1": 0.35129999999999995,
+   "att": 0.003,
+   "rel": 0.28,
+   "db": [
+    -3.0,
+    -2.0,
+    -1.5
+   ],
+   "why": "golpe 1"
+  },
+  {
+   "t0": 0.9376,
+   "t1": 1.0176,
+   "att": 0.004,
+   "rel": 0.22,
+   "db": [
+    -2.0,
+    -1.0,
+    -0.5
+   ],
+   "why": "golpe 2a"
+  },
+  {
+   "t0": 1.2069,
+   "t1": 1.3069000000000002,
+   "att": 0.004,
+   "rel": 0.32,
+   "db": [
+    -3.5,
+    -2.5,
+    -1.5
+   ],
+   "why": "golpe 2b"
+  },
+  {
+   "t0": 3.22,
+   "t1": 3.3160000000000003,
+   "att": 0.08,
+   "rel": 0.004,
+   "db": [
+    0.0,
+    -1.0,
+    -2.0
+   ],
+   "why": "barrido hacia DE GRUA"
+  },
+  {
+   "t0": 3.3200000000000003,
+   "t1": 3.41,
+   "att": 0.004,
+   "rel": 0.28,
+   "db": [
+    -3.0,
+    -1.5,
+    -1.0
+   ],
+   "why": "DE GRUA"
+  },
+  {
+   "t0": 5.120000000000001,
+   "t1": 5.32,
+   "att": 0.08,
+   "rel": 0.25,
+   "db": [
+    0.0,
+    -1.5,
+    -3.0
+   ],
+   "why": "whoosh 8,50"
+  },
+  {
+   "t0": 9.060000000000002,
+   "t1": 9.3,
+   "att": 0.1,
+   "rel": 0.3,
+   "db": [
+    -1.0,
+    -1.5,
+    -3.0
+   ],
+   "why": "whoosh 12,46"
+  },
+  {
+   "t0": 9.72,
+   "t1": 9.8,
+   "att": 0.006,
+   "rel": 0.25,
+   "db": [
+    -2.0,
+    -1.0,
+    -0.5
+   ],
+   "why": "240 PLUS"
+  },
+  {
+   "t0": 11.800000000000002,
+   "t1": 12.040000000000001,
+   "att": 0.1,
+   "rel": 0.3,
+   "db": [
+    -1.0,
+    -1.5,
+    -3.0
+   ],
+   "why": "whoosh 15,20"
+  },
+  {
+   "t0": 15.72,
+   "t1": 15.78,
+   "att": 0.006,
+   "rel": 0.22,
+   "db": [
+    -1.0,
+    -0.5,
+    -0.3
+   ],
+   "why": "2,40 m"
+  },
+  {
+   "t0": 17.04,
+   "t1": 17.32,
+   "att": 0.1,
+   "rel": 0.3,
+   "db": [
+    -1.0,
+    -1.5,
+    -3.0
+   ],
+   "why": "maquinaria 20,44"
+  },
+  {
+   "t0": 20.12,
+   "t1": 20.2,
+   "att": 0.006,
+   "rel": 0.25,
+   "db": [
+    -2.5,
+    -1.0,
+    -0.5
+   ],
+   "why": "GRUA roja"
+  },
+  {
+   "t0": 21.68,
+   "t1": 21.92,
+   "att": 0.08,
+   "rel": 0.25,
+   "db": [
+    -2.0,
+    -2.0,
+    -3.0
+   ],
+   "why": "whoosh 25,08"
+  },
+  {
+   "t0": 22.52,
+   "t1": 22.599999999999998,
+   "att": 0.006,
+   "rel": 0.25,
+   "db": [
+    -2.0,
+    -1.0,
+    -0.5
+   ],
+   "why": "SIMPLE"
+  },
+  {
+   "t0": 23.28,
+   "t1": 23.37,
+   "att": 0.006,
+   "rel": 0.3,
+   "db": [
+    -3.0,
+    -1.5,
+    -1.0
+   ],
+   "why": "CALIDAD"
+  },
+  {
+   "t0": 26.68,
+   "t1": 26.880000000000003,
+   "att": 0.08,
+   "rel": 0.25,
+   "db": [
+    0.0,
+    -1.0,
+    -2.0
+   ],
+   "why": "whoosh 30,06"
+  },
+  {
+   "t0": 28.839999999999996,
+   "t1": 29.519999999999996,
+   "att": 0.15,
+   "rel": 0.25,
+   "db": [
+    -0.5,
+    -1.5,
+    -2.5
+   ],
+   "why": "alejamiento 32,12-32,80"
+  },
+  {
+   "t0": 30.024,
+   "t1": 30.128,
+   "att": 0.03,
+   "rel": 0.004,
+   "db": [
+    -7.0,
+    -7.0,
+    -7.0
+   ],
+   "why": "VACIO previo al impacto"
+  },
+  {
+   "t0": 30.134,
+   "t1": 30.253999999999998,
+   "att": 0.002,
+   "rel": 0.5,
+   "db": [
+    -3.5,
+    -1.5,
+    -1.0
+   ],
+   "why": "IMPACTO"
+  }
+ ]
+}
