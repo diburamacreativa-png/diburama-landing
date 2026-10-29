@@ -1,0 +1,29 @@
+﻿fotograma,momento,nivel,antes_s,ahora_s,cambio_ms,sonido,accion
+7,f7 impulso de camara 1 (alejamiento -21 %) + MONTAJES,IMPACTO,"0,300","0,282",-18,HIT_02_PUNCH_CON_CUERPO,"MOVIDO de 0,300 a 0,282 s y reforzado; el tiempo del tema en 0,217 s se atenua"
+23,f23 salto menor + aparece «SIN»,TEXTO,"0,931","0,931",+0,HIT_01_PUNCH_TEXTO_SECO (fundido con el tema),"SUSTITUIDO: el whoosh se cambia por un pop ligero fundido con el tiempo del tema (0,931 s)"
+31,"f31 impulso de camara 2 (-16,5 %) + NECESIDAD",IMPACTO,"1,285","1,244",-41,HIT_03_GRUA_PROTAGONISTA,"MOVIDO de 1,285 a 1,244 s (llegaba en f32); el tiempo del tema en 1,285 s se atenua"
+83,f83 llegada del encuadre «DE GRÚA» (el texto llega con el paneo: sin golpe aparte),IMPACTO,"3,309","3,322",+13,HIT_02_PUNCH_CON_CUERPO,"MOVIDO de 3,309 a 3,322 s (iba 11 ms antes del corte) y reforzado; el pico de 3,21 s queda como anticipacion"
+131,f131 cambio de plano,IMPACTO MEDIO,,"5,242",,HIT_02_PUNCH_CON_CUERPO,NUEVO: el corte solo tenia whoosh
+141,f141 «ALISPLAY» se asienta,TEXTO,,"5,642",,HIT_01_PUNCH_TEXTO_SECO,NUEVO
+229,f227-229 latigazo,,"9,180","9,168",-12,WHOOSH_02_RAPIDO_LATERAL,"SUSTITUIDO: el whoosh grave largo (pico de energia ~9,26 s) por uno corto que termina en el corte"
+230,f230 llegada del plano 240 PLUS,IMPACTO,"9,200","9,202",+2,HIT_03_GRUA_PROTAGONISTA,"SUSTITUIDO (HIT_01 debil -> HIT_03) en 9,202 s; el bombo del tema en 9,15 s se atenua"
+243,f243 «PLUS» se asienta,TEXTO,"9,720","9,722",+2,UI_05_SNAP_PALABRA,"CONSERVADO, algo mas presente"
+298,f298 «DISEÑADO PARA»,IMPACTO MEDIO,"11,947","11,947",+0,HIT_05_ACENTO_LIGERO (fundido con el tema),"CONSERVADO: fundido con el pico del tema en 11,947 s; ataque algo mas definido"
+341,f341 «EDIFICACIÓN» completa su barrido,TEXTO,,"13,642",,HIT_01_PUNCH_TEXTO_SECO,NUEVO
+393,"f393 la medida se fija en 2,40 m",TEXTO,,"15,722",,UI_05_SNAP_PALABRA,NUEVO: remate solo cuando la medida queda fija (sin golpe por cifra)
+427,f424-433 el cubo de la grua barre (der -> izq),,"17,080","17,080",+0,WHOOSH_04_MOTION_MEDIO,CONSERVADO
+430,f430 masa de aire y corte oculto,,"17,200","17,200",+0,WHOOSH_05_GRAVE_CON_CUERPO,"CONSERVADO: el pico de 17,20 s coincide con el barrido"
+433,f433 el cubo sale y llega el plano de MENOS DEPENDENCIA,IMPACTO MEDIO,,"17,322",,HIT_05_ACENTO_LIGERO,NUEVO: remate cuando el plano queda libre
+444,f444 «MENOS» completo,TEXTO,,"17,762",,HIT_01_PUNCH_TEXTO_SECO,NUEVO
+458,f458 «DEPENDENCIA» completo,TEXTO,,"18,319",,HIT_01_PUNCH_TEXTO_SECO (fundido con el tema),NUEVO
+476,f476 «DE GRÚA» completo,TEXTO,,"19,042",,HIT_01_PUNCH_TEXTO_SECO,NUEVO
+503,f503 «GRÚA» destella en rojo,TEXTO,"20,120","20,120",+0,HIT_04_METAL_MATE_SUTIL,"CONSERVADO, mas discreto"
+544,f545 corte a MONTAJE SIMPLE,,"21,800","21,784",-16,WHOOSH_02_RAPIDO_LATERAL,SUSTITUIDO: whoosh mas corto que desemboca en el corte
+545,f545 llegada del plano,IMPACTO,,"21,802",,HIT_02_PUNCH_CON_CUERPO,"NUEVO: la llegada no tenia golpe; el tiempo del tema en 21,64 s se atenua"
+563,f563 «SIMPLE» se asienta,TEXTO,"22,559","22,524",-35,HIT_01_PUNCH_TEXTO_SECO,"MOVIDO de 22,559 a 22,524 s (f563, cuando SIMPLE alcanza su tamano final)"
+582,f582 «CALIDAD.» completo,TEXTO,"23,269","23,282",+13,HIT_06_CALIDAD_CON_PESO,"MOVIDO de 23,269 a 23,282 s (iba 11 ms antes de f582)"
+670,f665-669 aspiracion,,"26,800","26,794",-6,REVERSE_02_PRE_CORTE,CONSERVADO
+669,f668-669 latigazo,,"26,780","26,780",+0,WHOOSH_03_AIRE_LIGERO,CONSERVADO
+670,f670 corte a la toma cenital,IMPACTO MEDIO,,"26,817",,HIT_05_ACENTO_LIGERO (fundido con el tema),"NUEVO: marca el corte sin gastar el golpe del cierre (el break del tema entra en 26,816 s)"
+738,"f708-737 el alejamiento acelera: textura que crece con la imagen (el redoble del tema entra en 28,95 s)",,,"29,512",,RISER_03_ZOOM_SPIN,SUSTITUYE al Doppler descendente y a las aspiraciones Z01/Z03: una sola textura que crece
+738,f738 PUNTO BLANCO: cuerpo del golpe final,CIERRE,"30,125","29,521",-604,HIT_07_CIERRE_MARCA (fundido con el tema),"MOVIDO de 30,125 s (f753) a 29,521 s (f738, 29,520-29,560 s), fundido con la resolucion del tema"

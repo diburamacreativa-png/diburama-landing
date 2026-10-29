@@ -1,0 +1,953 @@
+{
+ "stats": {
+  "music": {
+   "segmentos": [
+    {
+     "nombre": "bloque 1 (primer montaje)",
+     "fuente": 0.436,
+     "video": -0.138
+    },
+    {
+     "nombre": "bloque 2 (primer montaje)",
+     "fuente": 10.403,
+     "video": 6.99
+    },
+    {
+     "nombre": "bloque 3 (primer montaje)",
+     "fuente": 7.564,
+     "video": 14.067
+    },
+    {
+     "nombre": "bloque 4 (primer montaje)",
+     "fuente": 14.647,
+     "video": 23.983
+    },
+    {
+     "nombre": "bloque 5 (primer montaje)",
+     "fuente": 17.48,
+     "video": 26.816
+    },
+    {
+     "nombre": "break, tiempos 1-2",
+     "fuente": 17.48,
+     "video": 28.234
+    },
+    {
+     "nombre": "redoble en tresillos",
+     "fuente": 18.897,
+     "video": 28.951
+    },
+    {
+     "nombre": "resolucion = punto blanco",
+     "fuente": 19.371,
+     "video": 29.524
+    }
+   ],
+   "redoble_termina": 29.425,
+   "vacio_ms": 99.0,
+   "resolucion_video": 29.524,
+   "lecho_db": -29.0
+  },
+  "pre_gain_lufs": -18.2,
+  "master_gain_db": 4.199999999999999,
+  "after_gain": {
+   "I": -14.0,
+   "LRA": 2.7,
+   "TP": 0.4
+  },
+  "final": {
+   "I": -14.0,
+   "LRA": 2.7,
+   "TP": -1.1
+  },
+  "limiter_max_gr_db": 1.74,
+  "limiter_activo_s": [
+   3.3212083333333333,
+   26.945458333333335
+  ],
+  "music_stem": [
+   -14.3,
+   3.0,
+   -1.0
+  ],
+  "sfx_stem": [
+   -21.7,
+   12.0,
+   -1.2
+  ]
+ },
+ "cues": [
+  {
+   "id": "Z1w",
+   "frame": 6.8,
+   "event_s": 0.272,
+   "nominal_s": 0.272,
+   "snapped_to_music": false,
+   "start_s": 0.1979,
+   "file": "01_WHOOSHES/WHOOSH_01_MICRO_SECO.wav",
+   "mode": "peak",
+   "rel_db": -11,
+   "gain_db": -14.64,
+   "tier": null,
+   "accion": null,
+   "note": "f7 arrastre corto hacia el impulso 1"
+  },
+  {
+   "id": "Z1h",
+   "frame": 7.05,
+   "event_s": 0.282,
+   "nominal_s": 0.282,
+   "snapped_to_music": false,
+   "start_s": 0.2805,
+   "file": "02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav",
+   "mode": "attack",
+   "rel_db": 0,
+   "gain_db": -2.25,
+   "tier": "IMPACTO",
+   "accion": "MOVIDO de 0,300 a 0,282 s y reforzado; el tiempo del tema en 0,217 s se atenua",
+   "note": "f7 impulso de camara 1 (alejamiento -21 %) + MONTAJES"
+  },
+  {
+   "id": "Z1p",
+   "frame": 7.05,
+   "event_s": 0.282,
+   "nominal_s": 0.282,
+   "snapped_to_music": false,
+   "start_s": 0.2813,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -8,
+   "gain_db": -10.85,
+   "tier": null,
+   "accion": null,
+   "note": "f7 capa de ataque en medios (movil)"
+  },
+  {
+   "id": "Z2t",
+   "frame": 23.28,
+   "event_s": 0.9307,
+   "nominal_s": 0.931,
+   "snapped_to_music": true,
+   "start_s": 0.9299,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -10,
+   "gain_db": -12.63,
+   "tier": "TEXTO",
+   "accion": "SUSTITUIDO: el whoosh se cambia por un pop ligero fundido con el tiempo del tema (0,931 s)",
+   "note": "f23 salto menor + aparece «SIN»"
+  },
+  {
+   "id": "Z2r",
+   "frame": 30.9,
+   "event_s": 1.236,
+   "nominal_s": 1.236,
+   "snapped_to_music": false,
+   "start_s": 1.0,
+   "file": "04_RISERS_REVERSE/REVERSE_01_PREIMPACTO.wav",
+   "mode": "end",
+   "rel_db": -13,
+   "gain_db": -6.26,
+   "tier": null,
+   "accion": null,
+   "note": "f25-31 aspiracion breve"
+  },
+  {
+   "id": "Z2w",
+   "frame": 30.75,
+   "event_s": 1.23,
+   "nominal_s": 1.23,
+   "snapped_to_music": false,
+   "start_s": 1.0859,
+   "file": "01_WHOOSHES/WHOOSH_02_RAPIDO_LATERAL.wav",
+   "mode": "peak",
+   "rel_db": -10,
+   "gain_db": -15.78,
+   "tier": null,
+   "accion": null,
+   "note": "f31 arrastre rapido"
+  },
+  {
+   "id": "Z2h",
+   "frame": 31.1,
+   "event_s": 1.244,
+   "nominal_s": 1.244,
+   "snapped_to_music": false,
+   "start_s": 1.243,
+   "file": "02_IMPACTS/HIT_03_GRUA_PROTAGONISTA.wav",
+   "mode": "attack",
+   "rel_db": 1,
+   "gain_db": -4.6,
+   "tier": "IMPACTO",
+   "accion": "MOVIDO de 1,285 a 1,244 s (llegaba en f32); el tiempo del tema en 1,285 s se atenua",
+   "note": "f31 impulso de camara 2 (-16,5 %) + NECESIDAD"
+  },
+  {
+   "id": "Z2p",
+   "frame": 31.1,
+   "event_s": 1.244,
+   "nominal_s": 1.244,
+   "snapped_to_music": false,
+   "start_s": 1.2433,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -8,
+   "gain_db": -11.17,
+   "tier": null,
+   "accion": null,
+   "note": "f31 capa de ataque en medios"
+  },
+  {
+   "id": "T01",
+   "frame": 82.9,
+   "event_s": 3.316,
+   "nominal_s": 3.316,
+   "snapped_to_music": false,
+   "start_s": 3.016,
+   "file": "04_RISERS_REVERSE/REVERSE_02_PRE_CORTE.wav",
+   "mode": "end",
+   "rel_db": -15,
+   "gain_db": -7.32,
+   "tier": null,
+   "accion": null,
+   "note": "f79-82 arrastre muy breve"
+  },
+  {
+   "id": "T02",
+   "frame": 81.8,
+   "event_s": 3.272,
+   "nominal_s": 3.272,
+   "snapped_to_music": false,
+   "start_s": 3.1279,
+   "file": "01_WHOOSHES/WHOOSH_02_RAPIDO_LATERAL.wav",
+   "mode": "peak",
+   "rel_db": -10,
+   "gain_db": -13.43,
+   "tier": null,
+   "accion": null,
+   "note": "f79-82 latigazo (su pico queda 50 ms antes: el arrastre desemboca en el golpe)"
+  },
+  {
+   "id": "T03",
+   "frame": 83.05,
+   "event_s": 3.322,
+   "nominal_s": 3.322,
+   "snapped_to_music": false,
+   "start_s": 3.3205,
+   "file": "02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav",
+   "mode": "attack",
+   "rel_db": -1,
+   "gain_db": -1.44,
+   "tier": "IMPACTO",
+   "accion": "MOVIDO de 3,309 a 3,322 s (iba 11 ms antes del corte) y reforzado; el pico de 3,21 s queda como anticipacion",
+   "note": "f83 llegada del encuadre «DE GRÚA» (el texto llega con el paneo: sin golpe aparte)"
+  },
+  {
+   "id": "T03p",
+   "frame": 83.05,
+   "event_s": 3.322,
+   "nominal_s": 3.322,
+   "snapped_to_music": false,
+   "start_s": 3.3213,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -9,
+   "gain_db": -10.04,
+   "tier": null,
+   "accion": null,
+   "note": "f83 capa de ataque"
+  },
+  {
+   "id": "T04",
+   "frame": 130.6,
+   "event_s": 5.224,
+   "nominal_s": 5.224,
+   "snapped_to_music": false,
+   "start_s": 5.0869,
+   "file": "01_WHOOSHES/WHOOSH_02_RAPIDO_LATERAL.wav",
+   "mode": "peak",
+   "rel_db": -11,
+   "gain_db": -13.24,
+   "tier": null,
+   "accion": null,
+   "note": "f127-130 paneo que acelera"
+  },
+  {
+   "id": "T04h",
+   "frame": 131.05,
+   "event_s": 5.242,
+   "nominal_s": 5.242,
+   "snapped_to_music": false,
+   "start_s": 5.2405,
+   "file": "02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav",
+   "mode": "attack",
+   "rel_db": -5,
+   "gain_db": -4.28,
+   "tier": "IMPACTO MEDIO",
+   "accion": "NUEVO: el corte solo tenia whoosh",
+   "note": "f131 cambio de plano"
+  },
+  {
+   "id": "T04t",
+   "frame": 141.05,
+   "event_s": 5.642,
+   "nominal_s": 5.642,
+   "snapped_to_music": false,
+   "start_s": 5.6413,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -9,
+   "gain_db": -8.56,
+   "tier": "TEXTO",
+   "accion": "NUEVO",
+   "note": "f141 «ALISPLAY» se asienta"
+  },
+  {
+   "id": "T05r",
+   "frame": 229.9,
+   "event_s": 9.196,
+   "nominal_s": 9.196,
+   "snapped_to_music": false,
+   "start_s": 8.896,
+   "file": "04_RISERS_REVERSE/REVERSE_02_PRE_CORTE.wav",
+   "mode": "end",
+   "rel_db": -14,
+   "gain_db": -4.23,
+   "tier": null,
+   "accion": null,
+   "note": "f227-229 aspiracion corta hacia el corte"
+  },
+  {
+   "id": "T05",
+   "frame": 229.2,
+   "event_s": 9.168,
+   "nominal_s": 9.168,
+   "snapped_to_music": false,
+   "start_s": 9.0239,
+   "file": "01_WHOOSHES/WHOOSH_02_RAPIDO_LATERAL.wav",
+   "mode": "peak",
+   "rel_db": -10,
+   "gain_db": -12.53,
+   "tier": null,
+   "accion": "SUSTITUIDO: el whoosh grave largo (pico de energia ~9,26 s) por uno corto que termina en el corte",
+   "note": "f227-229 latigazo"
+  },
+  {
+   "id": "T06",
+   "frame": 230.05,
+   "event_s": 9.202,
+   "nominal_s": 9.202,
+   "snapped_to_music": false,
+   "start_s": 9.201,
+   "file": "02_IMPACTS/HIT_03_GRUA_PROTAGONISTA.wav",
+   "mode": "attack",
+   "rel_db": -1,
+   "gain_db": -3.35,
+   "tier": "IMPACTO",
+   "accion": "SUSTITUIDO (HIT_01 debil -> HIT_03) en 9,202 s; el bombo del tema en 9,15 s se atenua",
+   "note": "f230 llegada del plano 240 PLUS"
+  },
+  {
+   "id": "T06p",
+   "frame": 230.05,
+   "event_s": 9.202,
+   "nominal_s": 9.202,
+   "snapped_to_music": false,
+   "start_s": 9.2013,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -9,
+   "gain_db": -8.93,
+   "tier": null,
+   "accion": null,
+   "note": "f230 capa de ataque"
+  },
+  {
+   "id": "T07",
+   "frame": 243.05,
+   "event_s": 9.722,
+   "nominal_s": 9.722,
+   "snapped_to_music": false,
+   "start_s": 9.7212,
+   "file": "03_UI_POPS_CLICKS/UI_05_SNAP_PALABRA.wav",
+   "mode": "attack",
+   "rel_db": -5,
+   "gain_db": 2.87,
+   "tier": "TEXTO",
+   "accion": "CONSERVADO, algo mas presente",
+   "note": "f243 «PLUS» se asienta"
+  },
+  {
+   "id": "T08",
+   "frame": 297.5,
+   "event_s": 11.9,
+   "nominal_s": 11.9,
+   "snapped_to_music": false,
+   "start_s": 11.589,
+   "file": "01_WHOOSHES/WHOOSH_05_GRAVE_CON_CUERPO.wav",
+   "mode": "peak",
+   "rel_db": -12,
+   "gain_db": -13.99,
+   "tier": null,
+   "accion": null,
+   "note": "f298 corte a DISEÑADO PARA (pico 20 ms antes del corte)"
+  },
+  {
+   "id": "T09",
+   "frame": 298.0,
+   "event_s": 11.9467,
+   "nominal_s": 11.92,
+   "snapped_to_music": true,
+   "start_s": 11.946,
+   "file": "02_IMPACTS/HIT_05_ACENTO_LIGERO.wav",
+   "mode": "attack",
+   "rel_db": -11,
+   "gain_db": -5.57,
+   "tier": "IMPACTO MEDIO",
+   "accion": "CONSERVADO: fundido con el pico del tema en 11,947 s; ataque algo mas definido",
+   "note": "f298 «DISEÑADO PARA»"
+  },
+  {
+   "id": "T20",
+   "frame": 341.05,
+   "event_s": 13.642,
+   "nominal_s": 13.642,
+   "snapped_to_music": false,
+   "start_s": 13.6413,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -15,
+   "gain_db": -15.81,
+   "tier": "TEXTO",
+   "accion": "NUEVO",
+   "note": "f341 «EDIFICACIÓN» completa su barrido"
+  },
+  {
+   "id": "T21",
+   "frame": 393.05,
+   "event_s": 15.722,
+   "nominal_s": 15.722,
+   "snapped_to_music": false,
+   "start_s": 15.7212,
+   "file": "03_UI_POPS_CLICKS/UI_05_SNAP_PALABRA.wav",
+   "mode": "attack",
+   "rel_db": -8,
+   "gain_db": -3.62,
+   "tier": "TEXTO",
+   "accion": "NUEVO: remate solo cuando la medida queda fija (sin golpe por cifra)",
+   "note": "f393 la medida se fija en 2,40 m"
+  },
+  {
+   "id": "T10",
+   "frame": 427.0,
+   "event_s": 17.08,
+   "nominal_s": 17.08,
+   "snapped_to_music": false,
+   "start_s": 16.8206,
+   "file": "01_WHOOSHES/WHOOSH_04_MOTION_MEDIO.wav",
+   "mode": "peak",
+   "rel_db": -9,
+   "gain_db": -11.14,
+   "tier": null,
+   "accion": "CONSERVADO",
+   "note": "f424-433 el cubo de la grua barre (der -> izq)"
+  },
+  {
+   "id": "T11",
+   "frame": 430.0,
+   "event_s": 17.2,
+   "nominal_s": 17.2,
+   "snapped_to_music": false,
+   "start_s": 16.845,
+   "file": "01_WHOOSHES/WHOOSH_05_GRAVE_CON_CUERPO.wav",
+   "mode": "peak",
+   "rel_db": -11,
+   "gain_db": -14.29,
+   "tier": null,
+   "accion": "CONSERVADO: el pico de 17,20 s coincide con el barrido",
+   "note": "f430 masa de aire y corte oculto"
+  },
+  {
+   "id": "T11h",
+   "frame": 433.05,
+   "event_s": 17.322,
+   "nominal_s": 17.322,
+   "snapped_to_music": false,
+   "start_s": 17.3214,
+   "file": "02_IMPACTS/HIT_05_ACENTO_LIGERO.wav",
+   "mode": "attack",
+   "rel_db": -3,
+   "gain_db": 0.52,
+   "tier": "IMPACTO MEDIO",
+   "accion": "NUEVO: remate cuando el plano queda libre",
+   "note": "f433 el cubo sale y llega el plano de MENOS DEPENDENCIA"
+  },
+  {
+   "id": "T22",
+   "frame": 444.05,
+   "event_s": 17.762,
+   "nominal_s": 17.762,
+   "snapped_to_music": false,
+   "start_s": 17.7613,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -11,
+   "gain_db": -11.41,
+   "tier": "TEXTO",
+   "accion": "NUEVO",
+   "note": "f444 «MENOS» completo"
+  },
+  {
+   "id": "T23",
+   "frame": 458.05,
+   "event_s": 18.3187,
+   "nominal_s": 18.322,
+   "snapped_to_music": true,
+   "start_s": 18.3179,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -11,
+   "gain_db": -11.95,
+   "tier": "TEXTO",
+   "accion": "NUEVO",
+   "note": "f458 «DEPENDENCIA» completo"
+  },
+  {
+   "id": "T24",
+   "frame": 476.05,
+   "event_s": 19.042,
+   "nominal_s": 19.042,
+   "snapped_to_music": false,
+   "start_s": 19.0413,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -10,
+   "gain_db": -9.98,
+   "tier": "TEXTO",
+   "accion": "NUEVO",
+   "note": "f476 «DE GRÚA» completo"
+  },
+  {
+   "id": "T12",
+   "frame": 503.0,
+   "event_s": 20.12,
+   "nominal_s": 20.12,
+   "snapped_to_music": false,
+   "start_s": 20.1193,
+   "file": "02_IMPACTS/HIT_04_METAL_MATE_SUTIL.wav",
+   "mode": "attack",
+   "rel_db": -10,
+   "gain_db": -5.64,
+   "tier": "TEXTO",
+   "accion": "CONSERVADO, mas discreto",
+   "note": "f503 «GRÚA» destella en rojo"
+  },
+  {
+   "id": "T13",
+   "frame": 544.6,
+   "event_s": 21.784,
+   "nominal_s": 21.784,
+   "snapped_to_music": false,
+   "start_s": 21.6399,
+   "file": "01_WHOOSHES/WHOOSH_02_RAPIDO_LATERAL.wav",
+   "mode": "peak",
+   "rel_db": -11,
+   "gain_db": -13.16,
+   "tier": null,
+   "accion": "SUSTITUIDO: whoosh mas corto que desemboca en el corte",
+   "note": "f545 corte a MONTAJE SIMPLE"
+  },
+  {
+   "id": "T13h",
+   "frame": 545.05,
+   "event_s": 21.802,
+   "nominal_s": 21.802,
+   "snapped_to_music": false,
+   "start_s": 21.8005,
+   "file": "02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav",
+   "mode": "attack",
+   "rel_db": -3,
+   "gain_db": -1.82,
+   "tier": "IMPACTO",
+   "accion": "NUEVO: la llegada no tenia golpe; el tiempo del tema en 21,64 s se atenua",
+   "note": "f545 llegada del plano"
+  },
+  {
+   "id": "T14",
+   "frame": 563.1,
+   "event_s": 22.524,
+   "nominal_s": 22.524,
+   "snapped_to_music": false,
+   "start_s": 22.5233,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -6,
+   "gain_db": -7.11,
+   "tier": "TEXTO",
+   "accion": "MOVIDO de 22,559 a 22,524 s (f563, cuando SIMPLE alcanza su tamano final)",
+   "note": "f563 «SIMPLE» se asienta"
+  },
+  {
+   "id": "T15",
+   "frame": 582.05,
+   "event_s": 23.282,
+   "nominal_s": 23.282,
+   "snapped_to_music": false,
+   "start_s": 23.281,
+   "file": "02_IMPACTS/HIT_06_CALIDAD_CON_PESO.wav",
+   "mode": "attack",
+   "rel_db": -4,
+   "gain_db": -4.76,
+   "tier": "TEXTO",
+   "accion": "MOVIDO de 23,269 a 23,282 s (iba 11 ms antes de f582)",
+   "note": "f582 «CALIDAD.» completo"
+  },
+  {
+   "id": "T16",
+   "frame": 669.85,
+   "event_s": 26.794,
+   "nominal_s": 26.794,
+   "snapped_to_music": false,
+   "start_s": 26.194,
+   "file": "04_RISERS_REVERSE/REVERSE_02_PRE_CORTE.wav",
+   "mode": "end",
+   "rel_db": -14,
+   "gain_db": -13.82,
+   "tier": null,
+   "accion": "CONSERVADO",
+   "note": "f665-669 aspiracion"
+  },
+  {
+   "id": "T17",
+   "frame": 669.5,
+   "event_s": 26.78,
+   "nominal_s": 26.78,
+   "snapped_to_music": false,
+   "start_s": 26.5757,
+   "file": "01_WHOOSHES/WHOOSH_03_AIRE_LIGERO.wav",
+   "mode": "peak",
+   "rel_db": -11,
+   "gain_db": -15.61,
+   "tier": null,
+   "accion": "CONSERVADO",
+   "note": "f668-669 latigazo"
+  },
+  {
+   "id": "T18",
+   "frame": 670.05,
+   "event_s": 26.8167,
+   "nominal_s": 26.802,
+   "snapped_to_music": true,
+   "start_s": 26.816,
+   "file": "02_IMPACTS/HIT_05_ACENTO_LIGERO.wav",
+   "mode": "attack",
+   "rel_db": -2,
+   "gain_db": -0.01,
+   "tier": "IMPACTO MEDIO",
+   "accion": "NUEVO: marca el corte sin gastar el golpe del cierre (el break del tema entra en 26,816 s)",
+   "note": "f670 corte a la toma cenital"
+  },
+  {
+   "id": "Z10",
+   "frame": 737.8,
+   "event_s": 29.512,
+   "nominal_s": 29.512,
+   "snapped_to_music": false,
+   "start_s": 28.332,
+   "file": "04_RISERS_REVERSE/RISER_03_ZOOM_SPIN.wav",
+   "mode": "end",
+   "rel_db": -11,
+   "gain_db": -10.3,
+   "tier": null,
+   "accion": "SUSTITUYE al Doppler descendente y a las aspiraciones Z01/Z03: una sola textura que crece",
+   "note": "f708-737 el alejamiento acelera: textura que crece con la imagen (el redoble del tema entra en 28,95 s)"
+  },
+  {
+   "id": "Z11",
+   "frame": 737.95,
+   "event_s": 29.518,
+   "nominal_s": 29.518,
+   "snapped_to_music": false,
+   "start_s": 29.158,
+   "file": "04_RISERS_REVERSE/REVERSE_01_PREIMPACTO.wav",
+   "mode": "end",
+   "rel_db": -12,
+   "gain_db": -9.33,
+   "tier": null,
+   "accion": null,
+   "note": "f735-737 el iris se cierra: aspiracion en el vacio antes del punto"
+  },
+  {
+   "id": "I01",
+   "frame": 738.1,
+   "event_s": 29.5207,
+   "nominal_s": 29.524,
+   "snapped_to_music": true,
+   "start_s": 29.5196,
+   "file": "02_IMPACTS/HIT_07_CIERRE_MARCA.wav",
+   "mode": "attack",
+   "rel_db": -2,
+   "gain_db": -5.34,
+   "tier": "CIERRE",
+   "accion": "MOVIDO de 30,125 s (f753) a 29,521 s (f738, 29,520-29,560 s), fundido con la resolucion del tema",
+   "note": "f738 PUNTO BLANCO: cuerpo del golpe final"
+  },
+  {
+   "id": "I02",
+   "frame": 738.1,
+   "event_s": 29.5207,
+   "nominal_s": 29.524,
+   "snapped_to_music": true,
+   "start_s": 29.5196,
+   "file": "02_IMPACTS/HIT_03_GRUA_PROTAGONISTA.wav",
+   "mode": "attack",
+   "rel_db": -4,
+   "gain_db": -9.43,
+   "tier": null,
+   "accion": null,
+   "note": "f738 grave controlado afinado en Mi"
+  },
+  {
+   "id": "I03",
+   "frame": 738.1,
+   "event_s": 29.5207,
+   "nominal_s": 29.524,
+   "snapped_to_music": true,
+   "start_s": 29.5199,
+   "file": "02_IMPACTS/HIT_04_METAL_MATE_SUTIL.wav",
+   "mode": "attack",
+   "rel_db": -10,
+   "gain_db": -8.66,
+   "tier": null,
+   "accion": null,
+   "note": "f738 contacto metalico en Mi"
+  },
+  {
+   "id": "I05",
+   "frame": 738.1,
+   "event_s": 29.5207,
+   "nominal_s": 29.524,
+   "snapped_to_music": true,
+   "start_s": 29.5194,
+   "file": "02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav",
+   "mode": "attack",
+   "rel_db": -6,
+   "gain_db": -7.26,
+   "tier": null,
+   "accion": null,
+   "note": "f738 cuerpo en medios (movil)"
+  },
+  {
+   "id": "I04",
+   "frame": 738.1,
+   "event_s": 29.5207,
+   "nominal_s": 29.524,
+   "snapped_to_music": true,
+   "start_s": 29.52,
+   "file": "05_OUTRO_MARCA/LOGO_04_CLACK_IDENTIDAD.wav",
+   "mode": "attack",
+   "rel_db": -14,
+   "gain_db": -8.7,
+   "tier": null,
+   "accion": null,
+   "note": "f738 ataque definido"
+  },
+  {
+   "id": "I06",
+   "frame": 738.4,
+   "event_s": 29.536,
+   "nominal_s": 29.536,
+   "snapped_to_music": false,
+   "start_s": 29.536,
+   "file": "05_OUTRO_MARCA/LOGO_02_AIRE_SALIDA.wav",
+   "mode": "start",
+   "rel_db": -16,
+   "gain_db": -13.38,
+   "tier": null,
+   "accion": null,
+   "note": "f738+ aire que acompaña la caida del punto y la formacion del logo, sin golpes nuevos"
+  }
+ ],
+ "ducks": [
+  {
+   "t0": 0.205,
+   "t1": 0.25,
+   "att": 0.012,
+   "rel": 0.03,
+   "db": [
+    0.0,
+    -3.0,
+    -6.0
+   ],
+   "why": "tiempo del tema 63 ms antes de f7"
+  },
+  {
+   "t0": 1.27,
+   "t1": 1.33,
+   "att": 0.015,
+   "rel": 0.06,
+   "db": [
+    -4.0,
+    -4.0,
+    -6.0
+   ],
+   "why": "tiempo del tema 45 ms despues de f31 (evita doble ataque)"
+  },
+  {
+   "t0": 9.135,
+   "t1": 9.19,
+   "att": 0.01,
+   "rel": 0.02,
+   "db": [
+    -6.0,
+    -2.0,
+    0.0
+   ],
+   "why": "bombo del tema 50 ms antes del corte a 240"
+  },
+  {
+   "t0": 21.615,
+   "t1": 21.68,
+   "att": 0.012,
+   "rel": 0.04,
+   "db": [
+    0.0,
+    -3.0,
+    -3.0
+   ],
+   "why": "tiempo del tema 160 ms antes del corte a MONTAJE SIMPLE"
+  },
+  {
+   "t0": 22.552,
+   "t1": 22.59,
+   "att": 0.01,
+   "rel": 0.03,
+   "db": [
+    0.0,
+    -3.0,
+    -5.0
+   ],
+   "why": "semicorchea del tema 40 ms despues de SIMPLE"
+  },
+  {
+   "t0": 23.255,
+   "t1": 23.282,
+   "att": 0.01,
+   "rel": 0.03,
+   "db": [
+    0.0,
+    -3.0,
+    -5.0
+   ],
+   "why": "semicorchea del tema 13 ms antes de CALIDAD"
+  },
+  {
+   "t0": 0.28,
+   "t1": 0.36000000000000004,
+   "att": 0.004,
+   "rel": 0.22,
+   "db": [
+    -3.0,
+    -2.0,
+    -1.0
+   ],
+   "why": "impulso 1"
+  },
+  {
+   "t0": 1.24,
+   "t1": 1.35,
+   "att": 0.004,
+   "rel": 0.25,
+   "db": [
+    -3.0,
+    -2.0,
+    -1.0
+   ],
+   "why": "impulso 2"
+  },
+  {
+   "t0": 3.3200000000000003,
+   "t1": 3.4000000000000004,
+   "att": 0.004,
+   "rel": 0.22,
+   "db": [
+    -2.0,
+    -1.5,
+    -1.0
+   ],
+   "why": "DE GRUA"
+  },
+  {
+   "t0": 9.200000000000001,
+   "t1": 9.280000000000001,
+   "att": 0.004,
+   "rel": 0.22,
+   "db": [
+    -2.0,
+    -1.5,
+    -1.0
+   ],
+   "why": "240 PLUS"
+  },
+  {
+   "t0": 16.96,
+   "t1": 17.3,
+   "att": 0.08,
+   "rel": 0.25,
+   "db": [
+    0.0,
+    -1.5,
+    -2.5
+   ],
+   "why": "barrido del cubo"
+  },
+  {
+   "t0": 21.8,
+   "t1": 21.88,
+   "att": 0.004,
+   "rel": 0.22,
+   "db": [
+    -2.0,
+    -1.5,
+    -1.0
+   ],
+   "why": "MONTAJE SIMPLE"
+  },
+  {
+   "t0": 23.28,
+   "t1": 23.36,
+   "att": 0.004,
+   "rel": 0.25,
+   "db": [
+    -2.0,
+    -1.0,
+    -0.5
+   ],
+   "why": "CALIDAD"
+  },
+  {
+   "t0": 28.32,
+   "t1": 29.400000000000002,
+   "att": 0.2,
+   "rel": 0.1,
+   "db": [
+    0.0,
+    -1.0,
+    -1.5
+   ],
+   "why": "alejamiento: sitio para la textura"
+  },
+  {
+   "t0": 29.524,
+   "t1": 29.644000000000002,
+   "att": 0.002,
+   "rel": 0.5,
+   "db": [
+    -2.5,
+    -1.0,
+    -0.5
+   ],
+   "why": "PUNTO"
+  }
+ ]
+}
