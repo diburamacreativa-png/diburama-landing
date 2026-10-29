@@ -1,0 +1,597 @@
+{
+ "stats": {
+  "music": {
+   "blocks": [
+    {
+     "src0": 0.436,
+     "src1": 7.564,
+     "video0": -0.138
+    },
+    {
+     "src0": 10.403,
+     "src1": 17.48,
+     "video0": 6.99
+    },
+    {
+     "src0": 7.564,
+     "src1": 17.48,
+     "video0": 14.067
+    },
+    {
+     "src0": 14.647,
+     "src1": 17.48,
+     "video0": 23.983
+    },
+    {
+     "src0": 17.48,
+     "src1": 18.898,
+     "video0": 26.816
+    },
+    {
+     "src0": 17.48,
+     "src1": null,
+     "video0": 28.234
+    }
+   ],
+   "video0_src": 0.574,
+   "anchor_src": 19.371,
+   "anchor_video": 30.125
+  },
+  "pre_gain_lufs": -17.7,
+  "master_gain_db": 3.6999999999999993,
+  "after_gain": {
+   "I": -14.0,
+   "LRA": 3.0,
+   "TP": 0.7
+  },
+  "final": {
+   "I": -14.0,
+   "LRA": 3.1,
+   "TP": -1.2
+  },
+  "limiter_max_gr_db": 1.92,
+  "limiter_activo_s": [
+   11.715833333333334,
+   30.321770833333332
+  ],
+  "music_stem": [
+   -14.2,
+   3.4,
+   -0.9
+  ],
+  "sfx_stem": [
+   -24.7,
+   12.5,
+   -2.6
+  ]
+ },
+ "cues": [
+  {
+   "id": "Z1a",
+   "frame": 7.25,
+   "event_s": 0.29,
+   "nominal_s": 0.29,
+   "snapped_to_music": false,
+   "start_s": 0.2011,
+   "file": "01_WHOOSHES/WHOOSH_01_MICRO_SECO.wav",
+   "mode": "peak",
+   "rel_db": -10,
+   "gain_db": -14.48,
+   "note": "f7 golpe de zoom 1: whoosh corto"
+  },
+  {
+   "id": "Z1b",
+   "frame": 7.5,
+   "event_s": 0.3,
+   "nominal_s": 0.3,
+   "snapped_to_music": false,
+   "start_s": 0.2987,
+   "file": "02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav",
+   "mode": "attack",
+   "rel_db": -5,
+   "gain_db": -7.21,
+   "note": "f7 golpe de zoom 1: percusion grave en la semicorchea que cae en el fotograma (la musica no tiene golpe ahi)"
+  },
+  {
+   "id": "Z1c",
+   "frame": 7.5,
+   "event_s": 0.3,
+   "nominal_s": 0.3,
+   "snapped_to_music": false,
+   "start_s": 0.2993,
+   "file": "02_IMPACTS/HIT_04_METAL_MATE_SUTIL.wav",
+   "mode": "attack",
+   "rel_db": -14,
+   "gain_db": -12.41,
+   "note": "f7 contacto metalico discreto (afinado a Mi)"
+  },
+  {
+   "id": "Z2a",
+   "frame": 23.0,
+   "event_s": 0.9307,
+   "nominal_s": 0.92,
+   "snapped_to_music": true,
+   "start_s": 0.8566,
+   "file": "01_WHOOSHES/WHOOSH_01_MICRO_SECO.wav",
+   "mode": "peak",
+   "rel_db": -13,
+   "gain_db": -16.34,
+   "note": "f23 primer salto del zoom 2 (secundario: lo marca el beat de la musica)"
+  },
+  {
+   "id": "Z2r",
+   "frame": 31.75,
+   "event_s": 1.2847,
+   "nominal_s": 1.27,
+   "snapped_to_music": true,
+   "start_s": 1.0487,
+   "file": "04_RISERS_REVERSE/REVERSE_01_PREIMPACTO.wav",
+   "mode": "end",
+   "rel_db": -12,
+   "gain_db": -5.32,
+   "note": "f25-31 subida breve hacia el golpe 2"
+  },
+  {
+   "id": "Z2b",
+   "frame": 31.75,
+   "event_s": 1.2847,
+   "nominal_s": 1.27,
+   "snapped_to_music": true,
+   "start_s": 1.1406,
+   "file": "01_WHOOSHES/WHOOSH_02_RAPIDO_LATERAL.wav",
+   "mode": "peak",
+   "rel_db": -10,
+   "gain_db": -15.76,
+   "note": "f31 golpe de zoom 2: whoosh rapido"
+  },
+  {
+   "id": "Z2c",
+   "frame": 31.75,
+   "event_s": 1.2847,
+   "nominal_s": 1.27,
+   "snapped_to_music": true,
+   "start_s": 1.2837,
+   "file": "02_IMPACTS/HIT_03_GRUA_PROTAGONISTA.wav",
+   "mode": "attack",
+   "rel_db": -4,
+   "gain_db": -9.84,
+   "note": "f31 golpe de zoom 2: grave fundido con el primer tiempo fuerte de la musica"
+  },
+  {
+   "id": "T01",
+   "frame": 83.0,
+   "event_s": 3.32,
+   "nominal_s": 3.32,
+   "snapped_to_music": false,
+   "start_s": 2.72,
+   "file": "04_RISERS_REVERSE/REVERSE_02_PRE_CORTE.wav",
+   "mode": "end",
+   "rel_db": -14,
+   "gain_db": -14.19,
+   "note": "f78-82 barrido: aire aspirado hacia el corte"
+  },
+  {
+   "id": "T02",
+   "frame": 82.5,
+   "event_s": 3.3,
+   "nominal_s": 3.3,
+   "snapped_to_music": false,
+   "start_s": 2.9948,
+   "file": "01_WHOOSHES/WHOOSH_04_MOTION_MEDIO.wav",
+   "mode": "peak",
+   "rel_db": -10,
+   "gain_db": -12.48,
+   "note": "f78-83 barrido hacia DE GRUA"
+  },
+  {
+   "id": "T03",
+   "frame": 83.0,
+   "event_s": 3.3087,
+   "nominal_s": 3.32,
+   "snapped_to_music": true,
+   "start_s": 3.3073,
+   "file": "02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav",
+   "mode": "attack",
+   "rel_db": -7,
+   "gain_db": -7.46,
+   "note": "f83 «DE GRUA» llega con el corte"
+  },
+  {
+   "id": "T04",
+   "frame": 130.5,
+   "event_s": 5.22,
+   "nominal_s": 5.22,
+   "snapped_to_music": false,
+   "start_s": 5.0829,
+   "file": "01_WHOOSHES/WHOOSH_02_RAPIDO_LATERAL.wav",
+   "mode": "peak",
+   "rel_db": -12,
+   "gain_db": -14.23,
+   "note": "f126-131 paneo y corte a ALISPLAY MANUAL"
+  },
+  {
+   "id": "T05",
+   "frame": 229.5,
+   "event_s": 9.18,
+   "nominal_s": 9.18,
+   "snapped_to_music": false,
+   "start_s": 8.8856,
+   "file": "01_WHOOSHES/WHOOSH_05_GRAVE_CON_CUERPO.wav",
+   "mode": "peak",
+   "rel_db": -10,
+   "gain_db": -12.16,
+   "note": "f224-230 latigazo y corte a 240 PLUS"
+  },
+  {
+   "id": "T06",
+   "frame": 230.0,
+   "event_s": 9.2,
+   "nominal_s": 9.2,
+   "snapped_to_music": false,
+   "start_s": 9.1992,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -9,
+   "gain_db": -9.05,
+   "note": "f230 corte a 240 PLUS (fundido con el acento musical)"
+  },
+  {
+   "id": "T07",
+   "frame": 243.0,
+   "event_s": 9.72,
+   "nominal_s": 9.72,
+   "snapped_to_music": false,
+   "start_s": 9.7193,
+   "file": "03_UI_POPS_CLICKS/UI_05_SNAP_PALABRA.wav",
+   "mode": "attack",
+   "rel_db": -15,
+   "gain_db": -7.14,
+   "note": "f243 «PLUS» aterriza (secundario)"
+  },
+  {
+   "id": "T08",
+   "frame": 298.0,
+   "event_s": 11.92,
+   "nominal_s": 11.92,
+   "snapped_to_music": false,
+   "start_s": 11.609,
+   "file": "01_WHOOSHES/WHOOSH_05_GRAVE_CON_CUERPO.wav",
+   "mode": "peak",
+   "rel_db": -12,
+   "gain_db": -13.83,
+   "note": "f298 corte a DISEÑADO PARA"
+  },
+  {
+   "id": "T09",
+   "frame": 298.0,
+   "event_s": 11.9467,
+   "nominal_s": 11.92,
+   "snapped_to_music": true,
+   "start_s": 11.946,
+   "file": "02_IMPACTS/HIT_05_ACENTO_LIGERO.wav",
+   "mode": "attack",
+   "rel_db": -16,
+   "gain_db": -10.57,
+   "note": "f298 «DISEÑADO PARA» se asienta"
+  },
+  {
+   "id": "T10",
+   "frame": 427.0,
+   "event_s": 17.08,
+   "nominal_s": 17.08,
+   "snapped_to_music": false,
+   "start_s": 16.8206,
+   "file": "01_WHOOSHES/WHOOSH_04_MOTION_MEDIO.wav",
+   "mode": "peak",
+   "rel_db": -8,
+   "gain_db": -10.14,
+   "note": "f424-433 el cubo de la grua cruza (der -> izq); la musica vuelve completa en 16,90 s"
+  },
+  {
+   "id": "T11",
+   "frame": 430.0,
+   "event_s": 17.2,
+   "nominal_s": 17.2,
+   "snapped_to_music": false,
+   "start_s": 16.845,
+   "file": "01_WHOOSHES/WHOOSH_05_GRAVE_CON_CUERPO.wav",
+   "mode": "peak",
+   "rel_db": -11,
+   "gain_db": -14.29,
+   "note": "f430 masa de aire de la maquinaria y corte oculto"
+  },
+  {
+   "id": "T12",
+   "frame": 503.0,
+   "event_s": 20.12,
+   "nominal_s": 20.12,
+   "snapped_to_music": false,
+   "start_s": 20.1193,
+   "file": "02_IMPACTS/HIT_04_METAL_MATE_SUTIL.wav",
+   "mode": "attack",
+   "rel_db": -11,
+   "gain_db": -6.64,
+   "note": "f503 «GRUA» destella en rojo"
+  },
+  {
+   "id": "T13",
+   "frame": 545.0,
+   "event_s": 21.8,
+   "nominal_s": 21.8,
+   "snapped_to_music": false,
+   "start_s": 21.4948,
+   "file": "01_WHOOSHES/WHOOSH_04_MOTION_MEDIO.wav",
+   "mode": "peak",
+   "rel_db": -10,
+   "gain_db": -11.02,
+   "note": "f545 corte a MONTAJE SIMPLE"
+  },
+  {
+   "id": "T14",
+   "frame": 563.0,
+   "event_s": 22.5587,
+   "nominal_s": 22.52,
+   "snapped_to_music": true,
+   "start_s": 22.5579,
+   "file": "02_IMPACTS/HIT_01_PUNCH_TEXTO_SECO.wav",
+   "mode": "attack",
+   "rel_db": -8,
+   "gain_db": -9.33,
+   "note": "f563 «SIMPLE» aterriza"
+  },
+  {
+   "id": "T15",
+   "frame": 582.0,
+   "event_s": 23.2687,
+   "nominal_s": 23.28,
+   "snapped_to_music": true,
+   "start_s": 23.2678,
+   "file": "02_IMPACTS/HIT_06_CALIDAD_CON_PESO.wav",
+   "mode": "attack",
+   "rel_db": -6,
+   "gain_db": -6.73,
+   "note": "f582 «CALIDAD.» completo"
+  },
+  {
+   "id": "T16",
+   "frame": 670.0,
+   "event_s": 26.8,
+   "nominal_s": 26.8,
+   "snapped_to_music": false,
+   "start_s": 26.2,
+   "file": "04_RISERS_REVERSE/REVERSE_02_PRE_CORTE.wav",
+   "mode": "end",
+   "rel_db": -13,
+   "gain_db": -12.81,
+   "note": "f665-670 latigazo: aire aspirado; la musica entra en el break"
+  },
+  {
+   "id": "T17",
+   "frame": 669.5,
+   "event_s": 26.78,
+   "nominal_s": 26.78,
+   "snapped_to_music": false,
+   "start_s": 26.5757,
+   "file": "01_WHOOSHES/WHOOSH_03_AIRE_LIGERO.wav",
+   "mode": "peak",
+   "rel_db": -10,
+   "gain_db": -14.61,
+   "note": "f670 corte a la toma cenital"
+  },
+  {
+   "id": "Z01",
+   "frame": 721.0,
+   "event_s": 28.84,
+   "nominal_s": 28.84,
+   "snapped_to_music": false,
+   "start_s": 28.24,
+   "file": "04_RISERS_REVERSE/REVERSE_02_PRE_CORTE.wav",
+   "mode": "end",
+   "rel_db": -12,
+   "gain_db": -16.09,
+   "note": "succion hacia el arranque del alejamiento (f721)"
+  },
+  {
+   "id": "Z02",
+   "frame": 723.0,
+   "event_s": 28.92,
+   "nominal_s": 28.92,
+   "snapped_to_music": false,
+   "start_s": 28.92,
+   "file": "04_RISERS_REVERSE/RISER_03_ZOOM_SPIN.wav",
+   "mode": "start",
+   "rel_db": -8,
+   "gain_db": -0.59,
+   "note": "f723-743 alejamiento: Doppler descendente, el aire se oscurece y el estereo se cierra"
+  },
+  {
+   "id": "Z03",
+   "frame": 751.75,
+   "event_s": 30.07,
+   "nominal_s": 30.07,
+   "snapped_to_music": false,
+   "start_s": 29.7285,
+   "file": "04_RISERS_REVERSE/REVERSE_01_PREIMPACTO.wav",
+   "mode": "end",
+   "rel_db": -13,
+   "gain_db": -9.37,
+   "note": "f747-752 caida del punto: aire invertido que se corta justo antes del golpe"
+  },
+  {
+   "id": "I01",
+   "frame": 753.12,
+   "event_s": 30.1247,
+   "nominal_s": 30.125,
+   "snapped_to_music": true,
+   "start_s": 30.1237,
+   "file": "02_IMPACTS/HIT_03_GRUA_PROTAGONISTA.wav",
+   "mode": "attack",
+   "rel_db": -2,
+   "gain_db": -6.54,
+   "note": "f753 IMPACTO: subgrave fundido con el golpe de resolucion del tema"
+  },
+  {
+   "id": "I02",
+   "frame": 753.12,
+   "event_s": 30.1247,
+   "nominal_s": 30.125,
+   "snapped_to_music": true,
+   "start_s": 30.1236,
+   "file": "02_IMPACTS/HIT_07_CIERRE_MARCA.wav",
+   "mode": "attack",
+   "rel_db": -1.5,
+   "gain_db": -3.87,
+   "note": "f753 cuerpo del impacto"
+  },
+  {
+   "id": "I03",
+   "frame": 753.12,
+   "event_s": 30.1247,
+   "nominal_s": 30.125,
+   "snapped_to_music": true,
+   "start_s": 30.1239,
+   "file": "02_IMPACTS/HIT_04_METAL_MATE_SUTIL.wav",
+   "mode": "attack",
+   "rel_db": -9,
+   "gain_db": -6.65,
+   "note": "f753 contacto metalico afinado a Mi (tonica del acorde final)"
+  },
+  {
+   "id": "I05",
+   "frame": 753.12,
+   "event_s": 30.1247,
+   "nominal_s": 30.125,
+   "snapped_to_music": true,
+   "start_s": 30.1234,
+   "file": "02_IMPACTS/HIT_02_PUNCH_CON_CUERPO.wav",
+   "mode": "attack",
+   "rel_db": -5,
+   "gain_db": -5.26,
+   "note": "f753 capa de cuerpo en medios (presencia del golpe en movil)"
+  },
+  {
+   "id": "I06",
+   "frame": 753.38,
+   "event_s": 30.135,
+   "nominal_s": 30.135,
+   "snapped_to_music": false,
+   "start_s": 30.135,
+   "file": "05_OUTRO_MARCA/LOGO_02_AIRE_SALIDA.wav",
+   "mode": "start",
+   "rel_db": -15,
+   "gain_db": -12.02,
+   "note": "f753+ soplo de aire que acompana la cola, sin golpes nuevos"
+  },
+  {
+   "id": "I04",
+   "frame": 753.12,
+   "event_s": 30.1247,
+   "nominal_s": 30.125,
+   "snapped_to_music": true,
+   "start_s": 30.124,
+   "file": "05_OUTRO_MARCA/LOGO_04_CLACK_IDENTIDAD.wav",
+   "mode": "attack",
+   "rel_db": -13,
+   "gain_db": -6.7,
+   "note": "f753 ataque definido del impacto"
+  }
+ ],
+ "ducks": [
+  {
+   "t0": 0.3,
+   "t1": 0.38,
+   "att": 0.004,
+   "rel": 0.22,
+   "db": [
+    -3.0,
+    -2.0,
+    -1.0
+   ],
+   "why": "golpe zoom 1"
+  },
+  {
+   "t0": 1.27,
+   "t1": 1.35,
+   "att": 0.004,
+   "rel": 0.25,
+   "db": [
+    -2.5,
+    -1.5,
+    -1.0
+   ],
+   "why": "golpe zoom 2"
+  },
+  {
+   "t0": 3.3200000000000003,
+   "t1": 3.4000000000000004,
+   "att": 0.004,
+   "rel": 0.22,
+   "db": [
+    -2.0,
+    -1.0,
+    -1.0
+   ],
+   "why": "DE GRUA"
+  },
+  {
+   "t0": 9.08,
+   "t1": 9.28,
+   "att": 0.06,
+   "rel": 0.2,
+   "db": [
+    0.0,
+    -1.0,
+    -2.0
+   ],
+   "why": "corte 240"
+  },
+  {
+   "t0": 16.96,
+   "t1": 17.3,
+   "att": 0.08,
+   "rel": 0.25,
+   "db": [
+    0.0,
+    -1.5,
+    -2.5
+   ],
+   "why": "maquinaria"
+  },
+  {
+   "t0": 23.28,
+   "t1": 23.36,
+   "att": 0.004,
+   "rel": 0.25,
+   "db": [
+    -2.5,
+    -1.0,
+    -0.5
+   ],
+   "why": "CALIDAD"
+  },
+  {
+   "t0": 28.84,
+   "t1": 29.52,
+   "att": 0.15,
+   "rel": 0.25,
+   "db": [
+    0.0,
+    -1.0,
+    -2.0
+   ],
+   "why": "alejamiento"
+  },
+  {
+   "t0": 30.125,
+   "t1": 30.245,
+   "att": 0.002,
+   "rel": 0.5,
+   "db": [
+    -2.5,
+    -1.0,
+    -0.5
+   ],
+   "why": "IMPACTO"
+  }
+ ]
+}

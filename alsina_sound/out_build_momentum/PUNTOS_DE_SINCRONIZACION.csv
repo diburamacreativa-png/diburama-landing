@@ -1,0 +1,20 @@
+﻿momento,tiempo_s,fotograma,timecode,que_suena,origen
+ARRANQUE,"0,000",0,00:00:00:00,"La musica arranca en el primer fotograma (golpe de bajo del propio tema en 0,006 s)",musica
+ZOOM 1 (golpe 1),"0,300",7,00:00:00:07,Percusion grave + whoosh corto en la semicorchea que cae dentro del f7 (la cancion no tiene golpe en ese fotograma),percusion complementaria
+ZOOM 2a,"0,931",23,00:00:00:23,Beat de la musica + whoosh corto,musica + efecto
+ZOOM 2b (golpe 2),"1,285",32,00:00:01:07,Primer tiempo fuerte del tema + golpe grave fundido (5 ms tras el final del f31),musica + percusion
+CORTE A DE GRUA,"3,309",82,00:00:03:07,Acento musical + golpe con cuerpo; barrido previo,musica + percusion
+CORTE A ALISPLAY MANUAL,"5,220",130,00:00:05:05,Whoosh lateral sobre el paneo y el corte (pico),efecto
+CORTE A 240 PLUS,"9,200",229,00:00:09:04,Golpe seco + whoosh grave del latigazo,percusion + efecto
+DISENADO PARA,"11,947",298,00:00:11:23,Acento musical + whoosh grave,musica + efecto
+BREAKDOWN DEL TEMA,"14,067",351,00:00:14:01,"Seccion sin bajo bajo EDIFICACION CHILENA y el contador 2,40 m",estructura musical
+VUELVE EL TEMA COMPLETO,"16,906",422,00:00:16:22,"Primer tiempo del tema completo con la entrada del cubo de la grua (f424 = 16,96 s)",estructura musical
+CUBO DE GRUA,"17,080",426,00:00:17:01,Whoosh (pico) con paneo der->izq y masa de aire grave; corte oculto en f430,efecto
+GRUA EN ROJO,"20,120",503,00:00:20:03,Contacto metalico,efecto
+CORTE A MONTAJE SIMPLE,"21,800",545,00:00:21:20,Whoosh (pico),efecto
+SIMPLE,"22,559",563,00:00:22:13,Acento musical + golpe seco,musica + percusion
+CALIDAD,"23,269",581,00:00:23:06,Acento musical + golpe con peso (11 ms antes del f582),musica + percusion
+BREAK (TENSION),"26,816",670,00:00:26:20,Empieza el break del tema con el corte a la toma cenital; se repite durante el alejamiento,estructura musical
+FILL EN TRESILLOS,"29,652",741,00:00:29:16,Redoble del tema durante la caida del punto (f747-f752),musica
+PUNTO DE LA i (ANCLA),"30,125",753,00:00:30:03,"Golpe de resolucion del tema + impacto; pico de la mezcla 30,134 s, dentro del f753",musica + impacto
+FUNDIDO FINAL,"34,960",874,00:00:34:24,El audio se apaga con el fundido a negro del video (f874-f883),master
