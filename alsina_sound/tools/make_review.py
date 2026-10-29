@@ -3,7 +3,7 @@
 formas de onda de musica (gris) y SFX (naranja) con cursor, a 1x y al 50 %.
 
 Uso: python3 -I make_review.py --video <mp4 original> --out <dir con los stems>
-     [--dur 38.68 --prefix ALSINA_DEMO5 --stats build_stats_demo5.json --tag DEMO5]
+     [--dur 38.68 --prefix ALSINA_DEMO5 --stats build_stats_demo5.json --tag DEMO5 --sfx SFX_STEM]
 """
 import argparse, json, os, subprocess
 
@@ -25,6 +25,7 @@ def main():
     ap.add_argument("--prefix", default="ALSINA_REEL")
     ap.add_argument("--stats", default="build_stats.json")
     ap.add_argument("--tag", default="ALSINA")
+    ap.add_argument("--sfx", default="SFX_STEM", help="sufijo de la pista de efectos")
     a = ap.parse_args()
     o = a.out
     dur = a.dur
@@ -54,7 +55,7 @@ def main():
     r1 = os.path.join(o, f"REVISION_1x_{a.tag}_sync.mp4")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", a.video,
                     "-i", os.path.join(o, f"{a.prefix}_MUSICA_STEM_48k24.wav"),
-                    "-i", os.path.join(o, f"{a.prefix}_SFX_STEM_48k24.wav"),
+                    "-i", os.path.join(o, f"{a.prefix}_{a.sfx}_48k24.wav"),
                     "-i", os.path.join(o, f"{a.prefix}_MEZCLA_FINAL_48k24.wav"),
                     "-filter_complex", fc, "-map", "[vo]", "-map", "3:a",
                     "-c:v", "libx264", "-preset", "medium", "-crf", "22", "-pix_fmt", "yuv420p",

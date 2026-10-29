@@ -1,0 +1,33 @@
+﻿fotograma,tiempo_imagen_s,timecode,accion_visual,fuerza,golpe_audio_s,desfase_ms,que_suena
+7,"0,280",00:00:00:07,Impulso de camara 1: alejamiento brusco; «MONTAJES» entra volando,FUERTE,"0,280",+0,HIT_02_PUNCH_CON_CUERPO + HIT_01_PUNCH_TEXTO_SECO + WHOOSH_01_MICRO_SECO
+23,"0,920",00:00:00:23,Salto intermedio del zoom; aparece «SIN»,MEDIO,"0,957",+37,HIT_01_PUNCH_TEXTO_SECO (fundido con el tema)
+31,"1,240",00:00:01:06,Impulso de camara 2: alejamiento brusco; aparece «NECESIDAD»,FUERTE,"1,240",+0,HIT_03_GRUA_PROTAGONISTA + HIT_01_PUNCH_TEXTO_SECO + WHOOSH_02_RAPIDO_LATERAL + REVERSE_01_PREIMPACTO
+-,"1,552",00:00:01:14,Musica: entra el groove completo (primer tiempo del compas 74),ESTRUCTURA,"1,552",,Bombo y bajo del tema entran (la intro sonaba con paso alto)
+83,"3,320",00:00:03:08,Latigazo con desenfoque (f79-82) y corte al plano «DE GRÚA» (el texto llega con el paneo),FUERTE,"3,339",+19,HIT_02_PUNCH_CON_CUERPO (fundido con el tema) + HIT_01_PUNCH_TEXTO_SECO (fundido con el tema) + WHOOSH_04_MOTION_MEDIO
+89,"3,560",00:00:03:14,El paneo rapido frena (f84-89); linea roja se dibuja,SECUNDARIO,,,sin golpe
+131,"5,240",00:00:05:06,Paneo que acelera (f127-130) y corte a ALISPLAY,MEDIO,"5,240",+0,HIT_05_ACENTO_LIGERO + WHOOSH_02_RAPIDO_LATERAL
+141,"5,640",00:00:05:16,«ALISPLAY» sube y se asienta,LIGERO,"5,640",+0,UI_04_POP_TEXTO_PUNCH
+151,"6,040",00:00:06:01,«MANUAL» se asienta,LIGERO,"6,040",+0,UI_05_SNAP_PALABRA
+230,"9,200",00:00:09:05,Latigazo (f227-229) y corte a 240 PLUS,FUERTE,"9,173",-27,HIT_03_GRUA_PROTAGONISTA (fundido con el tema) + WHOOSH_05_GRAVE_CON_CUERPO + REVERSE_02_PRE_CORTE
+243,"9,720",00:00:09:18,«PLUS» completa la caida de sus letras,LIGERO,"9,720",+0,UI_05_SNAP_PALABRA
+298,"11,920",00:00:11:23,Corte a «DISEÑADO PARA» (el texto sube y se asienta en f304),MEDIO,"11,920",+0,HIT_05_ACENTO_LIGERO + WHOOSH_03_AIRE_LIGERO
+341,"13,640",00:00:13:16,«EDIFICACIÓN» aparece,LIGERO,"13,640",+0,UI_04_POP_TEXTO_PUNCH
+355,"14,200",00:00:14:05,«CHILENA» aparece,SECUNDARIO,,,sin golpe
+393,"15,720",00:00:15:18,"El contador (desde f360) se detiene en 2,40 m",LIGERO,"15,759",+39,UI_01_CLICK_PRECISO (fundido con el tema)
+429,"17,160",00:00:17:04,"El cubo de la grua barre el plano (f425-433), corte oculto en f430",MEDIO (movimiento),"17,160",,WHOOSH_05_GRAVE_CON_CUERPO + WHOOSH_04_MOTION_MEDIO
+453,"18,120",00:00:18:03,«MENOS DEPENDENCIA» se forma (f429-456),SECUNDARIO,,,sin golpe (la musica pasa a Fa en el compas 84)
+503,"20,120",00:00:20:03,«GRÚA» destella en rojo,LIGERO,"20,129",+9,HIT_04_METAL_MATE_SUTIL (fundido con el tema)
+545,"21,800",00:00:21:20,Corte a MONTAJE SIMPLE,MEDIO,"21,788",,WHOOSH_03_AIRE_LIGERO
+563,"22,520",00:00:22:13,«SIMPLE» aterriza,MEDIO,"22,519",-1,HIT_01_PUNCH_TEXTO_SECO (fundido con el tema)
+582,"23,280",00:00:23:07,«CALIDAD.» aterriza,MEDIO,"23,280",+0,HIT_06_CALIDAD_CON_PESO
+670,"26,800",00:00:26:20,Latigazo (f668-669) y corte a la toma cenital,FUERTE,"26,800",+0,HIT_02_PUNCH_CON_CUERPO + WHOOSH_02_RAPIDO_LATERAL + REVERSE_02_PRE_CORTE
+737,"29,480",00:00:29:12,Alejamiento que acelera (f708-735) y cierre del iris (f735-737),ANTICIPACION,"29,500",,RISER_03_ZOOM_SPIN
+738,"29,520",00:00:29:13,Negro: nace el punto (cuadrado blanco); la musica se retira,LIGERO,"29,520",+0,LOGO_03_TICK_SIMBOLO
+753,"30,120",00:00:30:03,PUNTO DE LA «i»: el punto cae (f738-752) y se asienta en la «i»; «Alsina» queda completo,ANCLA,"30,129",+9,HIT_07_CIERRE_MARCA (fundido con el tema) + HIT_03_GRUA_PROTAGONISTA (fundido con el tema) + HIT_04_METAL_MATE_SUTIL (fundido con el tema) + LOGO_04_CLACK_IDENTIDAD (fundido con el tema) + REVERSE_01_PREIMPACTO
+766,"30,640",00:00:30:16,«x» y ALTIUS se ensamblan (f754-766); «ASÍ SE CONSTRUYE EN / CHILE | GRAN VÍA» aparece (f764-774),SIN GOLPE,,,cola limpia del acorde final
+874,"34,960",00:00:34:24,Fundido a negro del video (f874-883),FINAL,,,la cola se apaga con la imagen
+-,,00:00:05:06,Musica: el groove se corta y entra la subida filtrada (compases 78-79) con el corte de f131,ESTRUCTURA,"5,244",,tema
+-,,00:00:09:04,Musica: DROP del tema (compas 80) = corte a 240 PLUS,ESTRUCTURA,"9,173",,tema
+-,,00:00:18:18,Musica: cambio a Fa (compas 84) mientras se forma «MENOS DEPENDENCIA DE GRÚA»,ESTRUCTURA,"18,703",,tema
+-,,00:00:22:13,Musica: cambio a Do (compas 86) = «SIMPLE»,ESTRUCTURA,"22,519",,tema
+-,,00:00:26:20,Musica: la bateria se retira y empieza la resolucion (compas 88) = corte a cenital,ESTRUCTURA,"26,805",,tema
