@@ -403,10 +403,12 @@ def thermal_col(y_line, width=110):
     i = np.clip(u.astype(int), 0, len(THERMAL) - 2); fr = (u - i)[:, None]
     return (THERMAL[i] * (1 - fr) + THERMAL[i + 1] * fr)[:, None, :]
 
-def s_brand(f):
+def s_brand(f, fold=None):
     img = bg_clean('petrol', grid=0.02 * seg(f, BRAND + 8, BRAND + 22), f=f)
     # la última ventana se pliega en una línea: esa línea es el escáner que revela la marca
-    if f < BRAND + 6:
+    if f < BRAND + 6 and fold is not None:      # V4: pliegue conjunto de varias ventanas
+        img = fold(img, f)
+    elif f < BRAND + 6:
         last = SRC.frame(4245 + (BRAND - 1 - CLX[3]) // 2)
         k = 1 - eo(seg(f, BRAND - 1, BRAND + 4))
         win = win_image(last, WIN)

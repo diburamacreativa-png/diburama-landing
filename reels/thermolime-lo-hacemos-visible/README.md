@@ -1,6 +1,42 @@
 # DIBURAMA · THERMOLIME · «LO HACEMOS VISIBLE» — Reel 20 s
 
-## V3 «VENTANA A LO INVISIBLE» (definitiva) — `entrega_v3/`
+## V4 «VISUAL LAB — LO HACEMOS VISIBLE» (vigente) — `entrega_v4/`
+
+| Archivo | Contenido |
+|---|---|
+| `DIBURAMA_THERMOLINE_VISUAL_LAB_V4.mp4` | Máster 1080×1920 · 25 fps · 500 fotogramas · H.264 High CRF 17 · AAC 48 kHz |
+| `DIBURAMA_THERMOLINE_PORTADA_V4.jpg` | Portada con la composición de dos ventanas; todo dentro del recorte 3:4 de la cuadrícula |
+| `DIBURAMA_THERMOLINE_VISUAL_LAB_V4_HOJA_CONTACTOS.jpg` | 20 fotogramas con las ventanas en pantalla y su origen |
+| `CLIPS_Y_TIEMPOS_DE_ORIGEN_V4.md` | Cada ventana, su clip y su tiempo en el original |
+| `DIBURAMA_THERMOLINE_COMPARACION_V3_V4.jpg` · `comparacion_v3_v4.json` | V3 y V4 en los mismos instantes + métricas |
+| `audio/` · `qa_report_v4.json` | Mezcla, versión sin música e informe de control de calidad |
+
+### Sistema de composición (`proyecto/scenes_v4.py`, construido sobre `scenes_v3.py`)
+- Zona de titular y 230–400 · ventana principal 960×540 (y 420–960) · secundaria 848×477 desplazada (y 1013–1490) · cartelas en la junta.
+- Toda ventana es una **reducción** del original (≤ 0,5× la principal). Los «detalles» son recortes a resolución nativa (ancho de recorte ≥ ancho de ventana), nunca ampliaciones.
+- Recursos usados una o dos veces por bloque: escáner que revela, iris circular, esfera que sale del marco, división, línea descendente, intercambio de protagonismo, mosaico con rotación de protagonista, pliegue conjunto.
+- Cartelas `01 / LO INVISIBLE` · `02 / EL MATERIAL` · `03 / LA TECNOLOGÍA` · `04 / LA APLICACIÓN` · `05 / EL RESULTADO`, más `ANTES` / `DESPUÉS`, `APLICACIÓN REAL` / `DETALLE DEL PROCESO`. Sin datos ni propiedades añadidas.
+
+### Cambios respecto a la V3
+| Bloque | V3 | V4 |
+|---|---|---|
+| 0–3,3 s | Una ventana; la lente se abre en iris | Termografía + **segunda ventana** con la microestructura, revelada por escáner en 1,69 s; un círculo une la lente con la estructura |
+| 3,3–5,3 s | Partícula sola | Partícula principal (iris desde la lente, esfera que sale del marco en 4,02) + textura azul secundaria atenuada |
+| 5,3–8,7 s | Edificio rojo→azul + una termografía con escáner | **Antes / después real en dos ventanas**: un único escáner recorre ambas y revela la lectura térmica de la pared antigua y de la renovada; lentes conectadas; las ventanas se separan antes del golpe |
+| 8,7–12 s | Sistema multicapa en una ventana con círculos | Sistema completo arriba + **línea que desciende** al ritmo y revela abajo el **detalle nativo** del mismo componente; cartela técnica en la junta |
+| 12–14,7 s | Díptico rodillo + proyección en ventana única | Rodillo grande + spray pequeño → **intercambio** en 13,35 s (el spray pasa a protagonista, el rodillo muestra el plano general del operario) |
+| 14,7–16,3 s | Vivienda sola | Vivienda + detalle del acabado (llana) conectado por línea |
+| 16,3–17,7 s | Cuatro ventanas sucesivas | **Mosaico** de tres: rotación de protagonista en cada golpe y columna final |
+| 17,7–20 s | Cierre | Mismo cierre; las tres ventanas se pliegan a la vez en la línea que revela la marca |
+
+### Notas
+- La termografía de apertura se limita a 00:57,40–00:58,58: desde 00:58,62 el original funde la lente. (En la V3 los dos últimos fotogramas de esa escena ya entraban en el fundido, ~7 % de saturación menos; imperceptible, pero queda anotado).
+- Logotipo oficial: sigue sin archivo; cierre tipográfico editable. Producto: «thermolime».
+- Reproducir: `REEL_SCENES=scenes_v4 REEL_CRF=17 python3 render.py out.mp4` · `REEL_AUDIO=v4 python3 audio.py in/music.mp3 in/sfx out_audio` · `python3 deliver_v4.py portada|hoja|comparar …`.
+
+---
+
+## V3 «VENTANA A LO INVISIBLE» — `entrega_v3/`
 
 | Archivo | Contenido |
 |---|---|

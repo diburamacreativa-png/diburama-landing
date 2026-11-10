@@ -41,6 +41,11 @@ if os.environ.get('REEL_AUDIO', 'v1') == 'v3':
     _m = {'02_': 7.48, '04_': 'prob', '09_': 12.86, '10_': 'res'}
     PLAN = [(n, next((v for k, v in _m.items() if n.startswith(k)), w), al, g) for n, w, al, g in PLAN]
 
+# V4 (Visual Lab multiventana): 02 en la entrada de la segunda ventana, 07 en la revelación de la ventana inferior, 10 en el barrido al resultado
+if os.environ.get('REEL_AUDIO', 'v1') == 'v4':
+    _m = {'02_': 'prob', '07_': 9.69, '10_': 'res'}
+    PLAN = [(n, next((v for k, v in _m.items() if n.startswith(k)), w), al, g) for n, w, al, g in PLAN]
+
 SPLIT11 = [(0.0, 0.45), (0.45, 0.95), (0.95, None)]  # tres golpes internos (0.005 / 0.507 / 1.005 s)
 DUCK = {"01_Impacto_inicial_HOOK_0s", "06_Impacto_revelacion_tecnica_8s", "13_Impacto_logo_final_18s",
         "08_Corte_golpe_aplicacion_real_12s"}

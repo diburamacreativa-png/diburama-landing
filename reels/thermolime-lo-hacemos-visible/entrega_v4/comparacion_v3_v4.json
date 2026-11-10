@@ -1,0 +1,12 @@
+{
+ "V3": {
+  "lienzo_con_imagen_nitida_pct": 27.2,
+  "movimiento_medio": 2.54,
+  "fotogramas_casi_estaticos_pct": 68.5
+ },
+ "V4": {
+  "lienzo_con_imagen_nitida_pct": 35.7,
+  "movimiento_medio": 3.11,
+  "fotogramas_casi_estaticos_pct": 63.1
+ }
+}

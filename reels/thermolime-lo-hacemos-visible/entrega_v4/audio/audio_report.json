@@ -1,0 +1,136 @@
+{
+ "cues": {
+  "hook": 0.017499999999999998,
+  "prob": 1.6849999999999998,
+  "scan_end": 2.685,
+  "micro": 4.0175,
+  "tens": 6.0175,
+  "pre": 8.0225,
+  "tech": 8.6875,
+  "tech3": 10.0225,
+  "app": 12.0225,
+  "noz": 14.0225,
+  "res": 14.690000000000001,
+  "m0": 16.022499999999997,
+  "m1": 16.689999999999998,
+  "m2": 17.022499999999997,
+  "m3": 17.355,
+  "brand": 17.689999999999998,
+  "last": 19.355
+ },
+ "sfx": [
+  {
+   "sfx": "01_Impacto_inicial_HOOK_0s",
+   "start": -0.003,
+   "peak_at": 0.017,
+   "gain_db": -4.0
+  },
+  {
+   "sfx": "02_Whoosh_barrido_termico_2s",
+   "start": 1.403,
+   "peak_at": 1.685,
+   "gain_db": -8.5
+  },
+  {
+   "sfx": "03_Succion_entrada_particulas_4s",
+   "start": 2.616,
+   "peak_at": 4.018,
+   "gain_db": -7.5
+  },
+  {
+   "sfx": "04_Zoom_microscopico_6s",
+   "start": 6.01,
+   "peak_at": 6.018,
+   "gain_db": -8.0
+  },
+  {
+   "sfx": "05_Riser_revelacion_acaba_en_8s",
+   "start": 7.432,
+   "peak_at": 8.633,
+   "gain_db": -9.0
+  },
+  {
+   "sfx": "06_Impacto_revelacion_tecnica_8s",
+   "start": 8.658,
+   "peak_at": 8.688,
+   "gain_db": -4.0
+  },
+  {
+   "sfx": "07_Click_capas_tecnicas_10_5s",
+   "start": 9.685,
+   "peak_at": 9.69,
+   "gain_db": -10.0
+  },
+  {
+   "sfx": "08_Corte_golpe_aplicacion_real_12s",
+   "start": 11.685,
+   "peak_at": 12.022,
+   "gain_db": -5.5
+  },
+  {
+   "sfx": "09_Textura_proyeccion_revestimiento_12_3s",
+   "start": 12.2,
+   "peak_at": 12.328,
+   "gain_db": -12.0
+  },
+  {
+   "sfx": "10_Transicion_resultado_14s",
+   "start": 14.397,
+   "peak_at": 14.69,
+   "gain_db": -9.0
+  },
+  {
+   "sfx": "11_Triple_corte_montaje_16s#0",
+   "start": 16.681,
+   "peak_at": 16.69,
+   "gain_db": -8.0
+  },
+  {
+   "sfx": "11_Triple_corte_montaje_16s#1",
+   "start": 16.965,
+   "peak_at": 17.022,
+   "gain_db": -8.0
+  },
+  {
+   "sfx": "11_Triple_corte_montaje_16s#2",
+   "start": 17.3,
+   "peak_at": 17.355,
+   "gain_db": -8.0
+  },
+  {
+   "sfx": "12_Micro_riser_logo_desde_17_1s",
+   "start": 16.849,
+   "peak_at": 17.678,
+   "gain_db": -8.5
+  },
+  {
+   "sfx": "13_Impacto_logo_final_18s",
+   "start": 17.668,
+   "peak_at": 17.69,
+   "gain_db": -3.0
+  }
+ ],
+ "mix_true_peak_before_limiter_db": -0.9,
+ "limiter_max_gain_reduction_db": -0.6,
+ "master_true_peak_db": -1.5,
+ "sfx_only_true_peak_db": -7.04,
+ "mono_corr": 0.6493352624116128,
+ "mono_sum_loss_db": -0.84,
+ "sfx_minus_music_db_at_event": {
+  "01_Impacto_inicial_HOOK_0s": -7.2,
+  "02_Whoosh_barrido_termico_2s": -11.9,
+  "03_Succion_entrada_particulas_4s": -13.0,
+  "04_Zoom_microscopico_6s": -12.3,
+  "05_Riser_revelacion_acaba_en_8s": 7.2,
+  "06_Impacto_revelacion_tecnica_8s": -4.9,
+  "07_Click_capas_tecnicas_10_5s": -15.2,
+  "08_Corte_golpe_aplicacion_real_12s": -6.7,
+  "09_Textura_proyeccion_revestimiento_12_3s": -12.6,
+  "10_Transicion_resultado_14s": -12.3,
+  "11_Triple_corte_montaje_16s#0": -13.9,
+  "11_Triple_corte_montaje_16s#1": -14.3,
+  "11_Triple_corte_montaje_16s#2": -10.2,
+  "12_Micro_riser_logo_desde_17_1s": -5.3,
+  "13_Impacto_logo_final_18s": -5.0
+ }
+}
