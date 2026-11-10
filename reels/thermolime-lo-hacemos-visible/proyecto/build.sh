@@ -13,3 +13,13 @@ ffmpeg -v error -y -i build/video.mp4 -i build/audio/sfx_only.wav -map 0:v -map 
 python3 cover.py build/DIBURAMA_THERMOLINE_PORTADA.jpg
 python3 qa.py build/DIBURAMA_THERMOLINE_LO_HACEMOS_VISIBLE_FINAL.mp4 build/audio/audio_report.json > build/qa_report.json
 echo "OK -> build/"
+
+# ---- V2 ----
+REEL_SCENES=scenes_v2 python3 render.py build/video_v2.mp4
+REEL_AUDIO=v2 python3 audio.py in/music.mp3 in/sfx build/audio_v2
+ffmpeg -v error -y -i build/video_v2.mp4 -i build/audio_v2/master_mix.wav -map 0:v -map 1:a -c:v copy \
+  -c:a aac -b:a 320k -ar 48000 -t 20 -movflags +faststart build/DIBURAMA_THERMOLINE_LO_HACEMOS_VISIBLE_V2_FINAL.mp4
+ffmpeg -v error -y -i build/video_v2.mp4 -i build/audio_v2/sfx_only.wav -map 0:v -map 1:a -c:v copy \
+  -c:a aac -b:a 320k -ar 48000 -t 20 -movflags +faststart build/DIBURAMA_THERMOLINE_LO_HACEMOS_VISIBLE_V2_SIN_MUSICA.mp4
+python3 compare_sheets.py build/DIBURAMA_THERMOLINE_LO_HACEMOS_VISIBLE_FINAL.mp4 build/DIBURAMA_THERMOLINE_LO_HACEMOS_VISIBLE_V2_FINAL.mp4 build
+echo "OK V2 -> build/"

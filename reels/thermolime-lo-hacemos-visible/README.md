@@ -1,5 +1,66 @@
 # DIBURAMA · THERMOLIME · «LO HACEMOS VISIBLE» — Reel 20 s
 
+## V2 (vigente) — `entrega_v2/`
+
+Montaje rehecho a partir de la revisión: más planos, más movimiento y una revelación tecnológica animada.
+Mismos 20 s, misma música y mismos 13 SFX, recolocados sobre los nuevos cortes.
+
+| Archivo | Contenido |
+|---|---|
+| `DIBURAMA_THERMOLINE_LO_HACEMOS_VISIBLE_V2_FINAL.mp4` | Máster V2 · 1080×1920 · 25 fps · 500 fotogramas · H.264 + AAC |
+| `DIBURAMA_THERMOLINE_LO_HACEMOS_VISIBLE_V2_SIN_MUSICA.mp4` | Mismo vídeo, sólo SFX |
+| `DIBURAMA_THERMOLINE_V2_HOJA_CONTACTOS_SELECCION.jpg` | Cada plano: fotograma del Reel + fotograma original + tiempos de origen |
+| `DIBURAMA_THERMOLINE_COMPARACION_V1_V2.jpg` | V1 y V2 en los mismos instantes (cada 0,48 s) |
+| `comparacion_v1_v2.json` · `qa_report_v2.json` | Métricas objetivas y control de calidad |
+
+### Estructura V2 (cortes en acentos medidos de la música)
+
+| Reel (s) | Plano | Origen |
+|---|---|---|
+| 0,00–0,68 | Termografía macro (impacto) | 00:56,96 |
+| 0,68–1,68 | La cámara sale de la lupa y descubre la pared real | 00:55,72 + 00:57,0 |
+| 1,68–2,68 | **Iris**: el interior de la lupa se abre a la textura microscópica azul | 00:07,20 |
+| 2,68–3,32 | Macro de cristales | 00:08,16 |
+| 3,32–4,00 | Barrido por los tres componentes | 00:36,30 |
+| **4,00–4,68** | **Destello de transformación** (ralentí 0,6×) en el inicio de las semicorcheas | 00:38,12 |
+| 4,68–5,32 | Partícula resultante con pulsos en semicorcheas | 00:39,40 |
+| 5,32–7,48 | Termografía **antes / después** con cortinilla registrada píxel a píxel (puente térmico → rotura del puente térmico) | 00:57,60 / 01:03,60 |
+| 7,48–8,68 | Enfoscado liso (desplazamiento) → la rendija empieza a abrirse (ralentí, empuje acelerado) | 01:09,32–01:09,46 |
+| **8,68–9,32** | **Golpe: las capas se abren de golpe** (aceleración del original) + empujón hacia el ladrillo | 01:09,58–01:10,5 |
+| 9,32–9,68 | Barrido de cámara entre los dos componentes del sistema | 01:10,62 |
+| 9,68–10,52 | Comparación por escaneo enfoscado ↔ ladrillo (registrada) | 01:09,32 / 01:10,98 |
+| 10,52–12,00 | Rodillo macro · rodillo sobre ladrillo · llana | 02:10,0 · 02:13,0 · 02:15,4 |
+| 12,00–14,52 | General techo · macro boquilla · macro chorro · general obra (barrido con el chorro) | 03:06,7 · 02:52,2 · 03:11,5 · 02:49,6 |
+| 14,52–16,68 | Fachada aérea · ventanal iluminado | 03:40,6 · 03:44,9 |
+| 16,68–17,68 | Micro‑montaje: calor → aislamiento · edificio rojo → azul · destello | 00:57,6/01:03,6 · 00:17,36 · 00:38,12 |
+| **17,68–20,00** | DIBURAMA revelado por una línea de escaneo (las letras pasan por la paleta térmica de la propia termografía) | — |
+
+Textos reducidos a tres bloques: «¿CÓMO MUESTRAS LO QUE NO SE VE?» · «HACEMOS VISIBLE LA TECNOLOGÍA» ·
+«DIBURAMA — LO DIFÍCIL DE EXPLICAR, LO HACEMOS VISIBLE.»
+
+### Comparación objetiva V1 → V2
+
+| Métrica | V1 | V2 |
+|---|---|---|
+| Cortes / cambios visuales | 14 | 27 |
+| Cortes en 0–12 s | 6 | 16 |
+| Duración media de plano | 1,33 s | 0,71 s |
+| Energía de movimiento 0–12 s (dif. media entre fotogramas) | 4,78 | 8,70 (+82 %) |
+| Segundos casi estáticos | 10, 18, 19 | 18, 19 (cierre de marca, intencionado) |
+
+### Decisiones V2 que conviene revisar
+- La textura azul útil del original está en **00:06,6–00:08,8** (no 00:08–00:11): después hay una transición a blanco.
+- La transformación luminosa empieza en **00:38,11**; antes de eso el original muestra el logotipo «thermolime» en el centro, por eso el corte va directo a la luz.
+- El plano de fuego (00:22) se descartó tras probarlo: el panel original es estrecho, ampliado 2,7× queda blando y añade una propiedad que el Reel no cuenta. Se sustituyó por la termografía calor → aislamiento.
+- 03:12–03:16: los rótulos y la caja de producto del original obligan a encuadrar el chorro en su origen (pistola + niebla), no la mancha sobre la pared.
+- Logotipo oficial: sigue sin estar disponible; el cierre es tipográfico y editable (`scenes_v2.py`).
+
+Reproducir V2: `REEL_SCENES=scenes_v2 python3 render.py out.mp4` y `REEL_AUDIO=v2 python3 audio.py ...` (ver `build.sh`).
+
+---
+
+# V1 (anterior) — `entrega/`
+
 Primer capítulo de la campaña **LO HACEMOS VISIBLE**. Reel vertical montado íntegramente con material real del proyecto
 (vídeo original de 239,32 s), la música de 20 s entregada y los 13 SFX originales.
 

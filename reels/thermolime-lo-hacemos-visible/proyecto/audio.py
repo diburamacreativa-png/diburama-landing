@@ -31,6 +31,11 @@ PLAN = [
     ("12_Micro_riser_logo_desde_17_1s",         "brand", "peak-12ms", -8.5),
     ("13_Impacto_logo_final_18s",               "brand", "peak", -3.0),
 ]
+# V2: el golpe 08 marca la entrada de los primeros planos de aplicación (10,52 s) y el barrido 02 acompaña al iris (1,69 s)
+if os.environ.get('REEL_AUDIO', 'v1') == 'v2':
+    CUES['app'] = 10.52
+    PLAN = [(n, ('prob' if n.startswith('02_') else w), al, g) for n, w, al, g in PLAN]
+
 SPLIT11 = [(0.0, 0.45), (0.45, 0.95), (0.95, None)]  # tres golpes internos (0.005 / 0.507 / 1.005 s)
 DUCK = {"01_Impacto_inicial_HOOK_0s", "06_Impacto_revelacion_tecnica_8s", "13_Impacto_logo_final_18s",
         "08_Corte_golpe_aplicacion_real_12s"}

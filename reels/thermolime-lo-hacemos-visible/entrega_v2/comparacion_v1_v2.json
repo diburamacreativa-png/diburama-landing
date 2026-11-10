@@ -1,0 +1,71 @@
+{
+ "V1": {
+  "cortes": 14,
+  "plano_mas_largo_s": 2.64,
+  "duracion_media_plano_s": 1.33,
+  "cortes_0_12s": 6,
+  "energia_movimiento_media": 5.15,
+  "energia_movimiento_0_12s": 4.78,
+  "segundos_casi_estaticos": [
+   10,
+   18,
+   19
+  ],
+  "energia_por_segundo": [
+   1.5,
+   2.2,
+   3.2,
+   11.2,
+   4.8,
+   2.2,
+   1.9,
+   2.2,
+   15.0,
+   8.6,
+   0.9,
+   3.7,
+   2.8,
+   4.2,
+   7.9,
+   6.6,
+   11.5,
+   11.2,
+   0.8,
+   0.4
+  ]
+ },
+ "V2": {
+  "cortes": 27,
+  "plano_mas_largo_s": 2.32,
+  "duracion_media_plano_s": 0.71,
+  "cortes_0_12s": 16,
+  "energia_movimiento_media": 8.39,
+  "energia_movimiento_0_12s": 8.7,
+  "segundos_casi_estaticos": [
+   18,
+   19
+  ],
+  "energia_por_segundo": [
+   6.8,
+   6.3,
+   3.1,
+   23.2,
+   10.4,
+   6.8,
+   4.9,
+   7.2,
+   4.5,
+   12.8,
+   7.1,
+   11.3,
+   5.7,
+   7.3,
+   9.0,
+   7.2,
+   16.3,
+   16.5,
+   0.9,
+   0.3
+  ]
+ }
+}
