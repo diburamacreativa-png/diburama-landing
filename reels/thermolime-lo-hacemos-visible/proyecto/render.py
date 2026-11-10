@@ -19,7 +19,7 @@ def main():
     out = sys.argv[1]
     n = int(os.environ.get('NFRAMES', 500))
     cmd = ["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}", "-r", str(FPS),
-           "-i", "-", "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-maxrate", "16M", "-bufsize", "32M", "-profile:v", "high", "-level", "4.2",
+           "-i", "-", "-c:v", "libx264", "-preset", "slow", "-crf", os.environ.get("REEL_CRF", "18"), "-maxrate", "16M", "-bufsize", "32M", "-profile:v", "high", "-level", "4.2",
            "-pix_fmt", "yuv420p", "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
            "-x264-params", "keyint=25:min-keyint=1", "-movflags", "+faststart", out]
     p = subprocess.Popen(cmd, stdin=subprocess.PIPE)

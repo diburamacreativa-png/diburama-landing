@@ -36,6 +36,11 @@ if os.environ.get('REEL_AUDIO', 'v1') == 'v2':
     CUES['app'] = 10.52
     PLAN = [(n, ('prob' if n.startswith('02_') else w), al, g) for n, w, al, g in PLAN]
 
+# V3 («Ventana a lo invisible»): 04 en la lente → microscópico, 02 en el escáner térmico, 09 bajo la proyección, 10 en el barrido spray → resultado
+if os.environ.get('REEL_AUDIO', 'v1') == 'v3':
+    _m = {'02_': 7.48, '04_': 'prob', '09_': 12.86, '10_': 'res'}
+    PLAN = [(n, next((v for k, v in _m.items() if n.startswith(k)), w), al, g) for n, w, al, g in PLAN]
+
 SPLIT11 = [(0.0, 0.45), (0.45, 0.95), (0.95, None)]  # tres golpes internos (0.005 / 0.507 / 1.005 s)
 DUCK = {"01_Impacto_inicial_HOOK_0s", "06_Impacto_revelacion_tecnica_8s", "13_Impacto_logo_final_18s",
         "08_Corte_golpe_aplicacion_real_12s"}

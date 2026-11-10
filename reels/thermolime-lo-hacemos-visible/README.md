@@ -1,6 +1,48 @@
 # DIBURAMA · THERMOLIME · «LO HACEMOS VISIBLE» — Reel 20 s
 
-## V2 (vigente) — `entrega_v2/`
+## V3 «VENTANA A LO INVISIBLE» (definitiva) — `entrega_v3/`
+
+| Archivo | Contenido |
+|---|---|
+| `DIBURAMA_THERMOLINE_VENTANA_INVISIBLE_FINAL.mp4` | Máster 1080×1920 · 25 fps · 500 fotogramas · H.264 High CRF 17 · AAC 48 kHz |
+| `DIBURAMA_THERMOLINE_PORTADA.jpg` | Portada con la misma identidad; titular + ventana dentro del recorte 1:1 |
+| `DIBURAMA_THERMOLINE_VENTANA_INVISIBLE_HOJA_CONTACTOS.jpg` | 17 fotogramas del máster con tiempo y origen |
+| `CLIPS_Y_TIEMPOS_DE_ORIGEN.md` | Relación de clips utilizados y sus tiempos en el original |
+| `audio/` · `qa_report_v3.json` | Mezcla WAV, versión sin música e informe de control de calidad |
+
+### Sistema gráfico (reutilizable para futuros Reels: `proyecto/scenes_v3.py`)
+- **Ventana panorámica 16:9 completa** de 1000 o 1040 px. El original de 1920 px se **reduce** (×0,52) con filtro de área y se coloca en píxel entero: no hay ampliación ni enfoque artificial, por eso la ventana es más nítida que el propio original (los rótulos técnicos se leen).
+- **Fondo** diseñado por escena: atmosférico (copia del plano, desenfoque ≈70 px, oscurecido 50–60 %, desaturado, deriva lenta independiente) o limpio grafito `#101419` / petróleo `#102A39` con retícula técnica del 2–3 %.
+- **Capa gráfica**: marcas de esquina finas, sombra suave, filo de 1 px, identificador editorial (número fucsia + etiqueta), lente circular de exploración, línea de escáner que sale de la ventana, círculos y conexión sobre el sistema multicapa.
+- **Fucsia provisional `#D64B96`** (cambiar en `FUCHSIA` al recibir el logotipo). Tipografía Inter Display (titulares) y Space Grotesk (firma).
+
+### Montaje (cortes en transitorios medidos)
+| Reel (s) | Composición | Contenido |
+|---|---|---|
+| 0,00–1,68 | A · Cinematic window | Termografía (00:57,40, 0,8×) · lente que se dibuja + línea de exploración · «¿CÓMO MUESTRAS» |
+| 1,68–3,32 | C · Immersive | La lente crece y **se abre en iris** al mundo microscópico (00:07,20) · «LO QUE NO SE VE?» |
+| 3,32–5,32 | C | Tres componentes (00:36,30) → **destello** en 4,02 (00:38,12, 0,7×) → partícula; la esfera **sale del marco** con máscara circular |
+| 5,32–6,48 | B · Tech reveal (petróleo) | Edificio rojo → azul (00:17,00) con corchetes · «Aislamiento térmico» |
+| 6,48–8,68 | B | **Escáner antes / después** de la termografía (00:57,60 / 01:03,60, registrado píxel a píxel); la línea sale de la ventana y se lleva el plano antes del golpe |
+| **8,68–12,00** | B (ventana 1040 px) | **Sistema multicapa completo**: en el golpe la línea revela el sistema liso → abierto; círculos sobre los dos componentes, conexión y aparición real de sus rótulos (01:10,40–01:15,30, 1,79×) · «LA TECNOLOGÍA, AL DESCUBIERTO.» |
+| 12,00–12,84 | Díptico editorial | Rodillo sobre ladrillo (02:12,70) + rodillo cargado (02:10,00) |
+| 12,84–14,69 | A alta, grafito | Proyección (03:11,40); la niebla barre hacia el resultado |
+| 14,69–16,32 | A baja | Vivienda completa (03:40,60) |
+| 16,32–17,68 | Clímax | 4 ventanas que se sustituyen con escáner en 16,36 · 16,69 · 17,02 · 17,36 |
+| 17,68–20,00 | Cierre | La última ventana se pliega en una línea; esa línea revela DIBURAMA atravesando la paleta térmica; «LO DIFÍCIL DE EXPLICAR, / LO HACEMOS VISIBLE.» |
+
+### Decisiones y límites
+- **Clips**: no llegaron los 8 archivos separados (`01_MACRO_AZUL.mp4`…); se ha trabajado sobre `Thermoline_HD_ESP.mp4`, la misma fuente con mayor calidad. Los tiempos de origen están en `CLIPS_Y_TIEMPOS_DE_ORIGEN.md`.
+- **Propiedades (00:23)**: en una ventana de 1000 px los cuatro rótulos medirían ~11 px y no se leerían. Siguiendo tu instrucción, en su lugar va el plano del edificio que cambia de rojo a azul (00:17), cuyo rótulo sí es legible.
+- **Termografía**: arranca en 00:57,40 porque antes el rótulo del original está en plena animación de «descodificado» (letras aleatorias).
+- **Logotipo**: sigue sin archivo oficial → firma tipográfica editable. **Nombre**: el producto del vídeo es «thermolime»; portada `CASO REAL · THERMOLIME` (`CLIENT_NAME=` para cambiarlo).
+- **Mezcla**: verificada por mediciones (no hay reproducción de audio en el entorno): conviene una escucha con auriculares.
+
+Reproducir: `REEL_SCENES=scenes_v3 REEL_CRF=17 python3 render.py out.mp4` · `REEL_AUDIO=v3 python3 audio.py in/music.mp3 in/sfx out_audio` · `python3 cover_v3.py portada.jpg` · `python3 sheet_v3.py final.mp4 dir`.
+
+---
+
+## V2 — `entrega_v2/`
 
 Montaje rehecho a partir de la revisión: más planos, más movimiento y una revelación tecnológica animada.
 Mismos 20 s, misma música y mismos 13 SFX, recolocados sobre los nuevos cortes.
