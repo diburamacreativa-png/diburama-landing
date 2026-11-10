@@ -40,3 +40,12 @@ python3 deliver_v4.py portada build/DIBURAMA_THERMOLINE_PORTADA_V4.jpg
 python3 deliver_v4.py hoja build/DIBURAMA_THERMOLINE_VISUAL_LAB_V4.mp4 build
 python3 deliver_v4.py comparar build/DIBURAMA_THERMOLINE_VENTANA_INVISIBLE_FINAL.mp4 build/DIBURAMA_THERMOLINE_VISUAL_LAB_V4.mp4 build
 echo "OK V4 -> build/"
+
+# ---- V5 «Visual Lab» con logotipo oficial (assets/DIBURAMA_logo_original_transparente_recortado.png) ----
+REEL_SCENES=scenes_v5 REEL_CRF=17 python3 render.py build/video_v5.mp4
+REEL_AUDIO=v5 python3 audio.py in/music.mp3 in/sfx build/audio_v5
+ffmpeg -v error -y -i build/video_v5.mp4 -i build/audio_v5/master_mix.wav -map 0:v -map 1:a -c:v copy \
+  -c:a aac -b:a 320k -ar 48000 -ac 2 -t 20 -movflags +faststart build/DIBURAMA_THERMOLINE_VISUAL_LAB_V5_FINAL.mp4
+python3 deliver_v5.py hoja build/DIBURAMA_THERMOLINE_VISUAL_LAB_V5_FINAL.mp4 build
+python3 deliver_v5.py comparar build/DIBURAMA_THERMOLINE_VISUAL_LAB_V4.mp4 build/DIBURAMA_THERMOLINE_VISUAL_LAB_V5_FINAL.mp4 build
+echo "OK V5 -> build/"

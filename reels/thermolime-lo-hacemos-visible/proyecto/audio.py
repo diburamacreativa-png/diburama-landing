@@ -46,6 +46,12 @@ if os.environ.get('REEL_AUDIO', 'v1') == 'v4':
     _m = {'02_': 'prob', '07_': 9.69, '10_': 'res'}
     PLAN = [(n, next((v for k, v in _m.items() if n.startswith(k)), w), al, g) for n, w, al, g in PLAN]
 
+# V5: como V4 + barrido 02 (segunda instancia) en la entrada de la segunda gran ventana del clímax (16,36 s)
+if os.environ.get('REEL_AUDIO', 'v1') == 'v5':
+    _m = {'02_': 'prob', '07_': 9.69, '10_': 'res'}
+    PLAN = [(n, next((v for k, v in _m.items() if n.startswith(k)), w), al, g) for n, w, al, g in PLAN]
+    PLAN.append(("02_Whoosh_barrido_termico_2s#clx", 16.36, "peak", -11.0))
+
 SPLIT11 = [(0.0, 0.45), (0.45, 0.95), (0.95, None)]  # tres golpes internos (0.005 / 0.507 / 1.005 s)
 DUCK = {"01_Impacto_inicial_HOOK_0s", "06_Impacto_revelacion_tecnica_8s", "13_Impacto_logo_final_18s",
         "08_Corte_golpe_aplicacion_real_12s"}
@@ -119,8 +125,8 @@ def main(music_path, sfx_dir, out_dir):
     for name, when, align, gain in PLAN:
         base, _, part = name.partition('#')
         y, sr = sf.read(os.path.join(sfx_dir, base + '.wav'), always_2d=True); assert sr == SR
-        if part:
-            a, b = SPLIT11[int(part)]; y = y[int(a * SR): None if b is None else int(b * SR)].copy()
+        if part.isdigit():
+            a, b = SPLIT11[int(part)] if part.isdigit() else (0.0, None); y = y[int(a * SR): None if b is None else int(b * SR)].copy()
             fl = int(0.008 * SR); y[:fl] *= np.linspace(0, 1, fl)[:, None]; y[-fl:] *= np.linspace(1, 0, fl)[:, None]
         pk = peak_time(y)                      # pico del sonido original (antes de filtrar)
         y = hpf(mono_lows(y)) * db(gain)

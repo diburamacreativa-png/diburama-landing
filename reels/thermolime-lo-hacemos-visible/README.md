@@ -1,6 +1,44 @@
 # DIBURAMA · THERMOLIME · «LO HACEMOS VISIBLE» — Reel 20 s
 
-## V4 «VISUAL LAB — LO HACEMOS VISIBLE» (vigente) — `entrega_v4/`
+## V5 «VISUAL LAB» definitiva — `entrega_v5/`
+
+| Archivo | Contenido |
+|---|---|
+| `DIBURAMA_THERMOLINE_VISUAL_LAB_V5_FINAL.mp4` | Máster 1080×1920 · 25 fps · 500 fotogramas · H.264 High CRF 17 · AAC estéreo 48 kHz |
+| `DIBURAMA_THERMOLINE_VISUAL_LAB_V5_HOJA_CONTACTOS.jpg` | 25 fotogramas (incluye 12 · 14 · 16 · 16,5 · 17 · 17,5 · 17,8 · 18,5 · 19,5 s) |
+| `DIBURAMA_THERMOLINE_COMPARACION_V4_V5.jpg` · `comparacion_v4_v5.json` | V4 y V5 en los mismos instantes + métricas |
+| `CLIPS_Y_TIEMPOS_DE_ORIGEN_V5.md` · `audio/` · `qa_report_v5.json` | Relación de clips, mezcla, versión sin música y control de calidad |
+
+Logotipo: `proyecto/assets/DIBURAMA_logo_original_transparente_recortado.png` — el PNG oficial recibido, solo recortado a su
+contenido (1065×406). Se compone sin redibujar ni recolorear (alfa premultiplicado), reducido a 880 px (0,826×). Los acentos
+gráficos de la V5 usan el rosa exacto medido en el logotipo, **#E50E77**.
+
+### Cambios respecto a la V4
+- **0–16 s (misma narrativa y planos)**: ventana principal 960 → **1000 px**, secundaria 848 → **900 px**; márgenes de 40 px.
+  Fondos en capas derivadas del propio material: atmósfera del plano + reflejo cromático de otra imagen del proyecto
+  (partículas o termografía) con paralaje opuesto + siluetas técnicas difusas (contornos grandes del propio plano; se
+  descartan letras y cartelas del original). Cartelas unidas a las ventanas con líneas en la junta.
+- **16,02–17,68 s — expansión cinematográfica (nuevo)**: termografía grande con empujón en 16,19 · entra la partícula como
+  segunda gran ventana en 16,36 · máscara termografía → sistema multicapa en 16,69 (la superior pasa a 1040 px) · máscara
+  partícula → rodillo en 17,02 (la inferior pasa a protagonista) · en 17,36 ambas convergen (880 px) y una línea fucsia las une.
+  El fondo cambia de luz en cada golpe.
+- **17,69–20 s — cierre nuevo**: las ventanas se pliegan en la línea fucsia; la línea se abre y revela el **logotipo original**
+  (104 % → 100 %); eslogan en 18,04–18,64 s («LO HACEMOS VISIBLE.» con más peso y el punto en el rosa del logo). Fondo
+  #101A23 → #0D1219 con luz residual de la partícula, siluetas casi imperceptibles y un reflejo fucsia junto a la llama que
+  respira con el último acento (19,36 s). Sin pantalla blanca, sin aberración RGB, sin círculo decorativo, sin fundido a negro.
+- **Sonido 16–20 s**: barrido (segunda instancia del SFX 02) en la entrada de 16,36; triple golpe en las máscaras de 16,69 · 17,02
+  y en la convergencia de 17,36; micro‑riser e impacto en 17,69. Todos por debajo de la música en su punto.
+
+**Corrección de color (V5)**: hasta la V4, `render.py` convertía RGB→YUV con la matriz BT.601 de FFmpeg pero etiquetaba el
+vídeo como BT.709; en reproducción los rojos y rosas saturados se desplazaban (rosa del logo #E50E77 → 243,40,118). Desde la
+V5 la conversión usa `scale=out_color_matrix=bt709:out_range=tv` (verificado: 227,12,116). Las entregas V1–V4 conservan el
+desplazamiento; se corrige volviendo a renderizarlas con el `render.py` actual.
+
+Reproducir: `REEL_SCENES=scenes_v5 REEL_CRF=17 python3 render.py out.mp4` · `REEL_AUDIO=v5 python3 audio.py in/music.mp3 in/sfx out_audio` · `python3 deliver_v5.py hoja|comparar …`.
+
+---
+
+## V4 «VISUAL LAB — LO HACEMOS VISIBLE» — `entrega_v4/`
 
 | Archivo | Contenido |
 |---|---|
