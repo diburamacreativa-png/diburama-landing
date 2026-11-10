@@ -1,6 +1,39 @@
 # DIBURAMA · THERMOLIME · «LO HACEMOS VISIBLE» — Reel 20 s
 
-## V5 «VISUAL LAB» definitiva — `entrega_v5/`
+## V6 «VISUAL LAB» definitiva — 22 s — `entrega_v6/`
+
+| Archivo | Contenido |
+|---|---|
+| `DIBURAMA_THERMOLINE_VISUAL_LAB_V6_FINAL.mp4` | Máster 1080×1920 · 25 fps · **550 fotogramas · 22,00 s** · H.264 High CRF 17 · AAC estéreo 48 kHz |
+| `DIBURAMA_THERMOLINE_VISUAL_LAB_V6_HOJA_CONTACTOS.jpg` | 21 fotogramas: 12 · 13 · 14 · 15 · 16 · 17 · 18 · 19 · 20 · 21 s, último fotograma y otros |
+| `DIBURAMA_THERMOLINE_V6_ESPECTROGRAMA_CIERRE.png` | Espectrograma 16–22 s: marca, bajada, tónica y extinción |
+| `CLIPS_Y_TIEMPOS_DE_ORIGEN_V6.md` · `audio/` · `qa_report_v6.json` | Relación de clips, mezcla, versión sin música, control de calidad |
+
+### Cambios respecto a la V5
+- **Fondos limpios**: eliminados la retícula, las siluetas/contornos técnicos y las marcas de esquina de las ventanas. Quedan
+  gradientes grafito/petróleo, la imagen original muy desenfocada y una textura cromática del vídeo, con la luminancia
+  comprimida por encima de 0,24 para que nunca formen manchas claras. El brillo del barrido de niebla baja a la mitad.
+- **Cuadrícula editorial**: márgenes de 80 px; principal 920 px (x 80–1000); secundaria 840 px alineada a la derecha (x 160–1000);
+  titulares a x = 80, a 48–50 px de la ventana; identificadores `01–03` y cartelas siempre a x = 80 (o al borde de su ventana),
+  30 px / 16 px por debajo.
+- **«LA APLICACIÓN.»** y **«EL RESULTADO.»**: titulares principales en Inter Display Black (≈ 88 px), mismo sistema que
+  «AL DESCUBIERTO.» (punto en el rosa del logo), entrada con máscara en el golpe. Escenas recompuestas: titular, ventana
+  dominante y secundaria con su cartela debajo; el detalle del resultado (720 px) queda a la derecha y por debajo del edificio.
+- **22 s (550 fotogramas)**: el montaje 0–17,68 s no cambia; los 2 s nuevos son de cierre.
+- **Cierre musical**: el fragmento está en re♯ menor y terminaba sobre do♯ (VII), sin resolver. Ahora: golpe de marca en
+  17,69 s → la base rítmica se apaga con un filtro que se cierra (18,02–18,69 s) → en el golpe de compás de 18,69 s entra el
+  **acorde de tónica (re♯–fa♯–la♯)**, extraído de la propia canción (componente armónica de 0,02 s y 8,69 s) con una
+  reverberación larga que se extingue sola: −20 dB en 19 s, −45 dB en 21 s, −83 dBFS en el último fotograma. Sin silencio
+  añadido, sin congelar ni repetir compases (`proyecto/audio_v6.py`).
+- **Cartela final**: logotipo original (880 px) y eslogan como un bloque compacto (56 px entre logo y texto); el logotipo
+  aparece en 17,69 s y se estabiliza en 0,4 s; eslogan en 18,20–18,84 s; **mensaje completo y estático durante 3,16 s**
+  (18,84–22,00 s). Fondo #101A23 → #0D1219 con textura cromática muy oscura y reflejo fucsia junto a la llama, sin formas.
+
+Reproducir: `REEL_SCENES=scenes_v6 REEL_CRF=17 NFRAMES=550 python3 render.py out.mp4` · `python3 audio_v6.py in/music.mp3 in/sfx out_audio` · `python3 deliver_v6.py hoja|espectro …`.
+
+---
+
+## V5 «VISUAL LAB» — `entrega_v5/`
 
 | Archivo | Contenido |
 |---|---|

@@ -49,3 +49,12 @@ ffmpeg -v error -y -i build/video_v5.mp4 -i build/audio_v5/master_mix.wav -map 0
 python3 deliver_v5.py hoja build/DIBURAMA_THERMOLINE_VISUAL_LAB_V5_FINAL.mp4 build
 python3 deliver_v5.py comparar build/DIBURAMA_THERMOLINE_VISUAL_LAB_V4.mp4 build/DIBURAMA_THERMOLINE_VISUAL_LAB_V5_FINAL.mp4 build
 echo "OK V5 -> build/"
+
+# ---- V6 · 22 s con resolución musical ----
+REEL_SCENES=scenes_v6 REEL_CRF=17 NFRAMES=550 python3 render.py build/video_v6.mp4
+python3 audio_v6.py in/music.mp3 in/sfx build/audio_v6
+ffmpeg -v error -y -i build/video_v6.mp4 -i build/audio_v6/master_mix.wav -map 0:v -map 1:a -c:v copy \
+  -c:a aac -b:a 320k -ar 48000 -ac 2 -t 22 -movflags +faststart build/DIBURAMA_THERMOLINE_VISUAL_LAB_V6_FINAL.mp4
+python3 deliver_v6.py hoja build/DIBURAMA_THERMOLINE_VISUAL_LAB_V6_FINAL.mp4 build
+python3 deliver_v6.py espectro build/audio_v6/master_mix.wav build/DIBURAMA_THERMOLINE_V6_ESPECTROGRAMA_CIERRE.png
+echo "OK V6 -> build/"

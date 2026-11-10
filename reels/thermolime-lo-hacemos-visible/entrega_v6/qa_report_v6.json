@@ -1,0 +1,122 @@
+{
+ "video": {
+  "codec": "h264",
+  "profile": "High",
+  "size": "1080x1920",
+  "fps": "25/1",
+  "pix_fmt": "yuv420p",
+  "frames": 550,
+  "duration": 22.0,
+  "start": 0.0
+ },
+ "audio": {
+  "codec": "aac",
+  "sr": "48000",
+  "ch": 2,
+  "duration": 22.0,
+  "start": 0.0,
+  "bitrate": "324842"
+ },
+ "container_duration": 22.0,
+ "decode_errors": "ninguno",
+ "min_mean_luma": {
+  "value": 0.114,
+  "frame": 444
+ },
+ "frames_below_4pct_luma": [],
+ "detected_cuts_frames": [
+  83,
+  100,
+  133,
+  214,
+  215,
+  216,
+  217,
+  300,
+  364,
+  400,
+  408,
+  409,
+  433,
+  442
+ ],
+ "loudness": {
+  "I_LUFS": -10.9,
+  "LRA": 4.3,
+  "true_peak_dBTP": -1.5
+ },
+ "audio_samples_s": 22.016,
+ "stereo_corr": 0.627,
+ "mono_vs_stereo_rms_db": -0.9,
+ "clipped_samples": 0,
+ "cue_vs_cut": {
+  "hook": {
+   "audio_s": 0.017,
+   "frame": 0
+  },
+  "prob": {
+   "audio_s": 1.685,
+   "frame": 42
+  },
+  "scan_end": {
+   "audio_s": 2.685,
+   "frame": 67
+  },
+  "micro": {
+   "audio_s": 4.018,
+   "frame": 100
+  },
+  "tens": {
+   "audio_s": 6.018,
+   "frame": 150
+  },
+  "pre": {
+   "audio_s": 8.023,
+   "frame": 200
+  },
+  "tech": {
+   "audio_s": 8.688,
+   "frame": 217
+  },
+  "tech3": {
+   "audio_s": 10.023,
+   "frame": 250
+  },
+  "app": {
+   "audio_s": 12.023,
+   "frame": 300
+  },
+  "noz": {
+   "audio_s": 14.023,
+   "frame": 350
+  },
+  "res": {
+   "audio_s": 14.69,
+   "frame": 367
+  },
+  "m0": {
+   "audio_s": 16.022,
+   "frame": 400
+  },
+  "m1": {
+   "audio_s": 16.69,
+   "frame": 417
+  },
+  "m2": {
+   "audio_s": 17.022,
+   "frame": 425
+  },
+  "m3": {
+   "audio_s": 17.355,
+   "frame": 433
+  },
+  "brand": {
+   "audio_s": 17.69,
+   "frame": 442
+  },
+  "last": {
+   "audio_s": 19.357,
+   "frame": 483
+  }
+ }
+}
