@@ -1,0 +1,4 @@
+in/*
+!in/LEEME.txt
+build/
+__pycache__/
