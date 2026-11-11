@@ -1,6 +1,15 @@
 # DIBURAMA · THERMOLIME · «LO HACEMOS VISIBLE» — Reel 20 s
 
-## LINKEDIN 16:9 — RESTAURACIÓN HD — `entrega_linkedin_hd/`
+## LINKEDIN 16:9 — HD V3 (vigente) — `entrega_linkedin_hd3/`
+
+Corrección de los segundos 3, 4 y 19 sobre la HD V2: cristales, destello de la partícula y partícula del clímax desde los
+cortes HD del ZIP, a 1:1, sin mezcla de fotogramas ni empujes de escala. Detalles, verificación y limitaciones en
+`entrega_linkedin_hd3/NOTAS_CORRECCION_HD_V3.md`. Reproducir:
+`REEL_HD=1 REEL_HD3=1 THERMO_HD_DIR=in/hd REEL_SCENES=linkedin REEL_CRF=16 NFRAMES=600 python3 render.py out.mp4`.
+
+---
+
+## LINKEDIN 16:9 — RESTAURACIÓN HD V2 — `entrega_linkedin_hd/`
 
 Mismo montaje, diseño, tiempos, audio y cierre que `entrega_linkedin/`; solo cambian las fuentes de imagen.
 

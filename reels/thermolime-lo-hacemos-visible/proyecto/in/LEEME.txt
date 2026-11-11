@@ -2,4 +2,4 @@ Coloca aquí los archivos de entrada (no se versionan):
   thermo.mp4   -> Thermoline_HD_ESP.mp4 (1920x1080, 25 fps, 239,32 s)
   music.mp3    -> DIBURAMA_Thermoline_Musica_20s.mp3 (o el WAV de 20 s; ver ENCODER_PAD en audio.py)
   sfx/         -> contenido de EFECTOS_ORIGINALES_WAV/ del ZIP de efectos
-  hd/          -> fragmentos originales en alta calidad (05_MULTICAPA … 09_EDIFICIO; ver hdsource.py). Opcional: REEL_HD=1
+  hd/          -> fragmentos HD (05_MULTICAPA … 09_EDIFICIO y THERMOLINE_01/02/03_*_HD; ver hdsource.py). REEL_HD=1, REEL_HD3=1

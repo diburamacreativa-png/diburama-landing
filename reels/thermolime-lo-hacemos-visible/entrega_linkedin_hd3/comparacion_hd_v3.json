@@ -1,0 +1,26 @@
+{
+ "00:03,00 · cristales azules": {
+  "fotograma": 75,
+  "bloques_v2": 1.062,
+  "bloques_v3": 1.171,
+  "detalle_v2": 1.4,
+  "detalle_v3": 1.79,
+  "mejora_detalle_pct": 28.0
+ },
+ "00:04,50 · partícula (revelación)": {
+  "fotograma": 112,
+  "bloques_v2": 1.166,
+  "bloques_v3": 1.107,
+  "detalle_v2": 1.52,
+  "detalle_v3": 2.07,
+  "mejora_detalle_pct": 36.2
+ },
+ "00:19,00 · partícula (clímax)": {
+  "fotograma": 475,
+  "bloques_v2": 1.061,
+  "bloques_v3": 1.025,
+  "detalle_v2": 1.56,
+  "detalle_v3": 3.22,
+  "mejora_detalle_pct": 106.1
+ }
+}

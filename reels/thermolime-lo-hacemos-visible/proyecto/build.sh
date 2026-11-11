@@ -74,3 +74,9 @@ REEL_HD=1 THERMO_HD_DIR=in/hd REEL_SCENES=linkedin REEL_CRF=17 NFRAMES=600 pytho
 ffmpeg -v error -y -i build/video_linkedin_hd.mp4 -i build/audio_linkedin/master_mix.wav -map 0:v -map 1:a -c:v copy \
   -c:a aac -b:a 320k -ar 48000 -ac 2 -t 24 -movflags +faststart build/DIBURAMA_THERMOLINE_VISUAL_LAB_LINKEDIN_HD_V2.mp4
 echo "OK LinkedIn HD -> build/"
+
+# ---- LinkedIn · HD V3 (cortes HD de los segundos 3, 4 y 19 también en in/hd) ----
+REEL_HD=1 REEL_HD3=1 THERMO_HD_DIR=in/hd REEL_SCENES=linkedin REEL_CRF=16 NFRAMES=600 python3 render.py build/video_linkedin_hd3.mp4
+ffmpeg -v error -y -i build/video_linkedin_hd3.mp4 -i build/audio_linkedin/master_mix.wav -map 0:v -map 1:a -c:v copy \
+  -c:a aac -b:a 320k -ar 48000 -ac 2 -t 24 -movflags +faststart build/DIBURAMA_THERMOLINE_VISUAL_LAB_LINKEDIN_HD_V3.mp4
+echo "OK LinkedIn HD V3 -> build/"

@@ -11,7 +11,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 HD_DIR = os.environ.get("THERMO_HD_DIR", os.path.join(HERE, "in", "hd"))
 CLIPS = [  # (archivo, inicio en el original (s), duración (s))
     ("05_MULTICAPA.mp4", 68.0, 15.0), ("06_RODILLO.mp4", 129.0, 10.0), ("07_PROYECCION.mp4", 159.0, 16.0),
-    ("08_SPRAY.mp4", 191.0, 8.0), ("09_EDIFICIO.mp4", 210.0, 17.0)]
+    ("08_SPRAY.mp4", 191.0, 8.0), ("09_EDIFICIO.mp4", 210.0, 17.0),
+    # V3: cortes HD de los segundos 3, 4 y 19 (en el solape 39,32–39,72 s prevalece 03_PARTICULA_FINAL)
+    ("THERMOLINE_01_CRISTALES_HD.mp4", 7.00, 2.12), ("THERMOLINE_03_PARTICULA_FINAL_HD.mp4", 39.32, 3.28),
+    ("THERMOLINE_02_PARTICULA_HD.mp4", 38.16, 1.56)]
 # Si llegan 01_TEXTURA_AZUL, 02_PROPIEDADES, 03_PARTICULAS y 04_TERMOGRAFIA, se añaden aquí con su desplazamiento.
 
 _orig_frame = SRC.frame

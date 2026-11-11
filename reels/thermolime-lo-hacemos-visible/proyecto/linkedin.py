@@ -29,6 +29,10 @@ RES, RES_L, RES_D = 400, 417, 425
 CL1, CL2, CL3, CL4, CONV = 467, 484, 492, 500, 502
 BRAND, END = 509, 600
 
+import os
+HD3 = bool(os.environ.get('REEL_HD3'))   # corrección HD V3 de los segundos 3, 4 y 19: fotogramas originales a 1:1, sin mezcla ni empujes de escala
+def S_exact(t): return SRC.frame(int(round(t * FPS)))   # fotograma real más próximo (sin mezclar dos fotogramas)
+
 def setup(): V5.setup()
 def S(t): return SRC.at(t)
 def f32(a): return a.astype(np.float32) / 255
@@ -134,13 +138,13 @@ def s_open(f):
 # ================================================================== 67–132 · INMERSIÓN (textura → partícula · match cut circular)
 def particles(f):
     if f < BURST: return S(36.30 + (f - IRIS) / FPS)
-    if f < MERGED: return S(38.12 + (f - BURST) / FPS * 0.7)
+    if f < MERGED: return S_exact(38.16 + (f - BURST) / FPS * 0.7) if HD3 else S(38.12 + (f - BURST) / FPS * 0.7)
     return S(39.40 + (f - MERGED) / FPS)
 
 def s_immerse(f):
-    tex = native(S(7.20 + (f - IMMERSE) / FPS), 1.0 + 0.04 * seg(f, IMMERSE, IRIS + 8), 1180, 560)
+    tex = native(S(7.20 + (f - IMMERSE) / FPS), 1.0 if HD3 else 1.0 + 0.04 * seg(f, IMMERSE, IRIS + 8), 1180, 560)
     if f < IRIS - 1: return tex
-    par = native(particles(f), 1.0 + (0.03 * (1 - eo(seg(f, BURST - 1, BURST + 6))) if BURST <= f < MERGED else 0.0))
+    par = native(particles(f), 1.0 if HD3 else 1.0 + (0.03 * (1 - eo(seg(f, BURST - 1, BURST + 6))) if BURST <= f < MERGED else 0.0))
     if f >= IRIS + 8: return par
     k = 1 - (1 - seg(f, IRIS - 1, IRIS + 7)) ** 2.4
     R = lerp(40, 1200, k)
@@ -275,7 +279,10 @@ def s_result(f):
     return img
 
 # ================================================================== 467–508 · CLÍMAX (imágenes grandes sobre la percusión)
-def c_part(f): return S(38.30 + (f - CL1) / FPS * 0.5)
+def c_part(f):
+    if HD3:   # perspectiva posterior de la partícula (03_PARTICULA_FINAL), 1×, rótulos ya estables; distinta del segundo 4
+        return S_exact(41.48 + min(max(f - CL1, 0), 14) / FPS)   # 41,48–42,04 s: la 3.ª cartela empieza en 42,08 s
+    return S(38.30 + (f - CL1) / FPS * 0.5)
 LS, RS = (ML, 271, 820), (980, 271, 820)          # dos ventanas grandes 820 × 461
 LCY = 453                                         # eje del logotipo
 L_KEYS = [(CL1, (0, 0, W)), (CL2, LS), (CONV, (ML + 140, LCY - hw(720) / 2, 720))]
@@ -283,7 +290,7 @@ R_KEYS2 = [(CL1, (W + 40, 271, 820)), (CL2, RS), (CONV, (980 + 20, LCY - hw(720)
 def fold_k(f): return 1 - eio(seg(f, CONV + 2, BRAND + 1))
 
 def s_climax(f):
-    if f < CL2 - 1: return native(c_part(f), 1.0 + 0.04 * eio(seg(f, CL1, CL2)))
+    if f < CL2 - 1: return native(c_part(f), 1.0 if HD3 else 1.0 + 0.04 * eio(seg(f, CL1, CL2)))
     img = bg(f, SRC.frame(MULTI_FULL), 'graphite', amt=0.45)
     k = fold_k(f)
     for nm, keys in (('L', L_KEYS), ('R', R_KEYS2)):
