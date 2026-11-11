@@ -1,0 +1,144 @@
+{
+ "edicion": {
+  "tramos": [
+   {
+    "fragmento_desde_s": 0.0,
+    "fragmento_hasta_s": 16.0225,
+    "salida_desde_s": 0.0
+   },
+   {
+    "fragmento_desde_s": 13.355,
+    "fragmento_hasta_s": 16.0225,
+    "salida_desde_s": 16.023
+   },
+   {
+    "fragmento_desde_s": 16.0225,
+    "fragmento_hasta_s": 19.95,
+    "salida_desde_s": 18.689
+   }
+  ],
+  "cortes": [
+   {
+    "corte_salida_s": 16.023,
+    "transitorio_original_s": 16.032,
+    "transitorio_nuevo_s": 13.3636,
+    "ajuste_ms": -0.94
+   },
+   {
+    "corte_salida_s": 18.689,
+    "transitorio_original_s": 16.032,
+    "transitorio_nuevo_s": 16.032,
+    "ajuste_ms": 0.0
+   }
+  ],
+  "golpe_marca_s": 20.357,
+  "bajada_s": 20.69,
+  "tonica_s": 21.357
+ },
+ "sfx": [
+  {
+   "sfx": "01_Impacto_inicial_HOOK_0s",
+   "pico_s": 0.017,
+   "ganancia_db": -4.0
+  },
+  {
+   "sfx": "02_Whoosh_barrido_termico_2s",
+   "pico_s": 1.685,
+   "ganancia_db": -10.0
+  },
+  {
+   "sfx": "03_Succion_entrada_particulas_4s",
+   "pico_s": 3.355,
+   "ganancia_db": -8.0
+  },
+  {
+   "sfx": "04_Zoom_microscopico_6s",
+   "pico_s": 4.018,
+   "ganancia_db": -9.0
+  },
+  {
+   "sfx": "02_Whoosh_barrido_termico_2s#scan",
+   "pico_s": 6.4,
+   "ganancia_db": -11.0
+  },
+  {
+   "sfx": "05_Riser_revelacion_acaba_en_8s",
+   "pico_s": 8.633,
+   "ganancia_db": -9.0
+  },
+  {
+   "sfx": "06_Impacto_revelacion_tecnica_8s",
+   "pico_s": 8.688,
+   "ganancia_db": -4.0
+  },
+  {
+   "sfx": "07_Click_capas_tecnicas_10_5s",
+   "pico_s": 10.022,
+   "ganancia_db": -10.0
+  },
+  {
+   "sfx": "08_Corte_golpe_aplicacion_real_12s",
+   "pico_s": 12.022,
+   "ganancia_db": -5.5
+  },
+  {
+   "sfx": "09_Textura_proyeccion_revestimiento_12_3s",
+   "pico_s": 13.4,
+   "ganancia_db": -13.0
+  },
+  {
+   "sfx": "10_Transicion_resultado_14s",
+   "pico_s": 16.022,
+   "ganancia_db": -9.0
+  },
+  {
+   "sfx": "11_Triple_corte_montaje_16s#0",
+   "pico_s": 18.688,
+   "ganancia_db": -8.0
+  },
+  {
+   "sfx": "11_Triple_corte_montaje_16s#1",
+   "pico_s": 19.355,
+   "ganancia_db": -8.0
+  },
+  {
+   "sfx": "11_Triple_corte_montaje_16s#2",
+   "pico_s": 19.69,
+   "ganancia_db": -8.0
+  },
+  {
+   "sfx": "12_Micro_riser_logo_desde_17_1s",
+   "pico_s": 20.345,
+   "ganancia_db": -8.5
+  },
+  {
+   "sfx": "13_Impacto_logo_final_18s",
+   "pico_s": 20.357,
+   "ganancia_db": -3.0
+  }
+ ],
+ "master_true_peak_db": -1.49,
+ "limitador_reduccion_max_db": -0.58,
+ "rms_db_cada_0_5s_desde_18s": [
+  -14.5,
+  -14.1,
+  -13.8,
+  -13.8,
+  -14.0,
+  -14.8,
+  -20.0,
+  -17.8,
+  -20.2,
+  -26.7,
+  -34.3,
+  -44.8
+ ],
+ "croma_cola_21_6_23_6s": {
+  "F#": 1.0,
+  "D#": 0.84,
+  "A#": 0.39,
+  "F": 0.26
+ },
+ "ultimo_pico_dbfs": -71.3,
+ "perdida_suma_mono_db": -0.86
+}

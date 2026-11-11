@@ -1,5 +1,32 @@
 # DIBURAMA · THERMOLIME · «LO HACEMOS VISIBLE» — Reel 20 s
 
+## LINKEDIN 16:9 — 24 s — `entrega_linkedin/`
+
+| Archivo | Contenido |
+|---|---|
+| `DIBURAMA_THERMOLINE_VISUAL_LAB_LINKEDIN_FINAL.mp4` | 1920×1080 · 25 fps · **600 fotogramas · 24,00 s** · H.264 High CRF 17 · yuv420p BT.709 · AAC estéreo 48 kHz · 14,9 MB |
+| `DIBURAMA_THERMOLINE_LINKEDIN_PORTADA.jpg` | Portada 1920×1080: termografía, titular, «CASO REAL · THERMOLIME» y logotipo original |
+| `DIBURAMA_THERMOLINE_LINKEDIN_HOJA_CONTACTOS.jpg` | 28 fotogramas (0 · 4 · 8,5 · 13 · 17 · 20,7 · 22 s, último y otros) con la zona segura marcada |
+| `FRAGMENTOS_Y_TIEMPOS_DE_ORIGEN_LINKEDIN.md` | Composición, clip y tiempo de origen de cada tramo |
+| `DIBURAMA_THERMOLINE_LINKEDIN_ESPECTROGRAMA_CIERRE.png` · `audio/` · `qa_report_linkedin.json` | Cierre musical 18–24 s, mezcla, versión sin música, control de calidad |
+
+Montaje propio para 16:9 (`proyecto/linkedin.py`), no derivado del vertical. Los planos a pantalla completa se muestran
+a resolución nativa 1:1 (la apertura usa un encuadre ×1,10 para dejar sitio al titular). Cuatro sistemas:
+A pantalla completa (termografía, textura, partículas, rodillo, proyección, arquitectura) · B comparación (antes/después
+real registrado) · C editorial (ventana de 1240 px + titular + detalle conectado) · D transiciones de forma (iris
+textura→partícula, escáner que cruza el lienzo, niebla del spray→arquitectura, ventanas que se pliegan en la línea fucsia
+de la que nace el logotipo). Titulares de escena del mismo sistema (Inter Display Black 80 px, punto fucsia #E50E77),
+a x = 120 / y = 104; identificadores 32 px; cartelas 30 px. Fondos limpios: gradiente + imagen original muy desenfocada.
+
+**Edición musical** (`proyecto/audio_linkedin.py`): la canción completa no está en el entorno; se usa el fragmento de
+20 s editado por compases (90 BPM, re♯ menor): 0–16,02 s original · se repite el compás 13,35–16,02 s (misma armonía,
+corte en el tiempo fuerte con el transitorio alineado a <1 ms y fundido de 20 ms) · 16,02 s en adelante · golpe de marca
+en **20,36 s** · la base se apaga con un filtro desde 20,69 s · **acorde de tónica** (re♯–fa♯–la♯, extraído de la propia
+canción) en 21,36 s con resonancia natural que se extingue hasta −71 dBFS en el último fotograma. SFX recolocados por pico
+sobre los cortes horizontales. Si llega la canción completa, basta con cambiar la lista `EDIT`.
+
+---
+
 ## V6 «VISUAL LAB» definitiva — 22 s — `entrega_v6/`
 
 | Archivo | Contenido |

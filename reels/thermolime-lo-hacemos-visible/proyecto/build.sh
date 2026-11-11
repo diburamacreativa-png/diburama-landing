@@ -58,3 +58,13 @@ ffmpeg -v error -y -i build/video_v6.mp4 -i build/audio_v6/master_mix.wav -map 0
 python3 deliver_v6.py hoja build/DIBURAMA_THERMOLINE_VISUAL_LAB_V6_FINAL.mp4 build
 python3 deliver_v6.py espectro build/audio_v6/master_mix.wav build/DIBURAMA_THERMOLINE_V6_ESPECTROGRAMA_CIERRE.png
 echo "OK V6 -> build/"
+
+# ---- LinkedIn 16:9 · 24 s ----
+REEL_SCENES=linkedin REEL_CRF=17 NFRAMES=600 python3 render.py build/video_linkedin.mp4
+python3 audio_linkedin.py in/music.mp3 in/sfx build/audio_linkedin
+ffmpeg -v error -y -i build/video_linkedin.mp4 -i build/audio_linkedin/master_mix.wav -map 0:v -map 1:a -c:v copy \
+  -c:a aac -b:a 320k -ar 48000 -ac 2 -t 24 -movflags +faststart build/DIBURAMA_THERMOLINE_VISUAL_LAB_LINKEDIN_FINAL.mp4
+python3 deliver_linkedin.py portada build/DIBURAMA_THERMOLINE_LINKEDIN_PORTADA.jpg
+python3 deliver_linkedin.py hoja build/DIBURAMA_THERMOLINE_VISUAL_LAB_LINKEDIN_FINAL.mp4 build
+python3 deliver_linkedin.py espectro build/audio_linkedin/master_mix.wav build/DIBURAMA_THERMOLINE_LINKEDIN_ESPECTROGRAMA_CIERRE.png
+echo "OK LinkedIn -> build/"
