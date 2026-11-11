@@ -68,3 +68,9 @@ python3 deliver_linkedin.py portada build/DIBURAMA_THERMOLINE_LINKEDIN_PORTADA.j
 python3 deliver_linkedin.py hoja build/DIBURAMA_THERMOLINE_VISUAL_LAB_LINKEDIN_FINAL.mp4 build
 python3 deliver_linkedin.py espectro build/audio_linkedin/master_mix.wav build/DIBURAMA_THERMOLINE_LINKEDIN_ESPECTROGRAMA_CIERRE.png
 echo "OK LinkedIn -> build/"
+
+# ---- LinkedIn · restauración HD (mismo montaje, fuentes de alta calidad en in/hd) ----
+REEL_HD=1 THERMO_HD_DIR=in/hd REEL_SCENES=linkedin REEL_CRF=17 NFRAMES=600 python3 render.py build/video_linkedin_hd.mp4
+ffmpeg -v error -y -i build/video_linkedin_hd.mp4 -i build/audio_linkedin/master_mix.wav -map 0:v -map 1:a -c:v copy \
+  -c:a aac -b:a 320k -ar 48000 -ac 2 -t 24 -movflags +faststart build/DIBURAMA_THERMOLINE_VISUAL_LAB_LINKEDIN_HD_V2.mp4
+echo "OK LinkedIn HD -> build/"

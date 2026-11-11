@@ -1,5 +1,24 @@
 # DIBURAMA · THERMOLIME · «LO HACEMOS VISIBLE» — Reel 20 s
 
+## LINKEDIN 16:9 — RESTAURACIÓN HD — `entrega_linkedin_hd/`
+
+Mismo montaje, diseño, tiempos, audio y cierre que `entrega_linkedin/`; solo cambian las fuentes de imagen.
+
+| Archivo | Contenido |
+|---|---|
+| `DIBURAMA_THERMOLINE_VISUAL_LAB_LINKEDIN_HD_V2.mp4` | 1920×1080 · 25 fps · 600 fotogramas · 24,00 s · H.264 High CRF 17 · AAC estéreo 48 kHz |
+| `DIBURAMA_THERMOLINE_LINKEDIN_HD_COMPARACION.jpg` · `comparacion_hd.json` | Antes/después en recortes 1:1 del vídeo renderizado (9 escenas) |
+| `RELACION_FUENTES_HD.md` | Qué archivo HD se usa en cada segundo y qué sigue con la fuente anterior |
+| `qa_report_linkedin_hd.json` | Control de calidad |
+
+Cómo se hace (`proyecto/hdsource.py`): cada fotograma que el montaje pide al vídeo original se lee del fragmento HD
+equivalente cuando ese instante está cubierto. Los fragmentos se localizaron por contenido (exactos al fotograma) y su
+color coincide con el original (±3 niveles). Encuadres, máscaras, fondos (regenerados desde el HD) y gráficos no cambian;
+no se aplica enfoque, reducción de ruido ni reescalado adicional. Reproducir con
+`REEL_HD=1 THERMO_HD_DIR=in/hd REEL_SCENES=linkedin REEL_CRF=17 NFRAMES=600 python3 render.py out.mp4`.
+
+---
+
 ## LINKEDIN 16:9 — 24 s — `entrega_linkedin/`
 
 | Archivo | Contenido |

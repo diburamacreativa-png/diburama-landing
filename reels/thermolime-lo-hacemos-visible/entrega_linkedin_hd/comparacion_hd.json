@@ -1,0 +1,56 @@
+{
+ "9.00 s · Sistema multicapa (pantalla completa)": {
+  "diferencia_composicion": 1.35,
+  "detalle_antes": 1.44,
+  "detalle_hd": 2.51,
+  "mejora_detalle_pct": 74.4
+ },
+ "10.40 s · Sistema multicapa (ventana editorial)": {
+  "diferencia_composicion": 0.71,
+  "detalle_antes": 4.57,
+  "detalle_hd": 5.07,
+  "mejora_detalle_pct": 11.0
+ },
+ "12.40 s · Rodillo macro (pantalla completa)": {
+  "diferencia_composicion": 3.14,
+  "detalle_antes": 1.02,
+  "detalle_hd": 1.33,
+  "mejora_detalle_pct": 30.4
+ },
+ "14.00 s · Operario proyectando (ventana)": {
+  "diferencia_composicion": 0.84,
+  "detalle_antes": 7.43,
+  "detalle_hd": 8.53,
+  "mejora_detalle_pct": 14.9
+ },
+ "15.00 s · Rodillo sobre ladrillo (ventana)": {
+  "diferencia_composicion": 1.05,
+  "detalle_antes": 2.14,
+  "detalle_hd": 2.33,
+  "mejora_detalle_pct": 9.0
+ },
+ "15.68 s · Spray (pantalla completa)": {
+  "diferencia_composicion": 1.47,
+  "detalle_antes": 0.91,
+  "detalle_hd": 1.18,
+  "mejora_detalle_pct": 29.2
+ },
+ "16.20 s · Edificio (pantalla completa)": {
+  "diferencia_composicion": 2.24,
+  "detalle_antes": 1.58,
+  "detalle_hd": 1.86,
+  "mejora_detalle_pct": 17.2
+ },
+ "17.20 s · Edificio (ventana) + llana": {
+  "diferencia_composicion": 0.74,
+  "detalle_antes": 2.47,
+  "detalle_hd": 2.97,
+  "mejora_detalle_pct": 20.2
+ },
+ "20.00 s · Clímax: sistema multicapa": {
+  "diferencia_composicion": 0.39,
+  "detalle_antes": 10.23,
+  "detalle_hd": 10.51,
+  "mejora_detalle_pct": 2.7
+ }
+}

@@ -7,7 +7,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lib import W, H, FPS
 import importlib
 scenes = importlib.import_module(os.environ.get('REEL_SCENES', 'scenes'))
-W, H = getattr(scenes, 'CANVAS', (W, H))      # lienzo del módulo de escenas (vertical u horizontal)
+W, H = getattr(scenes, 'CANVAS', (W, H))
+if os.environ.get('REEL_HD'):                   # fragmentos originales en alta calidad (hdsource.py)
+    import hdsource; hdsource.install()      # lienzo del módulo de escenas (vertical u horizontal)
 
 def to8(img): return (np.clip(img, 0, 1) * 255 + 0.5).astype(np.uint8)
 
