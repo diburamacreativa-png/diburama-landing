@@ -80,3 +80,14 @@ REEL_HD=1 REEL_HD3=1 THERMO_HD_DIR=in/hd REEL_SCENES=linkedin REEL_CRF=16 NFRAME
 ffmpeg -v error -y -i build/video_linkedin_hd3.mp4 -i build/audio_linkedin/master_mix.wav -map 0:v -map 1:a -c:v copy \
   -c:a aac -b:a 320k -ar 48000 -ac 2 -t 24 -movflags +faststart build/DIBURAMA_THERMOLINE_VISUAL_LAB_LINKEDIN_HD_V3.mp4
 echo "OK LinkedIn HD V3 -> build/"
+
+# ---- LinkedIn · HD V4 audio final (canción completa en in/digital_ascension.mp3; V3 como base de imagen) ----
+python3 audio_v4_final.py in/digital_ascension.mp3 in/sfx build/audio_v4_final
+REEL_HD=1 REEL_HD3=1 REEL_END4=1 THERMO_HD_DIR=in/hd REEL_SCENES=linkedin REEL_CRF=16 NSTART=484 NFRAMES=600 python3 render.py build/v4_cola.mp4
+ffmpeg -v error -y -i build/DIBURAMA_THERMOLINE_VISUAL_LAB_LINKEDIN_HD_V3.mp4 -map 0:v -c:v copy -frames:v 484 build/v4_cabeza.mp4
+printf "file 'v4_cabeza.mp4'\nfile 'v4_cola.mp4'\n" > build/v4_concat.txt
+ffmpeg -v error -y -f concat -safe 0 -i build/v4_concat.txt -c:v copy build/v4_video.mp4
+ffmpeg -v error -y -i build/v4_video.mp4 -i build/audio_v4_final/master_mix.wav -map 0:v -map 1:a -c:v copy \
+  -c:a aac -b:a 320k -ar 48000 -ac 2 -t 24 -movflags +faststart build/DIBURAMA_THERMOLINE_VISUAL_LAB_LINKEDIN_HD_V4_AUDIO_FINAL.mp4
+ffmpeg -v error -y -i build/audio_v4_final/master_mix.wav -c:a pcm_s24le build/DIBURAMA_THERMOLINE_AUDIO_FINAL_24S.wav
+echo "OK LinkedIn V4 audio final -> build/"

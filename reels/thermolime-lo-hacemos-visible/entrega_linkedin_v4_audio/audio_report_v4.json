@@ -1,0 +1,119 @@
+{
+ "sfx": [
+  {
+   "sfx": "01_Impacto_inicial_HOOK_0s",
+   "pico_s": 0.017,
+   "ganancia_db": -4.0
+  },
+  {
+   "sfx": "02_Whoosh_barrido_termico_2s",
+   "pico_s": 1.685,
+   "ganancia_db": -10.0
+  },
+  {
+   "sfx": "03_Succion_entrada_particulas_4s",
+   "pico_s": 3.355,
+   "ganancia_db": -8.0
+  },
+  {
+   "sfx": "04_Zoom_microscopico_6s",
+   "pico_s": 4.018,
+   "ganancia_db": -9.0
+  },
+  {
+   "sfx": "02_Whoosh_barrido_termico_2s#scan",
+   "pico_s": 6.4,
+   "ganancia_db": -11.0
+  },
+  {
+   "sfx": "05_Riser_revelacion_acaba_en_8s",
+   "pico_s": 8.633,
+   "ganancia_db": -9.0
+  },
+  {
+   "sfx": "06_Impacto_revelacion_tecnica_8s",
+   "pico_s": 8.688,
+   "ganancia_db": -4.0
+  },
+  {
+   "sfx": "07_Click_capas_tecnicas_10_5s",
+   "pico_s": 10.022,
+   "ganancia_db": -10.0
+  },
+  {
+   "sfx": "08_Corte_golpe_aplicacion_real_12s",
+   "pico_s": 12.022,
+   "ganancia_db": -5.5
+  },
+  {
+   "sfx": "09_Textura_proyeccion_revestimiento_12_3s",
+   "pico_s": 13.4,
+   "ganancia_db": -13.0
+  },
+  {
+   "sfx": "10_Transicion_resultado_14s",
+   "pico_s": 16.022,
+   "ganancia_db": -9.0
+  },
+  {
+   "sfx": "11_Triple_corte_montaje_16s#0",
+   "pico_s": 18.688,
+   "ganancia_db": -8.0
+  },
+  {
+   "sfx": "11_Triple_corte_montaje_16s#1",
+   "pico_s": 19.355,
+   "ganancia_db": -8.0
+  },
+  {
+   "sfx": "11_Triple_corte_montaje_16s#2",
+   "pico_s": 19.69,
+   "ganancia_db": -8.0
+  }
+ ],
+ "master_true_peak_db": -1.49,
+ "limitador_reduccion_max_db": -0.23,
+ "rms_db_cada_0_5s_desde_18s": [
+  -14.2,
+  -14.6,
+  -13.8,
+  -14.1,
+  -15.6,
+  -28.1,
+  -39.8,
+  -47.6,
+  -55.2,
+  -62.0,
+  -69.6,
+  -74.8
+ ],
+ "ultimo_pico_dbfs": -69.7,
+ "perdida_suma_mono_db": -0.84,
+ "musica": {
+  "cancion": "Digital Ascension (original completa, 176,28 s)",
+  "desde_s": 151.773,
+  "hasta_s": 175.773,
+  "desde_mmss": "02:31.773",
+  "hasta_mmss": "02:55.773",
+  "ultimo_golpe_cancion_s": 171.803,
+  "ultimo_golpe_en_video_s": 20.03,
+  "fotograma": 500,
+  "ediciones": "ninguna (fragmento continuo; fundidos de 30 ms al inicio y 60 ms al final)"
+ },
+ "rms_db_cada_0_5s_desde_17s": [
+  -13.8,
+  -13.9,
+  -14.2,
+  -14.6,
+  -13.8,
+  -14.1,
+  -15.6,
+  -28.1,
+  -39.8,
+  -47.6,
+  -55.2,
+  -62.0,
+  -69.6,
+  -74.8
+ ]
+}

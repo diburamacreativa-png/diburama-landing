@@ -1,6 +1,17 @@
 # DIBURAMA · THERMOLIME · «LO HACEMOS VISIBLE» — Reel 20 s
 
-## LINKEDIN 16:9 — HD V3 (vigente) — `entrega_linkedin_hd3/`
+## LINKEDIN 16:9 — HD V4 AUDIO FINAL (vigente) — `entrega_linkedin_v4_audio/`
+
+Música: «Digital Ascension» original, un único fragmento continuo **02:31,773–02:55,773** que termina con el final real
+de la canción; su último golpe (02:51,803) abre el logotipo en 20,03 s (f500). Imagen: f0–483 copiados bit a bit de la
+HD V3; f484–599 re-renderizados (logotipo 9 fotogramas antes). Detalles en `entrega_linkedin_v4_audio/NOTAS_AUDIO_FINAL_V4.md`.
+Reproducir: `python3 audio_v4_final.py cancion.mp3 in/sfx out` · tramo final con
+`REEL_HD=1 REEL_HD3=1 REEL_END4=1 REEL_SCENES=linkedin REEL_CRF=16 NSTART=484 NFRAMES=600 python3 render.py cola.mp4`
+y empalme por concatenación en el fotograma clave 484 (ver `build.sh`).
+
+---
+
+## LINKEDIN 16:9 — HD V3 — `entrega_linkedin_hd3/`
 
 Corrección de los segundos 3, 4 y 19 sobre la HD V2: cristales, destello de la partícula y partícula del clímax desde los
 cortes HD del ZIP, a 1:1, sin mezcla de fotogramas ni empujes de escala. Detalles, verificación y limitaciones en

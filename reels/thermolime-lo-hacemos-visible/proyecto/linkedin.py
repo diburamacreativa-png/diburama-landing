@@ -28,6 +28,12 @@ APP, SPLIT, SWAP, MIST = 300, 333, 367, 384
 RES, RES_L, RES_D = 400, 417, 425
 CL1, CL2, CL3, CL4, CONV = 467, 484, 492, 500, 502
 BRAND, END = 509, 600
+SLOGAN = (520, 523)
+import os as _os
+if _os.environ.get('REEL_END4'):
+    # V4 audio final: la música es la canción continua 02:31,77–02:56,28; su último golpe (02:51,795) cae en 20,022 s.
+    # El logotipo entra en ese golpe (f500, antes f509); la convergencia se comprime. f0–495 no cambian.
+    CL4, CONV, BRAND, SLOGAN = 496, 497, 500, (511, 514)
 
 import os
 HD3 = bool(os.environ.get('REEL_HD3'))   # corrección HD V3 de los segundos 3, 4 y 19: fotogramas originales a 1:1, sin mezcla ni empujes de escala
@@ -348,7 +354,7 @@ def s_brand(f):
             img = over(img, np.broadcast_to(FUCHSIA, img.shape), line_mask_x(W / 2 - 500, W / 2 + 500, 1.5) * line_mask_y(yy_ - 1.2, yy_ + 1.2, 1.0) * a_e)
     l1, l2, dt = slogan()
     y1 = LCY + LOGO_H / 2 + 52; y2 = y1 + l1.caph + 24
-    p1, p2 = eo(seg(f, 520, 530)), eo(seg(f, 523, 533))          # 20,8–21,32 s; después, composición estática
+    p1, p2 = eo(seg(f, SLOGAN[0], SLOGAN[0] + 10)), eo(seg(f, SLOGAN[1], SLOGAN[1] + 10))   # después, composición estática
     if p1 > 0: img = l1.draw(img, (W - l1.w) / 2, y1 + 12 * (1 - p1), color=np.array([0.90, 0.91, 0.93], np.float32), opacity=p1)
     if p2 > 0:
         x2 = (W - l2.w - dt.w) / 2; clip = line_mask_y(-1e5, y2 + l2.caph + 8, 2)

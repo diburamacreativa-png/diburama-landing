@@ -28,7 +28,7 @@ def main():
            "-x264-params", "keyint=25:min-keyint=1", "-movflags", "+faststart", out]
     p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     t0 = time.time()
-    for f in range(n):
+    for f in range(int(os.environ.get('NSTART', 0)), n):        # NSTART: renderizar solo un tramo final (empalme en un fotograma clave)
         p.stdin.write(to8(scenes.render_frame(f)).tobytes())
         if f % 50 == 0: print(f"frame {f}  {time.time()-t0:.0f}s", flush=True)
     p.stdin.close(); p.wait()

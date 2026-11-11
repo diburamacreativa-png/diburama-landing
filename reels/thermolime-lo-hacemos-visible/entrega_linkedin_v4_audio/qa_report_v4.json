@@ -1,0 +1,75 @@
+{
+ "video": {
+  "codec": "h264",
+  "profile": "High",
+  "size": "1920x1080",
+  "fps": "25/1",
+  "pix_fmt": "yuv420p",
+  "frames": 600,
+  "duration": 24.0,
+  "start": 0.0
+ },
+ "audio": {
+  "codec": "aac",
+  "sr": "48000",
+  "ch": 2,
+  "duration": 24.0,
+  "start": 0.0,
+  "bitrate": "322131"
+ },
+ "container_duration": 24.0,
+ "decode_errors": "ninguno",
+ "min_mean_luma": {
+  "value": 0.114,
+  "frame": 502
+ },
+ "frames_below_4pct_luma": [],
+ "detected_cuts_frames": [
+  67,
+  84,
+  100,
+  117,
+  133,
+  214,
+  215,
+  216,
+  217,
+  233,
+  234,
+  300,
+  333,
+  334,
+  335,
+  367,
+  368,
+  385,
+  386,
+  400,
+  401,
+  417,
+  418,
+  467,
+  484,
+  485,
+  497
+ ],
+ "loudness": {
+  "I_LUFS": -10.7,
+  "LRA": 4.3,
+  "true_peak_dBTP": -1.5
+ },
+ "audio_samples_s": 24.0,
+ "stereo_corr": 0.651,
+ "mono_vs_stereo_rms_db": -0.83,
+ "clipped_samples": 0,
+ "cue_vs_cut": {
+  "hook": {
+   "audio_s": 0.017,
+   "frame": 0
+  },
+  "brand": {
+   "audio_s": 20.03,
+   "frame": 500
+  }
+ }
+}
